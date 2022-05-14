@@ -1,28 +1,41 @@
-const { default: axios } = require('axios');
 const request = require('request');
 const moment = require('moment');
 
 
 // 이거 나중에 커링함수로 표현
-const AUTH_KEY = "?key=999bdc7e274c0a5e1557a0642d612aee"; // 발급받은 인증키 
-const itemPerPage = "&itemPerPage=10"; // 결과 ROW 의 개수( 최대 10개 ) 
 const today = moment().subtract(1, 'days').format('YYYYMMDD'); // 하루 전 날
-const targetDt = "&" + today; // 조회하고자 하는 날짜 
-const multiMovieYn = "&"; // Y:다양성 영화, N:상업영화, Default:전체 
-const repNationCd = "&"; // K:한국영화, F:외국영화, Default:전체
 
 const REQUEST_URL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json"
-    + AUTH_KEY
-    + targetDt
-    + itemPerPage
-    + multiMovieYn
-    + repNationCd
+var queryParams = '?' + encodeURIComponent('key') + '=999bdc7e274c0a5e1557a0642d612aee'; // Service Key
+queryParams += '&' + encodeURIComponent('targetDt') + '=' + encodeURIComponent(today); // item의 갯수 
+queryParams += '&' + encodeURIComponent('itemPerPage') + '=' + encodeURIComponent('10'); // item의 갯수 
+queryParams += '&' + encodeURIComponent('multiMovieYn') + '=' + encodeURIComponent(''); // Y: 다양성 영화, N: 상업영화 (default: 전체)
+queryParams += '&' + encodeURIComponent('repNationCd') + '=' + encodeURIComponent(''); // K: 한국영화, F: 외국영화 (default: 전체)
+// queryParams += '&' + encodeURIComponent('wideAreaCd') + '=' + encodeURIComponent('20200315'); //
 
-request(REQUEST_URL, (err, response, body) => {
-    if(err) throw err;
-    console.log(body);
-})
 
+request({
+    url: REQUEST_URL + queryParams,
+    method: 'GET'
+}, function (error, response, body) {
+
+    console.log('Reponse received', body);
+    console.log("\n\n\n")
+
+    console.log(response["movieNm"])
+    console.log(response["boxofficeType"])
+
+    let boxOfficeResult = response["boxofficeType"];
+    console.log(boxOfficeResult)
+    let dailyBoxOfficeList = boxOfficeResult["movieList"];
+    console.log(dailyBoxOfficeList)
+
+    for (let i = 0; i < article.length; i++) {
+        let title = article[i]["title"];
+
+        console.log(title)
+    }
+});
 var data = []
 
 // var xhr = new XMLHttpRequest();
