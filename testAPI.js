@@ -1,4 +1,6 @@
-// 영화진흥위원회 API https://www.kobis.or.kr/kobisopenapi/homepg/apiservice/searchServiceInfo.do
+// 영화진흥위원회 API: https://www.kobis.or.kr/kobisopenapi/homepg/apiservice/searchServiceInfo.do
+// MVC 패턴 구조: https://m.blog.naver.com/jhc9639/220967034588
+
 
 const request = require('request');
 const moment = require('moment');
@@ -14,6 +16,8 @@ queryParams += '&' + encodeURIComponent('multiMovieYn') + '=' + encodeURICompone
 queryParams += '&' + encodeURIComponent('repNationCd') + '=' + encodeURIComponent(''); // K: 한국영화, F: 외국영화 (default: 전체)
 // queryParams += '&' + encodeURIComponent('wideAreaCd') + '=' + encodeURIComponent(''); // 지역 Code
 
+console.log("test")
+
 request({
     url: REQUEST_URL + queryParams,
     method: 'GET'
@@ -25,6 +29,7 @@ request({
     console.log(data.boxOfficeResult.boxofficeType)
     for (let i = 0; i < dailyBoxOfficeList.length; i++) {
         console.log(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
+        test = dailyBoxOfficeList[i].movieNm;
     }
 });
 
