@@ -36,3 +36,20 @@ request({
 // rank(string): 해당일자의 박스오피스 순위
 // movieCd(string): 영화 대표코드
 // movieNm(string): 영화명(국문)
+
+
+const readline = require("readline");
+ 
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+ 
+rl.on("line", (line) => {
+    console.log("input: ", line);
+    rl.close();
+});
+ 
+rl.on('close', () => {
+        process.exit();
+})
