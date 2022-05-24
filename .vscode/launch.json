@@ -11,7 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\testAPI.js"
+            "program": "${workspaceFolder}\\test.js"
         }
     ]
 }
