@@ -108,7 +108,6 @@ var getMovieApi = function (url, queryParams) { // JSON
         if (error) throw error;
         const data = JSON.parse(body);
         const dailyBoxOfficeList = data.boxOfficeResult.dailyBoxOfficeList;
-        console.log(dailyBoxOfficeList == undefined) 
         console.log(data.boxOfficeResult.boxofficeType);
         for (let i = 0; i < dailyBoxOfficeList.length; i++) {
             console.log(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
