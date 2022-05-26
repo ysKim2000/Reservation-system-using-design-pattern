@@ -21,6 +21,10 @@ var Theater = new Culture('testTheaterName', 'testTheaterDate', 'testTheaterPlac
 var Opera = new Culture('testOperaName', 'testOperaDate', 'testOperaPlace', 'testOperaStartTime', 'testOperaEndTime');
 var Gallery = new Culture('testGalleryName', 'testGalleryDate', 'testGalleryPlace', 'testGalleryStartTime', 'testGalleryEndTime');
 
+// 아래꺼를 커링함수로 = 영화가 저장된 상태 시간을 선택가능하고 시간 상태로 좌석 선택 그리고 이 세가지 정보를 모아서 결제를 팍!
+// 아래꺼들은 함수로 구현 그리고 커링 함수로 파바박
+//영화 선택-> 시간 선택->좌석 선택-> 결제
+
 // var culture = {
 //     seats: Array.from(Array(5), () => Array(3).fill('□')),
 //     enjoy() {
