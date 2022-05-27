@@ -38,15 +38,6 @@ var CourseC = (function () {
     return CourseC;
 })();
 
-// var strat = new Strategy();
-// var A = new CourseA();
-// var B = new CourseB();
-// var C = new CourseC();
-// strat.setStrategy(A); // A strategy
-// strat.setStrategy(B); // B strategy
-// strat.setStrategy(C); // C strategy
-// strat.execute(); // execute strategy
-
 const input = () => new Promise(resolve => {
     const rl = readline.createInterface({
         input: process.stdin,
@@ -63,9 +54,9 @@ var main = async function () {
     do {
         var approval;
         console.log("[Course]");
-        console.log("1. A Course: [Movie, Musical, Gallery]");
-        console.log("2. B Course: [Movie, Play, Opera]");
-        console.log("3. C Course: [Movie, Musical, Opera]");
+        console.log("1. A Course[Movie, Musical, Gallery]");
+        console.log("2. B Course[Movie, Play, Opera]");
+        console.log("3. C Course[Movie, Musical, Opera]");
 
         process.stdout.write('입력(1,2,3): ');
         var course = await input();
@@ -88,7 +79,7 @@ var main = async function () {
         console.log("\n확실합니까?")
         process.stdout.write("입력(yes or no): ");
         var check = await input();
-        
+
         if(check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y'){
             strat.execute(); // execute strategy
             approval = false;
