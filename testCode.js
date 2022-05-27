@@ -1,8 +1,16 @@
 // 코스 = 전략 패턴
 // 커맨드 패턴(선택, 예매
-
 const request = require('request');
 const moment = require('moment');
+
+const targetDate = moment().subtract(1, 'days').format('YYYYMMDD'); // 하루 전 날
+const REQUEST_URL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
+var queryParams = '?' + encodeURIComponent('key') + '=999bdc7e274c0a5e1557a0642d612aee'; // Service Key
+queryParams += '&' + encodeURIComponent('targetDt') + '=' + encodeURIComponent(targetDate); // 날짜
+queryParams += '&' + encodeURIComponent('itemPerPage') + '=' + encodeURIComponent('10'); // item의 갯수 
+queryParams += '&' + encodeURIComponent('multiMovieYn') + '=' + encodeURIComponent('N'); // Y: 다양성 영화, N: 상업영화 (default: 전체)
+queryParams += '&' + encodeURIComponent('repNationCd') + '=' + encodeURIComponent(''); // K: 한국영화, F: 외국영화 (default: 전체)
+queryParams += '&' + encodeURIComponent('wideAreaCd') + '=' + encodeURIComponent(''); // 지역 Code
 
 class SelectCourese {
     constructor(movie, theater, musical, gallery) {
@@ -40,7 +48,7 @@ musical.__proto__ = culture;
 const gallery = {
     seats: null,
     arts: artsName = 'testName',
-}
+};
 gallery.__proto__ = culture;
 
 // console.log(movie.seats)
@@ -73,38 +81,8 @@ var getMovieApi = function (url, queryParams) { // JSON
     });
 }
 
-const targetDate = moment().subtract(1, 'days').format('YYYYMMDD'); // 하루 전 날
-const REQUEST_URL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
-var queryParams = '?' + encodeURIComponent('key') + '=999bdc7e274c0a5e1557a0642d612aee'; // Service Key
-queryParams += '&' + encodeURIComponent('targetDt') + '=' + encodeURIComponent(targetDate); // 날짜
-queryParams += '&' + encodeURIComponent('itemPerPage') + '=' + encodeURIComponent('10'); // item의 갯수 
-queryParams += '&' + encodeURIComponent('multiMovieYn') + '=' + encodeURIComponent('N'); // Y: 다양성 영화, N: 상업영화 (default: 전체)
-queryParams += '&' + encodeURIComponent('repNationCd') + '=' + encodeURIComponent(''); // K: 한국영화, F: 외국영화 (default: 전체)
-queryParams += '&' + encodeURIComponent('wideAreaCd') + '=' + encodeURIComponent(''); // 지역 Code
-
 getMovieApi(REQUEST_URL, queryParams)
 
-
-// const targetDate = moment().subtract(1, 'days').format('YYYYMMDD'); // 하루 전 날
-// const url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?"
-// var KEY = '999bdc7e274c0a5e1557a0642d612aee';
-// var targetDt = targetDate;
-// var itemPerPage = '10';
-// var multiMovieYn = 'N'
-
-// var curry = KEY => targetDt => itemPerPage => multiMovieYn => url_curry(KEY, targetDt, itemPerPage, multiMovieYn);
-
-// function url_curry(key, date, page, Movie) {
-//     console.log(url + 'key=' + key + '&targetDt=' + date + '&itemPerPage=' + page + '&multiMovieYn=' + Movie)
-//     return 'key=' + key + '&targetDt=' + date + '&itemPerPage=' + page + '&multiMovieYn=' + Movie
-// }
-// var getUrl = curry(url_curry)
-// getUrl(KEY)
-// console.log(queryParams)
-
-// var queryParams = '?' + encodeURIComponent('key') + '=999bdc7e274c0a5e1557a0642d612aee'; // Service Key
-// queryParams += '&' + encodeURIComponent('targetDt') + '=' + encodeURIComponent(targetDate); // item의 갯수
-// queryParams += '&' + encodeURIComponent('itemPerPage') + '=' + encodeURIComponent('10'); // item의 갯수
-// queryParams += '&' + encodeURIComponent('multiMovieYn') + '=' + encodeURIComponent('N'); // Y: 다양성 영화, N: 상업영화 (default: 전체)
-// queryParams += '&' + encodeURIComponent('repNationCd') + '=' + encodeURIComponent(''); // K: 한국영화, F: 외국영화 (default: 전체)
-// // queryParams += '&' + encodeURIComponent('wideAreaCd') + '=' + encodeURIComponent(''); // 지역 Code
+var main = async function(){
+    
+}
