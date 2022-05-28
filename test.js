@@ -2,14 +2,18 @@ const request = require('request');
 const moment = require('moment');
 const readline = require('readline');
 
-// const targetDate = moment().subtract(1, 'days').format('YYYYMMDD'); // 하루 전 날
-// const REQUEST_URL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
-// var queryParams = '?' + encodeURIComponent('key') + '=999bdc7e274c0a5e1557a0642d612aee'; // Service Key
-// queryParams += '&' + encodeURIComponent('targetDt') + '=' + encodeURIComponent(targetDate); // 날짜
-// queryParams += '&' + encodeURIComponent('itemPerPage') + '=' + encodeURIComponent('5'); // item의 갯수 
-// queryParams += '&' + encodeURIComponent('multiMovieYn') + '=' + encodeURIComponent('N'); // Y: 다양성 영화, N: 상업영화 (default: 전체)
-// queryParams += '&' + encodeURIComponent('repNationCd') + '=' + encodeURIComponent(''); // K: 한국영화, F: 외국영화 (default: 전체)
-// // queryParams += '&' + encodeURIComponent('wideAreaCd') + '=' + encodeURIComponent(''); // 지역 Code
+// 입력
+const input = () => new Promise(resolve => {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    rl.on('line', line => {
+        rl.close();
+        resolve(line);
+    });
+});
 
 function Culture(name, date, startTime, endTime) {
     this.name = name;
@@ -20,8 +24,11 @@ function Culture(name, date, startTime, endTime) {
 
 Culture.prototype.seats = function (row, column) {
     seats = Array.from(Array(row), () => Array(column).fill('[ □ ]'));
-    return seats
+    return seats;
 }
+
+// 여기 Culture.prototype. 할 애들 추가
+
 // 클로저를 이용해 공통적인 부분 리턴, 안 쓰는 기능은 숨긴다.
 
 var Movie = new Culture('testMovieName', 'testMovieDate', 'testMovieStartTime', 'testMovieEndTime'); // 영화
@@ -36,11 +43,13 @@ var Gallery = new Culture('testGalleryName', 'testGalleryDate', 'testGalleryStar
 // 코스 선택(A, B, C)
 // 영화 선택-> 시간 선택-> 좌석 선택-> 결제
 
+var movieData = [];
+
 // 전략 패턴
 var Strategy = (function () {
     function Strategy() {
         this.strategy = null;
-    }
+    };
     Strategy.prototype.setStrategy = function (strategy) {
         this.strategy = strategy;
     };
@@ -53,24 +62,15 @@ var Strategy = (function () {
 var CourseA = (function () {
     function CourseA() { }
     CourseA.prototype.execute = function () {
-        // 오류: 어째서, API보다 boxOffice가 먼저 되는지;;;;
-        getMovieApi();
-        joinBoxOffice();
+        faca.FacadeCourseA()
     };
     return CourseA;
 })();
 
-var joinBoxOffice = function () {
-    console.log("movieData\n");
-    console.log(movieData);
-}
-var movieData = [];
-
 var CourseB = (function () {
     function CourseB() { }
     CourseB.prototype.execute = function () {
-        var courseB = [Movie, Play, Opera]
-        console.log('B');
+        faca.FacadeCourseB()
     };
     return CourseB;
 })();
@@ -78,25 +78,122 @@ var CourseB = (function () {
 var CourseC = (function () {
     function CourseC() { }
     CourseC.prototype.execute = function () {
-        var courseC = [Movie, Musical, Opera]
-        console.log('C');
+        faca.FacadeCourseC()
     };
     return CourseC;
 })();
 
-// 입력
-const input = () => new Promise(resolve => {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
+var SubSystemOne = function () { }
+var SubSystemTwo = function () { }
+var SubSystemThree = function () { }
+var SubSystemFour = function () { }
+var SubSystemFive = function () { }
 
-    rl.on('line', line => {
-        rl.close();
-        resolve(line);
-    });
-});
+SubSystemOne.prototype.MethodOne = function () {
+    console.log('Enjoy Movie [Box Office]');
+    for(let i = 0; i < movieData.length; i++){
+        console.log(movieData[i]);
+    }
+}
+SubSystemTwo.prototype.MethodTwo = function () {
+    console.log('Enjoy Musical');
+}
+SubSystemThree.prototype.MethodThree = function () {
+    console.log('Enjoy play');
+}
+SubSystemFour.prototype.MethodFour = function () {
+    console.log('Enjoy Gallery');
+}
+SubSystemFive.prototype.MethodFive = function () {
+    console.log('Enjoy Opera');
+}
 
+var Facade = function () { }
+
+Facade.prototype.one = new SubSystemOne()       // Movie
+Facade.prototype.two = new SubSystemTwo()       // Musical
+Facade.prototype.three = new SubSystemThree()   // Play
+Facade.prototype.four = new SubSystemFour()     // Gallery
+Facade.prototype.five = new SubSystemFive()     // Opera
+
+Facade.prototype.FacadeCourseA = async function () {  // selected Course A
+    do {
+        var check = false;
+        console.log("Course A");
+        console.log("0. [Movie]");
+        console.log("1. [Musical]");
+        console.log("2. [Gallery]");
+        process.stdout.write('What will you next the movie?(1,2): ');
+        var secondA = await input();
+        if (secondA == 1) {
+            this.one.MethodOne()    // Movie
+            this.two.MethodTwo()    // Musical
+            break;
+        }
+        else if (secondA == 2) {
+            this.one.MethodOne()        // Movie
+            this.three.MethodFour()    // Gallery
+            break;
+        }
+        else {
+            console.log("Wrong.");
+            check = true;
+            continue;
+        }
+    } while (check);
+}
+Facade.prototype.FacadeCourseB = async function () {
+    do {
+        var check = false;
+        console.log("Course A");
+        console.log("0. [Movie]");
+        console.log("1. [Play]");
+        console.log("2. [Opera]");
+        process.stdout.write('What will you see next the movie?(1,2): ');
+        var secondA = await input();
+        if (secondA == 1) {
+            this.one.MethodOne()    // Movie
+            this.two.MethodThree()    // Play
+            break;
+        }
+        else if (secondA == 2) {
+            this.one.MethodOne()        // Movie
+            this.three.MethodFive()    // Opera
+            break;
+        }
+        else {
+            console.log("Wrong.");
+            check = true;
+            continue;
+        }
+    } while (check);
+}
+Facade.prototype.FacadeCourseC = async function () {
+    do {
+        var check = false;
+        console.log("Course A");
+        console.log("0. [Movie]");
+        console.log("1. [Musical]");
+        console.log("2. [Opera]");
+        process.stdout.write('What will you next the movie?(1,2): ');
+        var secondA = await input();
+        if (secondA == 1) {
+            this.one.MethodOne()    // Movie
+            this.two.MethodTwo()    // Musical
+            break;
+        }
+        else if (secondA == 2) {
+            this.one.MethodOne()        // Movie
+            this.three.MethodFive()    // Opera
+            break;
+        }
+        else {
+            console.log("Wrong.");
+            check = true;
+            continue;
+        }
+    } while (check);
+}
 
 // API 불러오기
 var getMovieApi = function () { // JSON 
@@ -116,13 +213,13 @@ var getMovieApi = function () { // JSON
         const API = JSON.parse(body);
         const dailyBoxOfficeList = API.boxOfficeResult.dailyBoxOfficeList;
 
-        console.log("\n" + API.boxOfficeResult.boxofficeType);
+        // console.log("\n" + API.boxOfficeResult.boxofficeType);
         for (let i = 0; i < dailyBoxOfficeList.length; i++) {
             // console.log(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
             movieData.push(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
         }
-        console.log(movieData);
     });
+
 }
 
 // 코스 고르기
@@ -148,12 +245,12 @@ var selectCourse = async function () {
             strat.setStrategy(new CourseC()); // C strategy
         }
         else {
-            console.log("잘못 입력하셨습니다.\n");
+            console.log("Wrong.\n");
             approval = true;
             continue;
         }
-        console.log("\n확실합니까?")
-        process.stdout.write("입력(yes or no): ");
+        console.log("\nReally?")
+        process.stdout.write("Input(yes or no): ");
         var check = await input();
 
         if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
@@ -165,22 +262,16 @@ var selectCourse = async function () {
             continue;
         }
         else {
-            console.log("잘못 입력하셨습니다.\n");
+            console.log("Wrong.\n");
         }
-
     } while (approval);
 };
 
-var main = function () {
-    selectCourse();
+var faca = new Facade();
 
+var main = function () {
+    getMovieApi();
+    selectCourse();
 }
 
 main()
-// joinBoxOffice();
-// getMovieApi();
-// var test = function(){
-//     console.log("TEST\n");
-//     console.log(movieData);
-// }
-// test();
