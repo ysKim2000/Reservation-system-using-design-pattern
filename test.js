@@ -1,161 +1,229 @@
 const request = require('request');
 const moment = require('moment');
+const readline = require('readline');
 
+// 입력
+const input = () => new Promise(resolve => {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
 
-const culture = {
-    seats: Array.from(Array(5), () => Array(3).fill('□')),
-    enjoy() {
-        console.log("enjoying..");
-    },
-};
-// 영화, 연극, 뮤지컬, 미술관
-const movie = {
-    movieName: movieNm = 'testName',
-    MovieRank: rank = 'testRank',
-};
-movie.__proto__ = culture;
+    rl.on('line', line => {
+        rl.close();
+        resolve(line);
+    });
+});
 
-const theater = {
-    theaterName: title = 'testName',
-};
-theater.__proto__ = culture;
-
-const musical = {
-    musicalName: title = 'testName',
-};
-musical.__proto__ = culture;
-
-const gallery = {
-    seats: null,
-    arts: artsName = 'testName',
+function Culture(name, date, startTime, endTime) {
+    this.name = name;
+    this.date = date;
+    this.startTime = startTime;
+    this.endTime = endTime;
 }
-gallery.__proto__ = culture;
 
-// console.log(movie.seats)
-// console.log(theater.seats)
-// console.log(musical.seats)
+Culture.prototype.seats = function (row, column) {
+    seats = Array.from(Array(row), () => Array(column).fill('[ □ ]'));
+    return seats;
+}
 
-// for(let i = 0; i < culture.seats.length; i++){
-//     for(let j = 0; j < culture.seats[i].length; j++){
-//         console.log(culture.seats[i][j]);
-//     }
-// }
-// theater.enjoy();
+// 여기 Culture.prototype. 할 애들 추가
 
-const cultureCourse = (function(){
-    function Strategy(){
-        this.culture = null;
-    }
-    //Object.setPrototypeOf(cultureCourse, culture);
-    Strategy.prototype.setCulture = function(culture){
-        this.culture = culture;
+// 클로저를 이용해 공통적인 부분 리턴, 안 쓰는 기능은 숨긴다.
+
+var Movie = new Culture('testMovieName', 'testMovieDate', 'testMovieStartTime', 'testMovieEndTime'); // 영화
+// console.log(Movie.seats(3, 5));
+var Musical = new Culture('testMusicalName', 'testMusicalDate', 'testMusicalStartTime', 'testMusicalEndTime'); // 뮤지컬
+var Play = new Culture('testTheaterName', 'testTheaterDate', 'testTheaterStartTime', 'testTheaterEndTime'); // 연극
+var Opera = new Culture('testOperaName', 'testOperaDate', 'testOperaStartTime', 'testOperaEndTime'); // 오페라
+var Gallery = new Culture('testGalleryName', 'testGalleryDate', 'testGalleryStartTime', 'testGalleryEndTime'); // 미술관
+
+// 아래꺼를 커링함수로 = 영화가 저장된 상태 시간을 선택가능하고 시간 상태로 좌석 선택 그리고 이 세가지 정보를 모아서 결제를 팍!
+// 아래꺼들은 함수로 구현 그리고 커링 함수로 파바박
+// 코스 선택(A, B, C)
+// 영화 선택-> 시간 선택-> 좌석 선택-> 결제
+
+var movieData = [];
+
+// 전략 패턴
+var Strategy = (function () {
+    function Strategy() {
+        this.strategy = null;
     };
-    Strategy.prototype.execute = function(){
-        this.culture.execute();
-    }
-
+    Strategy.prototype.setStrategy = function (strategy) {
+        this.strategy = strategy;
+    };
+    Strategy.prototype.execute = function () {
+        this.strategy.execute();
+    };
     return Strategy;
 })();
 
-const Movie = (function(){
-    function movieStrategy(){};
-    this.movieName = 'testName',
-    this.MovieRank = 'testRank',
-    movieStrategy.prototype.execute = function(){
-        console.log("영화 감상 시간입니다.");
-    }
-
-    return movieStrategy;
+var CourseA = (function () {
+    function CourseA() { }
+    CourseA.prototype.execute = function () {
+        faca.FacadeCourseA()
+    };
+    return CourseA;
 })();
 
-const Theater = (function(){
-    function movieStrategy(){};
-    this.theaterName = 'testName';
-    movieStrategy.prototype.execute = function(){
-        console.log("연극 감상 시간입니다.");
-    }
-
-    return movieStrategy;
+var CourseB = (function () {
+    function CourseB() { }
+    CourseB.prototype.execute = function () {
+        faca.FacadeCourseB()
+    };
+    return CourseB;
 })();
 
-const Musical = (function(){
-    function movieStrategy(){};
-    this.musicalName = 'testName';
-    movieStrategy.prototype.execute = function(){
-        console.log("뮤지컬 감상 시간입니다.");
-    }
-
-    return movieStrategy;
+var CourseC = (function () {
+    function CourseC() { }
+    CourseC.prototype.execute = function () {
+        faca.FacadeCourseC()
+    };
+    return CourseC;
 })();
 
-const Gallery = (function(){
-    function movieStrategy(){};
-    seats: null,
-    this.artsName = 'testName',
-    movieStrategy.prototype.execute = function(){
-        console.log("그림 감상 시간입니다.");
+var SubSystemOne = function () { }
+var SubSystemTwo = function () { }
+var SubSystemThree = function () { }
+var SubSystemFour = function () { }
+var SubSystemFive = function () { }
+
+SubSystemOne.prototype.MethodOne = function () {
+    console.log('Enjoy Movie [Box Office]');
+    for(let i = 0; i < movieData.length; i++){
+        console.log(movieData[i]);
     }
+}
+SubSystemTwo.prototype.MethodTwo = function () {
+    console.log('Enjoy Musical');
+}
+SubSystemThree.prototype.MethodThree = function () {
+    console.log('Enjoy play');
+}
+SubSystemFour.prototype.MethodFour = function () {
+    console.log('Enjoy Gallery');
+}
+SubSystemFive.prototype.MethodFive = function () {
+    console.log('Enjoy Opera');
+}
 
-    return movieStrategy;
-})();
+var Facade = function () { }
 
-var getMovieApi = function (url, queryParams) { // JSON 
-    console.log("API 요청 중..");
+Facade.prototype.one = new SubSystemOne()       // Movie
+Facade.prototype.two = new SubSystemTwo()       // Musical
+Facade.prototype.three = new SubSystemThree()   // Play
+Facade.prototype.four = new SubSystemFour()     // Gallery
+Facade.prototype.five = new SubSystemFive()     // Opera
+
+Facade.prototype.FacadeCourseA = async function () {  // selected Course A
+    var check = false;
+    console.log("Course A");
+    console.log("0. [Movie]");
+    console.log("1. [Musical]");
+    console.log("2. [Gallery]");
+    this.one.MethodOne();
+    this.two.MethodTwo();
+    this.four.MethodFour();
+}
+Facade.prototype.FacadeCourseB = async function () {
+    var check = false;
+    console.log("Course A");
+    console.log("0. [Movie]");
+    console.log("1. [Play]");
+    console.log("2. [Opera]");
+    this.one.MethodOne();
+    this.three.MethodThree();
+    this.five.MethodFive();
+}
+Facade.prototype.FacadeCourseC = async function () {
+    var check = false;
+    console.log("Course A");
+    console.log("0. [Movie]");
+    console.log("1. [Musical]");
+    console.log("2. [Opera]");
+    this.one.MethodOne();
+    this.two.MethodTwo();
+    this.five.MethodFive();
+}
+
+// API 불러오기
+var getMovieApi = function () { // JSON 
+    const targetDate = moment().subtract(1, 'days').format('YYYYMMDD'); // 하루 전 날
+    const REQUEST_URL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
+    var queryParams = '?' + encodeURIComponent('key') + '=999bdc7e274c0a5e1557a0642d612aee'; // Service Key
+    queryParams += '&' + encodeURIComponent('targetDt') + '=' + encodeURIComponent(targetDate); // 날짜
+    queryParams += '&' + encodeURIComponent('itemPerPage') + '=' + encodeURIComponent('5'); // item의 갯수 
+    queryParams += '&' + encodeURIComponent('multiMovieYn') + '=' + encodeURIComponent('N'); // Y: 다양성 영화, N: 상업영화 (default: 전체)
+    queryParams += '&' + encodeURIComponent('repNationCd') + '=' + encodeURIComponent(''); // K: 한국영화, F: 외국영화 (default: 전체)
+    // queryParams += '&' + encodeURIComponent('wideAreaCd') + '=' + encodeURIComponent(''); // 지역 Code
     request({
-        url: url + queryParams,
+        url: REQUEST_URL + queryParams,
         method: 'GET'
     }, function (error, response, body) {
         if (error) throw error;
-        const data = JSON.parse(body);
-        const dailyBoxOfficeList = data.boxOfficeResult.dailyBoxOfficeList;
-        console.log(data.boxOfficeResult.boxofficeType);
+        const API = JSON.parse(body);
+        const dailyBoxOfficeList = API.boxOfficeResult.dailyBoxOfficeList;
+
+        // console.log("\n" + API.boxOfficeResult.boxofficeType);
         for (let i = 0; i < dailyBoxOfficeList.length; i++) {
-            console.log(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
-            test = dailyBoxOfficeList[i].movieNm;
+            // console.log(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
+            movieData.push(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
         }
     });
+
 }
 
-const targetDate = moment().subtract(1, 'days').format('YYYYMMDD'); // 하루 전 날
-var REQUEST_URL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
-var queryParams = '?' + encodeURIComponent('key') + '=999bdc7e274c0a5e1557a0642d612aee'; // Service Key
-queryParams += '&' + encodeURIComponent('targetDt') + '=' + encodeURIComponent(targetDate); // 날짜
-queryParams += '&' + encodeURIComponent('itemPerPage') + '=' + encodeURIComponent('10'); // item의 갯수 
-queryParams += '&' + encodeURIComponent('multiMovieYn') + '=' + encodeURIComponent('N'); // Y: 다양성 영화, N: 상업영화 (default: 전체)
-queryParams += '&' + encodeURIComponent('repNationCd') + '=' + encodeURIComponent(''); // K: 한국영화, F: 외국영화 (default: 전체)
-// queryParams += '&' + encodeURIComponent('wideAreaCd') + '=' + encodeURIComponent(''); // 지역 Code
+// 코스 고르기
+var selectCourse = async function () {
+    do {
+        var approval;
+        console.log("[Course]");
+        console.log("1. A [Movie, Musical, Gallery]");
+        console.log("2. B [Movie, Play, Opera]");
+        console.log("3. C [Movie, Musical, Opera]");
 
-// const targetDate = moment().subtract(1, 'days').format('YYYYMMDD'); // 하루 전 날
-// const REQUEST_URL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?"
-// var KEY = '999bdc7e274c0a5e1557a0642d612aee';
-// var targetDt = targetDate;
-// var itemPerPage = '10';
-// var multiMovieYn = 'N'
+        process.stdout.write('입력(1,2,3): ');
+        var course = await input();
 
-// var curry = KEY => targetDt => itemPerPage => multiMovieYn => url_curry(KEY, targetDt, itemPerPage, multiMovieYn);
-// function url_curry(key, date, page, Movie) {
-//     return 'key=' + key + '&targetDt=' + date + '&itemPerPage=' + page + '&multiMovieYn=' + Movie
-//     // console.log(url + 'key=' + key + '&targetDt=' + date + '&itemPerPage=' + page + '&multiMovieYn=' + Movie)
-// }
-// var getUrl = curry(url_curry)
-// let queryParams = getUrl(KEY)
-//console.log(queryParams)
+        var strat = new Strategy();
+        if (course == 1) {
+            strat.setStrategy(new CourseA()); // A strategy
+        }
+        else if (course == 2) {
+            strat.setStrategy(new CourseB()); // B strategy
+        }
+        else if (course == 3) {
+            strat.setStrategy(new CourseC()); // C strategy
+        }
+        else {
+            console.log("Wrong.\n");
+            approval = true;
+            continue;
+        }
+        console.log("\nReally?")
+        process.stdout.write("Input(yes or no): ");
+        var check = await input();
 
-// var queryParams = '?' + encodeURIComponent('key') + '=999bdc7e274c0a5e1557a0642d612aee'; // Service Key
-// queryParams += '&' + encodeURIComponent('targetDt') + '=' + encodeURIComponent(targetDate); // item의 갯수
-// queryParams += '&' + encodeURIComponent('itemPerPage') + '=' + encodeURIComponent('10'); // item의 갯수
-// queryParams += '&' + encodeURIComponent('multiMovieYn') + '=' + encodeURIComponent('N'); // Y: 다양성 영화, N: 상업영화 (default: 전체)
-// queryParams += '&' + encodeURIComponent('repNationCd') + '=' + encodeURIComponent(''); // K: 한국영화, F: 외국영화 (default: 전체)
-// // queryParams += '&' + encodeURIComponent('wideAreaCd') + '=' + encodeURIComponent(''); // 지역 Code
+        if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
+            strat.execute(); // execute strategy
+            approval = false;
+        }
+        else if (check == 'no' || check == 'n' || check == 'No' || check == 'N') {
+            approval = true;
+            continue;
+        }
+        else {
+            console.log("Wrong.\n");
+        }
+    } while (approval);
+};
 
+var faca = new Facade();
 
-getMovieApi(REQUEST_URL, queryParams);
+var main = function () {
+    getMovieApi();
+    selectCourse();
+}
 
-// const Culture = new cultureCourse();
-// console.log(Culture.__proto__);
-// const mvoieCourse = new Movie();
-// const theaterCourse = new Theater();
-// const musicalCourse = new Musical();
-// const galleryCourse = new Gallery();
-// Culture.setCulture(mvoieCourse);
-// Culture.setCulture(musicalCourse);
+main()
