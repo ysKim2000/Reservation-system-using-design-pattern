@@ -27,6 +27,7 @@ Culture.prototype.seats = function (row, column) {
     return seats;
 }
 
+
 // 여기 Culture.prototype. 할 애들 추가
 
 // 클로저를 이용해 공통적인 부분 리턴, 안 쓰는 기능은 숨긴다.
@@ -43,7 +44,45 @@ var Gallery = new Culture('testGalleryName', 'testGalleryDate', 'testGalleryStar
 // 코스 선택(A, B, C)
 // 영화 선택-> 시간 선택-> 좌석 선택-> 결제
 
+Movie.__proto__.selectMovie = async function (){
+    var movieNum;
+    console.log("감상을 원하시는 영화를 선택해주세요.");
+    for(let i = 0; i < movieData.length; i++){
+        console.log(movieData[i]);
+    }
+    
+    do{
+        var approval;
+        process.stdout.write('입력(1,2,3 ~): ');
+        movieNum = await input();
+
+        if(mvoieName[movieNum - 1] == undefined){
+            console.log("잘못 입력하셨습니다.");
+            continue;
+        }
+        console.log("원하시는 영화가 [" + mvoieName[movieNum - 1] + "]가 맞습니까?");
+        process.stdout.write("Input(yes or no): ");
+        var check = await input();
+
+        if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
+            approval = false;
+        }
+        else if (check == 'no' || check == 'n' || check == 'No' || check == 'N') {
+            approval = true;
+            continue;
+        }
+        else {
+            console.log("Wrong.\n");
+            approval = true;
+            continue;
+        }
+    }while(approval);
+
+    return mvoieName[movieNum];
+}
+
 var movieData = [];
+var mvoieName = [];
 
 // 전략 패턴
 var Strategy = (function () {
@@ -91,9 +130,6 @@ var SubSystemFive = function () { }
 
 SubSystemOne.prototype.MethodOne = function () {
     console.log('Enjoy Movie [Box Office]');
-    for(let i = 0; i < movieData.length; i++){
-        console.log(movieData[i]);
-    }
 }
 SubSystemTwo.prototype.MethodTwo = function () {
     console.log('Enjoy Musical');
@@ -116,7 +152,7 @@ Facade.prototype.three = new SubSystemThree()   // Play
 Facade.prototype.four = new SubSystemFour()     // Gallery
 Facade.prototype.five = new SubSystemFive()     // Opera
 
-Facade.prototype.FacadeCourseA = async function () {  // selected Course A
+Facade.prototype.FacadeCourseA = function () {  // selected Course A
     var check = false;
     console.log("Course A");
     console.log("0. [Movie]");
@@ -126,7 +162,7 @@ Facade.prototype.FacadeCourseA = async function () {  // selected Course A
     this.two.MethodTwo();
     this.four.MethodFour();
 }
-Facade.prototype.FacadeCourseB = async function () {
+Facade.prototype.FacadeCourseB = function () {
     var check = false;
     console.log("Course A");
     console.log("0. [Movie]");
@@ -136,7 +172,7 @@ Facade.prototype.FacadeCourseB = async function () {
     this.three.MethodThree();
     this.five.MethodFive();
 }
-Facade.prototype.FacadeCourseC = async function () {
+Facade.prototype.FacadeCourseC = function () {
     var check = false;
     console.log("Course A");
     console.log("0. [Movie]");
@@ -169,6 +205,7 @@ var getMovieApi = function () { // JSON
         for (let i = 0; i < dailyBoxOfficeList.length; i++) {
             // console.log(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
             movieData.push(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
+            mvoieName.push(dailyBoxOfficeList[i].movieNm);
         }
     });
 
@@ -215,7 +252,11 @@ var selectCourse = async function () {
         }
         else {
             console.log("Wrong.\n");
+            approval = true;
+            continue;
         }
+
+        Movie.selectMovie();
     } while (approval);
 };
 
