@@ -117,82 +117,34 @@ Facade.prototype.four = new SubSystemFour()     // Gallery
 Facade.prototype.five = new SubSystemFive()     // Opera
 
 Facade.prototype.FacadeCourseA = async function () {  // selected Course A
-    do {
-        var check = false;
-        console.log("Course A");
-        console.log("0. [Movie]");
-        console.log("1. [Musical]");
-        console.log("2. [Gallery]");
-        process.stdout.write('What will you next the movie?(1,2): ');
-        var secondA = await input();
-        if (secondA == 1) {
-            this.one.MethodOne()    // Movie
-            this.two.MethodTwo()    // Musical
-            break;
-        }
-        else if (secondA == 2) {
-            this.one.MethodOne()        // Movie
-            this.three.MethodFour()    // Gallery
-            break;
-        }
-        else {
-            console.log("Wrong.");
-            check = true;
-            continue;
-        }
-    } while (check);
+    var check = false;
+    console.log("Course A");
+    console.log("0. [Movie]");
+    console.log("1. [Musical]");
+    console.log("2. [Gallery]");
+    this.one.MethodOne();
+    this.two.MethodTwo();
+    this.four.MethodFour();
 }
 Facade.prototype.FacadeCourseB = async function () {
-    do {
-        var check = false;
-        console.log("Course A");
-        console.log("0. [Movie]");
-        console.log("1. [Play]");
-        console.log("2. [Opera]");
-        process.stdout.write('What will you see next the movie?(1,2): ');
-        var secondA = await input();
-        if (secondA == 1) {
-            this.one.MethodOne()    // Movie
-            this.two.MethodThree()    // Play
-            break;
-        }
-        else if (secondA == 2) {
-            this.one.MethodOne()        // Movie
-            this.three.MethodFive()    // Opera
-            break;
-        }
-        else {
-            console.log("Wrong.");
-            check = true;
-            continue;
-        }
-    } while (check);
+    var check = false;
+    console.log("Course A");
+    console.log("0. [Movie]");
+    console.log("1. [Play]");
+    console.log("2. [Opera]");
+    this.one.MethodOne();
+    this.three.MethodThree();
+    this.five.MethodFive();
 }
 Facade.prototype.FacadeCourseC = async function () {
-    do {
-        var check = false;
-        console.log("Course A");
-        console.log("0. [Movie]");
-        console.log("1. [Musical]");
-        console.log("2. [Opera]");
-        process.stdout.write('What will you next the movie?(1,2): ');
-        var secondA = await input();
-        if (secondA == 1) {
-            this.one.MethodOne()    // Movie
-            this.two.MethodTwo()    // Musical
-            break;
-        }
-        else if (secondA == 2) {
-            this.one.MethodOne()        // Movie
-            this.three.MethodFive()    // Opera
-            break;
-        }
-        else {
-            console.log("Wrong.");
-            check = true;
-            continue;
-        }
-    } while (check);
+    var check = false;
+    console.log("Course A");
+    console.log("0. [Movie]");
+    console.log("1. [Musical]");
+    console.log("2. [Opera]");
+    this.one.MethodOne();
+    this.two.MethodTwo();
+    this.five.MethodFive();
 }
 
 // API 불러오기

@@ -20,6 +20,9 @@ function Culture(name, date, startTime, endTime) {
     this.date = date;
     this.startTime = startTime;
     this.endTime = endTime;
+    this.join = function(){
+        console.log("입장합니다.");
+    }
 }
 
 Culture.prototype.seats = function (row, column) {
@@ -62,35 +65,7 @@ var Strategy = (function () {
 var CourseA = (function () {
     function CourseA() { }
     CourseA.prototype.execute = function () {
-        console.log("TEST_1");
-        Facade.prototype.CourseA = (async function () {  // selected Course A
-            console.log("TEST_2");
-            do {
-                var check;
-                console.log("Course A");
-                console.log("0. [Movie]");
-                console.log("1. [Musical]");
-                console.log("2. [Gallery]");
-                process.stdout.write('What will you see the next?(1,2): ');
-                var secondA = await input();
-
-                if (secondA == 1) {
-                    this.one.MethodOne()    // Movie
-                    this.two.MethodTwo()    // Musical
-                    check = false;
-                }
-                else if (secondA == 2) {
-                    this.one.MethodOne()        // Movie
-                    this.three.MethodFour()    // Gallery
-                    check = false;
-                }
-                else {
-                    console.log("잘못 입력하셨습니다.");
-                    check = true;
-                    continue;
-                }
-            } while (check);
-        })();
+        faca.FacadeCourseA()
     };
     return CourseA;
 })();
@@ -98,30 +73,7 @@ var CourseA = (function () {
 var CourseB = (function () {
     function CourseB() { }
     CourseB.prototype.execute = function () {
-        Facade.prototype.CourseB = (async function () {
-            do {
-                var check = false;
-                console.log("Course A");
-                console.log("0. [Movie]");
-                console.log("1. [Play]");
-                console.log("2. [Opera]");
-                process.stdout.write('What will you see the next?(1,2): ');
-                var secondA = await input();
-                if (secondA == 1) {
-                    this.one.MethodOne()    // Movie
-                    this.two.MethodThree()    // Play
-                }
-                else if (secondA == 2) {
-                    this.one.MethodOne()        // Movie
-                    this.three.MethodFive()    // Opera
-                }
-                else {
-                    console.log("잘못 입력하셨습니다.");
-                    check = true;
-                    continue;
-                }
-            } while (check);
-        })();
+        faca.FacadeCourseB()
     };
     return CourseB;
 })();
@@ -129,30 +81,7 @@ var CourseB = (function () {
 var CourseC = (function () {
     function CourseC() { }
     CourseC.prototype.execute = function () {
-        Facade.prototype.CourseC = (async function () {
-            do {
-                var check = false;
-                console.log("Course A");
-                console.log("0. [Movie]");
-                console.log("1. [Musical]");
-                console.log("2. [Opera]");
-                process.stdout.write('What will you see the next?(1,2): ');
-                var secondA = await input();
-                if (secondA == 1) {
-                    this.one.MethodOne()    // Movie
-                    this.two.MethodTwo()    // Musical
-                }
-                else if (secondA == 2) {
-                    this.one.MethodOne()        // Movie
-                    this.three.MethodFive()    // Opera
-                }
-                else {
-                    console.log("잘못 입력하셨습니다.");
-                    check = true;
-                    continue;
-                }
-            } while (check);
-        })();
+        faca.FacadeCourseC()
     };
     return CourseC;
 })();
@@ -165,7 +94,9 @@ var SubSystemFive = function () { }
 
 SubSystemOne.prototype.MethodOne = function () {
     console.log('Enjoy Movie [Box Office]');
-    getMovieApi()
+    for(let i = 0; i < movieData.length; i++){
+        console.log(movieData[i]);
+    }
 }
 SubSystemTwo.prototype.MethodTwo = function () {
     console.log('Enjoy Musical');
@@ -188,6 +119,85 @@ Facade.prototype.three = new SubSystemThree()   // Play
 Facade.prototype.four = new SubSystemFour()     // Gallery
 Facade.prototype.five = new SubSystemFive()     // Opera
 
+Facade.prototype.FacadeCourseA = async function () {  // selected Course A
+    do {
+        var check = false;
+        console.log("Course A");
+        console.log("0. [Movie]");
+        console.log("1. [Musical]");
+        console.log("2. [Gallery]");
+        process.stdout.write('What will you next the movie?(1,2): ');
+        var secondA = await input();
+        if (secondA == 1) {
+            this.one.MethodOne()    // Movie
+            this.two.MethodTwo()    // Musical
+            break;
+        }
+        else if (secondA == 2) {
+            this.one.MethodOne()        // Movie
+            this.three.MethodFour()    // Gallery
+            break;
+        }
+        else {
+            console.log("Wrong.");
+            check = true;
+            continue;
+        }
+    } while (check);
+}
+Facade.prototype.FacadeCourseB = async function () {
+    do {
+        var check = false;
+        console.log("Course A");
+        console.log("0. [Movie]");
+        console.log("1. [Play]");
+        console.log("2. [Opera]");
+        process.stdout.write('What will you see next the movie?(1,2): ');
+        var secondA = await input();
+        if (secondA == 1) {
+            this.one.MethodOne()    // Movie
+            this.two.MethodThree()    // Play
+            break;
+        }
+        else if (secondA == 2) {
+            this.one.MethodOne()        // Movie
+            this.three.MethodFive()    // Opera
+            break;
+        }
+        else {
+            console.log("Wrong.");
+            check = true;
+            continue;
+        }
+    } while (check);
+}
+Facade.prototype.FacadeCourseC = async function () {
+    do {
+        var check = false;
+        console.log("Course A");
+        console.log("0. [Movie]");
+        console.log("1. [Musical]");
+        console.log("2. [Opera]");
+        process.stdout.write('What will you next the movie?(1,2): ');
+        var secondA = await input();
+        if (secondA == 1) {
+            this.one.MethodOne()    // Movie
+            this.two.MethodTwo()    // Musical
+            break;
+        }
+        else if (secondA == 2) {
+            this.one.MethodOne()        // Movie
+            this.three.MethodFive()    // Opera
+            break;
+        }
+        else {
+            console.log("Wrong.");
+            check = true;
+            continue;
+        }
+    } while (check);
+}
+
 // API 불러오기
 var getMovieApi = function () { // JSON 
     const targetDate = moment().subtract(1, 'days').format('YYYYMMDD'); // 하루 전 날
@@ -206,13 +216,13 @@ var getMovieApi = function () { // JSON
         const API = JSON.parse(body);
         const dailyBoxOfficeList = API.boxOfficeResult.dailyBoxOfficeList;
 
-        console.log("\n" + API.boxOfficeResult.boxofficeType);
+        // console.log("\n" + API.boxOfficeResult.boxofficeType);
         for (let i = 0; i < dailyBoxOfficeList.length; i++) {
-            console.log(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
+            // console.log(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
             movieData.push(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
         }
-        console.log(movieData);
     });
+
 }
 
 // 코스 고르기
@@ -238,12 +248,12 @@ var selectCourse = async function () {
             strat.setStrategy(new CourseC()); // C strategy
         }
         else {
-            console.log("잘못 입력하셨습니다.\n");
+            console.log("Wrong.\n");
             approval = true;
             continue;
         }
-        console.log("\n확실합니까?")
-        process.stdout.write("입력(yes or no): ");
+        console.log("\nReally?")
+        process.stdout.write("Input(yes or no): ");
         var check = await input();
 
         if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
@@ -255,14 +265,15 @@ var selectCourse = async function () {
             continue;
         }
         else {
-            console.log("잘못 입력하셨습니다.\n");
+            console.log("Wrong.\n");
         }
     } while (approval);
 };
 
-var faca = new Facade()
+var faca = new Facade();
 
 var main = function () {
+    getMovieApi();
     selectCourse();
 }
 
