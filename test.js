@@ -20,6 +20,7 @@ function Culture(name, date, startTime, endTime) {
     this.date = date;
     this.startTime = startTime;
     this.endTime = endTime;
+    this.join = function () { };
 }
 
 Culture.prototype.seats = function (row, column) {
@@ -29,8 +30,10 @@ Culture.prototype.seats = function (row, column) {
 
 // 여기 Culture.prototype. 할 애들 추가
 
-var Movie = new Culture('testMovieName', 'testMovieDate', 'testMovieStartTime', 'testMovieEndTime'); // 영화
+// 클로저를 이용해 공통적인 부분 리턴, 안 쓰는 기능은 숨긴다.
 // console.log(Movie.seats(3, 5));
+
+var Movie = new Culture('testMovieName', 'testMovieDate', 'testMovieStartTime', 'testMovieEndTime'); // 영화
 var Musical = new Culture('testMusicalName', 'testMusicalDate', 'testMusicalStartTime', 'testMusicalEndTime'); // 뮤지컬
 var Play = new Culture('testTheaterName', 'testTheaterDate', 'testTheaterStartTime', 'testTheaterEndTime'); // 연극
 var Opera = new Culture('testOperaName', 'testOperaDate', 'testOperaStartTime', 'testOperaEndTime'); // 오페라
@@ -42,27 +45,27 @@ var Gallery = new Culture('testGalleryName', 'testGalleryDate', 'testGalleryStar
 // 영화 선택-> 시간 선택-> 좌석 선택-> 결제
 
 var movieData = [];
-var mvoieName = [];
+var movieName = [];
 
-Movie.__proto__.selectMovie = async function (){
+Movie.__proto__.selectMovie = async function () {
     var movieNum;
-    do{
-        console.log("감상을 원하시는 영화를 선택해주세요.");
-        for(let i = 0; i < movieData.length; i++){
+    do {
+        console.log("Please choose movie.");
+        for (let i = 0; i < movieData.length; i++) {
             console.log(movieData[i]);
         }
         var approval;
-        process.stdout.write('입력(1,2,3 ~): ');
+        process.stdout.write('Input(1,2,3 ~): ');
         movieNum = await input();
 
-        if(mvoieName[movieNum - 1] == undefined){
-            console.log("잘못 입력하셨습니다.");
+        if (movieName[movieNum - 1] == undefined) {
+            console.log("Wrong.");
             continue;
         }
-        console.log("원하시는 영화가 [" + mvoieName[movieNum - 1] + "]가 맞습니까?");
+        console.log("Did you choose [" + movieName[movieNum - 1] + "]?");
         process.stdout.write("Input(yes or no): ");
         var check = await input();
-
+        
         if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
             approval = false;
         }
@@ -75,13 +78,17 @@ Movie.__proto__.selectMovie = async function (){
             approval = true;
             continue;
         }
-    }while(approval);
+    } while (approval);
 
-    return mvoieName[movieNum];
+    return movieName[movieNum];
+}
+
+Movie.__proto__.reserveMovie = async function(){
+
 }
 
 
-// strategy pattern
+// 전략 패턴
 var Strategy = (function () {
     function Strategy() {
         this.strategy = null;
@@ -126,20 +133,20 @@ var SubSystemFour = function () { }
 var SubSystemFive = function () { }
 
 SubSystemOne.prototype.MethodOne = function () {
-    console.log('Enjoy Movie [Box Office]');
+    console.log('\nEnjoy Movie [Box Office]');
     Movie.selectMovie();
 }
 SubSystemTwo.prototype.MethodTwo = function () {
-    // console.log('Enjoy Musical');
+    // console.log('\nEnjoy Musical');
 }
 SubSystemThree.prototype.MethodThree = function () {
-    // console.log('Enjoy play');
+    // console.log('\nEnjoy play');
 }
 SubSystemFour.prototype.MethodFour = function () {
-    // console.log('Enjoy Gallery');
+    // console.log('\nEnjoy Gallery');
 }
 SubSystemFive.prototype.MethodFive = function () {
-    // console.log('Enjoy Opera');
+    // console.log('\nEnjoy Opera');
 }
 
 var Facade = function () { }
@@ -191,7 +198,7 @@ var getMovieApi = function () { // JSON
         for (let i = 0; i < dailyBoxOfficeList.length; i++) {
             // console.log(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
             movieData.push(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
-            mvoieName.push(dailyBoxOfficeList[i].movieNm);
+            movieName.push(dailyBoxOfficeList[i].movieNm);
         }
     });
 
@@ -202,9 +209,9 @@ var selectCourse = async function () {
     do {
         var approval;
         console.log("[Course]");
-        console.log("1.  A  -  [Movie, Musical, Gallery]");
-        console.log("2.  B  -  [Movie, Play, Opera]");
-        console.log("3.  C  -  [Movie, Musical, Opera]");
+        console.log("1. A [Movie, Musical, Gallery]");
+        console.log("2. B [Movie, Play, Opera]");
+        console.log("3. C [Movie, Musical, Opera]");
 
         process.stdout.write('입력(1,2,3): ');
         var course = await input();
@@ -227,7 +234,6 @@ var selectCourse = async function () {
         console.log("\nReally?")
         process.stdout.write("Input(yes or no): ");
         var check = await input();
-
         if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
             strat.execute(); // execute strategy
             approval = false;
@@ -241,8 +247,6 @@ var selectCourse = async function () {
             approval = true;
             continue;
         }
-
-        // Movie.selectMovie();
     } while (approval);
 };
 
