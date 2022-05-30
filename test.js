@@ -24,7 +24,7 @@ function Culture(name, date, startTime, endTime) {
 }
 
 Culture.prototype.seats = function (row, column) {
-    seats = Array.from(Array(row), () => Array(column).fill('[ □ ]'));
+    seats = Array.from(Array(row), () => Array(column));
     return seats;
 }
 
@@ -44,49 +44,9 @@ var Gallery = new Culture('testGalleryName', 'testGalleryDate', 'testGalleryStar
 // 코스 선택(A, B, C)
 // 영화 선택-> 시간 선택-> 좌석 선택-> 결제
 
+// Think: 이 Movie Data와 name, date 등을 Movie 객체에 넣는 것은 어떠한가? (전역 변수로 말고)
 var movieData = [];
 var movieName = [];
-
-Movie.__proto__.selectMovie = async function () {
-    var movieNum;
-    do {
-        console.log("Please choose movie.");
-        for (let i = 0; i < movieData.length; i++) {
-            console.log(movieData[i]);
-        }
-        var approval;
-        process.stdout.write('Input(1,2,3 ~): ');
-        movieNum = await input();
-
-        if (movieName[movieNum - 1] == undefined) {
-            console.log("Wrong.");
-            continue;
-        }
-        console.log("Did you choose [" + movieName[movieNum - 1] + "]?");
-        process.stdout.write("Input(yes or no): ");
-        var check = await input();
-        
-        if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
-            approval = false;
-        }
-        else if (check == 'no' || check == 'n' || check == 'No' || check == 'N') {
-            approval = true;
-            continue;
-        }
-        else {
-            console.log("Wrong.\n");
-            approval = true;
-            continue;
-        }
-    } while (approval);
-
-    return movieName[movieNum];
-}
-
-Movie.__proto__.reserveMovie = async function(){
-
-}
-
 
 // 전략 패턴
 var Strategy = (function () {
@@ -126,26 +86,28 @@ var CourseC = (function () {
     return CourseC;
 })();
 
-var SubSystemOne = function () { }
-var SubSystemTwo = function () { }
-var SubSystemThree = function () { }
-var SubSystemFour = function () { }
-var SubSystemFive = function () { }
+var SubSystemOne = function () { }      // Movie
+var SubSystemTwo = function () { }      // Musical
+var SubSystemThree = function () { }    // Play
+var SubSystemFour = function () { }     // Gallery
+var SubSystemFive = function () { }     // Opera
 
-SubSystemOne.prototype.MethodOne = function () {
-    console.log('\nEnjoy Movie [Box Office]');
-    Movie.selectMovie();
+SubSystemOne.prototype.MethodOne = async function () {        // Movie
+    console.log('\n[Box Office]');
+    await Movie.selectMovie();
+    await Movie.reserveMovie();
+
 }
-SubSystemTwo.prototype.MethodTwo = function () {
+SubSystemTwo.prototype.MethodTwo = function () {        // Musical
     // console.log('\nEnjoy Musical');
 }
-SubSystemThree.prototype.MethodThree = function () {
+SubSystemThree.prototype.MethodThree = function () {    // Play
     // console.log('\nEnjoy play');
 }
-SubSystemFour.prototype.MethodFour = function () {
+SubSystemFour.prototype.MethodFour = function () {      // Gallery
     // console.log('\nEnjoy Gallery');
 }
-SubSystemFive.prototype.MethodFive = function () {
+SubSystemFive.prototype.MethodFive = function () {      // Opera
     // console.log('\nEnjoy Opera');
 }
 
@@ -159,21 +121,135 @@ Facade.prototype.five = new SubSystemFive()     // Opera
 
 Facade.prototype.FacadeCourseA = function () {  // selected Course A
     console.log("Course A");
-    this.one.MethodOne();
-    this.two.MethodTwo();
-    this.four.MethodFour();
+    this.one.MethodOne();   // Movie
+    this.two.MethodTwo();   //Musical
+    this.four.MethodFour(); // Gallery
 }
 Facade.prototype.FacadeCourseB = function () {
     console.log("Course B");
-    this.one.MethodOne();
-    this.three.MethodThree();
-    this.five.MethodFive();
+    this.one.MethodOne();       // Movie
+    this.three.MethodThree();   // Play
+    this.five.MethodFive();     // Opera
 }
 Facade.prototype.FacadeCourseC = function () {
     console.log("Course C");
-    this.one.MethodOne();
-    this.two.MethodTwo();
-    this.five.MethodFive();
+    this.one.MethodOne();       // Movie
+    this.two.MethodTwo();       // Musical
+    this.five.MethodFive();     // Opera
+}
+
+Movie.__proto__.selectMovie = async function () {
+    var movieNum;
+
+    do {
+        console.log("Please choose a movie.");
+        for (let i = 0; i < movieData.length; i++) {
+            console.log(movieData[i]);
+        }
+        var approval;
+        process.stdout.write('Input(1,2,3 ~): ');
+        movieNum = await input();
+
+        if (movieName[movieNum - 1] == undefined) {
+            console.log("Wrong.");
+            approval = true;
+            continue;
+        }
+        console.log("\nDid you choose [" + movieName[movieNum - 1] + "]?");
+        process.stdout.write("Input(yes or no): ");
+        var check = await input();
+
+        if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
+            approval = false;
+            Movie.name = movieName[movieNum - 1];
+            // console.log(Movie.name);
+            // console.log(Musical.name);
+            // console.log(Play.name);
+            // console.log(Opera.name);
+            // console.log(Gallery.name);
+        }
+        else if (check == 'no' || check == 'n' || check == 'No' || check == 'N') {
+            approval = true;
+            continue;
+        }
+        else {
+            console.log("Wrong.\n");
+            approval = true;
+            continue;
+        }
+    } while (approval);
+
+    // return movieName[movieNum];
+}
+
+Movie.__proto__.reserveMovie = async function () {
+
+    console.log("\n" + Movie.name);
+    Movie.seats(5, 5);
+    var isRun = false;
+    do {
+        console.log("──────────────────SCREEN──────────────────\n");
+        process.stdout.write("       ");
+        for (let i = 0; i < seats.length; i++) {
+            process.stdout.write(" [ " + (i + 1) + " ] ");
+        }
+        console.log();
+        for (let i = 0; i < seats.length; i++) {
+            process.stdout.write("\n");
+            process.stdout.write(" [ " + String.fromCharCode([i + 65]) + " ] ");
+            for (let j = 0; j < seats[i].length; j++) {
+                if (seats[i][j] == null) {
+                    process.stdout.write(" [ □ ] ");
+                } else if (seats[i][j] == 0) {
+                    process.stdout.write(" [ □ ] ");
+                } else {
+                    process.stdout.write(" [ ■ ] ");
+                }
+            }
+            process.stdout.write("\n");
+        }
+        console.log("──────────────────────────────────────────");
+        process.stdout.write("Input(A ~ E): ");
+        var q1 = await input();
+        process.stdout.write("Input(1 ~ 5): ");
+        var q2 = await input();
+        if (q1 >= String.fromCharCode([65]) && q1 <= String.fromCharCode([69]) && q2 > 0 && q2 < 6) {// A, B, C, D, E
+            console.log(q1 + "열 " + q2 + "행");
+        }
+        else {
+            console.log("Wrong!");
+            isRun = true;
+            continue;
+        }
+        process.stdout.write("Is Correct? (yes or no): ");
+        var q3 = await input();
+        if(q3 == 'yes' || q3 == 'y' || q3 == 'Yes' || q3 == 'Y'){
+            console.log(q1.charCodeAt()-65)
+            console.log(q2-1)
+            // 버그!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if(Movie.seats[q1.charCodeAt()-65][q2-1] == null){
+                Movie.seats[q1.charCodeAt()-65][q2-1] = 1;
+            }
+            else if(Movie.seats[q1.charCodeAt()-65][q2-1]){
+                Movie.seats[q1.charCodeAt()-65][q2-1] = 1;
+            }
+            else{
+                console.log("이미 예약된 자리");
+            }
+            console.log("Complete reservation")
+        }
+        else if(q3 == 'no' || q3 == 'n' || q3 == 'No' || q3 == 'N'){
+            isRun = true;
+            continue;
+        }
+        else{
+            console.log("Wrong!");
+            isRun = true;
+            continue;
+        }
+
+    } while (isRun);
+
 }
 
 // API 불러오기
