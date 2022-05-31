@@ -2,6 +2,7 @@ const request = require('request');
 const moment = require('moment');
 const readline = require('readline');
 
+
 // 입력
 const input = () => new Promise(resolve => {
     const rl = readline.createInterface({
@@ -28,15 +29,57 @@ Culture.prototype.seats = function (row, column) {
     return seats;
 }
 
-// 여기 Culture.prototype. 할 애들 추가
+function Movie(){};
+function Musical(){};
+function Play(){};
+function Opera(){};
+function Gallery(){};
 
-// 클로저를 이용해 공통적인 부분 리턴, 안 쓰는 기능은 숨긴다.
-// console.log(Movie.seats(3, 5));
+Movie.prototype = Culture.prototype;
+Musical.prototype = Culture.prototype;
+Play.prototype = Culture.prototype;
+Opera.prototype = Culture.prototype;
+Gallery.prototype = Culture.prototype;
 
-var Movie = new Culture('testMovieName', 'testMovieDate', 'testMovieStartTime', 'testMovieEndTime'); // 영화
-var Musical = new Culture('testMusicalName', 'testMusicalDate', 'testMusicalStartTime', 'testMusicalEndTime'); // 뮤지컬
-var Play = new Culture('testTheaterName', 'testTheaterDate', 'testTheaterStartTime', 'testTheaterEndTime'); // 연극
-var Opera = new Culture('testOperaName', 'testOperaDate', 'testOperaStartTime', 'testOperaEndTime'); // 오페라
+Movie.prototype.selectMovie = async function () {
+    var movieNum;
+
+    do {
+        console.log("Please choose a movie.");
+        for (let i = 0; i < movieData.length; i++) {
+            console.log(movieData[i]);
+        }
+        var approval;
+        process.stdout.write('Input(1,2,3 ~): ');
+        movieNum = await input();
+
+        if (movieName[movieNum - 1] == undefined) {
+            console.log("Wrong.");
+            approval = true;
+            continue;
+        }
+        console.log("\nDid you choose [" + movieName[movieNum - 1] + "]?");
+        process.stdout.write("Input(yes or no): ");
+        var check = await input();
+
+        if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
+            approval = false;
+            Movie.name = movieName[movieNum - 1];
+        }
+        else if (check == 'no' || check == 'n' || check == 'No' || check == 'N') {
+            approval = true;
+            continue;
+        }
+        else {
+            console.log("Wrong.\n");
+            approval = true;
+            continue;
+        }
+    } while (approval);
+
+    // return movieName[movieNum];
+};
+
 var Gallery = new Culture('testGalleryName', 'testGalleryDate', 'testGalleryStartTime', 'testGalleryEndTime'); // 미술관
 
 // 아래꺼를 커링함수로 = 영화가 저장된 상태 시간을 선택가능하고 시간 상태로 좌석 선택 그리고 이 세가지 정보를 모아서 결제를 팍!
@@ -94,8 +137,8 @@ var SubSystemFive = function () { }     // Opera
 
 SubSystemOne.prototype.MethodOne = async function () {        // Movie
     console.log('\n[Box Office]');
-    await Movie.selectMovie();
-    await Movie.reserveMovie();
+    await new Movie().selectMovie();
+    await new Movie().reserveMovie();
 
 }
 SubSystemTwo.prototype.MethodTwo = function () {        // Musical
@@ -138,54 +181,10 @@ Facade.prototype.FacadeCourseC = function () {
     this.five.MethodFive();     // Opera
 }
 
-Movie.__proto__.selectMovie = async function () {
-    var movieNum;
-
-    do {
-        console.log("Please choose a movie.");
-        for (let i = 0; i < movieData.length; i++) {
-            console.log(movieData[i]);
-        }
-        var approval;
-        process.stdout.write('Input(1,2,3 ~): ');
-        movieNum = await input();
-
-        if (movieName[movieNum - 1] == undefined) {
-            console.log("Wrong.");
-            approval = true;
-            continue;
-        }
-        console.log("\nDid you choose [" + movieName[movieNum - 1] + "]?");
-        process.stdout.write("Input(yes or no): ");
-        var check = await input();
-
-        if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
-            approval = false;
-            Movie.name = movieName[movieNum - 1];
-            // console.log(Movie.name);
-            // console.log(Musical.name);
-            // console.log(Play.name);
-            // console.log(Opera.name);
-            // console.log(Gallery.name);
-        }
-        else if (check == 'no' || check == 'n' || check == 'No' || check == 'N') {
-            approval = true;
-            continue;
-        }
-        else {
-            console.log("Wrong.\n");
-            approval = true;
-            continue;
-        }
-    } while (approval);
-
-    // return movieName[movieNum];
-}
-
-Movie.__proto__.reserveMovie = async function () {
+Movie.prototype.reserveMovie = async function () {
 
     console.log("\n" + Movie.name);
-    seats = Movie.seats(5, 5);
+    seats = Movie.prototype.seats(5, 5);
     var isRun = false;
     do {
         console.log("──────────────────SCREEN──────────────────\n");
@@ -336,9 +335,9 @@ var selectCourse = async function () {
 
 var faca = new Facade();
 
-var main = function () {
-    getMovieApi();
-    selectCourse();
+var main = async function () {
+     getMovieApi();
+    await selectCourse();
 }
 
 main()
