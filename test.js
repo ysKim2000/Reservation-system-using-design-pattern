@@ -15,57 +15,62 @@ const input = () => new Promise(resolve => {
     });
 });
 
-function Culture(name, date, startTime, endTime) {
-    this.name = name;
-    this.date = date;
-    this.startTime = startTime;
-    this.endTime = endTime;
-}
-
-Culture.prototype.seats = function (row, column) {
-    seats = Array.from(Array(row), () => Array(column).fill('[ □ ]'));
-    return seats;
-}
-
-
-// 여기 Culture.prototype. 할 애들 추가
-
-// 클로저를 이용해 공통적인 부분 리턴, 안 쓰는 기능은 숨긴다.
-
-var Movie = new Culture('testMovieName', 'testMovieDate', 'testMovieStartTime', 'testMovieEndTime'); // 영화
-// console.log(Movie.seats(3, 5));
-var Musical = new Culture('testMusicalName', 'testMusicalDate', 'testMusicalStartTime', 'testMusicalEndTime'); // 뮤지컬
-var Play = new Culture('testTheaterName', 'testTheaterDate', 'testTheaterStartTime', 'testTheaterEndTime'); // 연극
-var Opera = new Culture('testOperaName', 'testOperaDate', 'testOperaStartTime', 'testOperaEndTime'); // 오페라
-var Gallery = new Culture('testGalleryName', 'testGalleryDate', 'testGalleryStartTime', 'testGalleryEndTime'); // 미술관
-
-// 아래꺼를 커링함수로 = 영화가 저장된 상태 시간을 선택가능하고 시간 상태로 좌석 선택 그리고 이 세가지 정보를 모아서 결제를 팍!
-// 아래꺼들은 함수로 구현 그리고 커링 함수로 파바박
-// 코스 선택(A, B, C)
-// 영화 선택-> 시간 선택-> 좌석 선택-> 결제
-
-Movie.__proto__.selectMovie = async function (){
-    var movieNum;
-    console.log("감상을 원하시는 영화를 선택해주세요.");
-    for(let i = 0; i < movieData.length; i++){
-        console.log(movieData[i]);
+const CultureInform = {
+    name : 'testName',
+    date : 'testDate',
+    startTime : 'testDateTime',
+    endTime : 'testEndTime',
+    seats : function (row, column) {
+        seats = Array.from(Array(row), () => Array(column));
+        return seats;
     }
-    
-    do{
+};
+
+
+function Culture() {}
+Object.setPrototypeOf(Culture, CultureInform);
+
+function Movie(){};
+function Musical(){};
+function Play(){};
+function Opera(){};
+function Gallery(){};
+
+Movie.prototype = Culture.prototype;
+Musical.prototype = Culture.prototype;
+Play.prototype = Culture.prototype;
+Opera.prototype = Culture.prototype;
+Gallery.prototype = Culture.prototype;
+
+Movie.prototype.selectMovie = async function () {
+    var movieNum;
+
+    do {
+        console.log("Please choose a movie.");
+        for (let i = 0; i < movieData.length; i++) {
+            console.log(movieData[i]);
+        }
         var approval;
-        process.stdout.write('입력(1,2,3 ~): ');
+        process.stdout.write('Input(1,2,3 ~): ');
         movieNum = await input();
 
-        if(mvoieName[movieNum - 1] == undefined){
-            console.log("잘못 입력하셨습니다.");
+        if (movieName[movieNum - 1] == undefined) {
+            console.log("Wrong.");
+            approval = true;
             continue;
         }
-        console.log("원하시는 영화가 [" + mvoieName[movieNum - 1] + "]가 맞습니까?");
+        console.log("\nDid you choose [" + movieName[movieNum - 1] + "]?");
         process.stdout.write("Input(yes or no): ");
         var check = await input();
 
         if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
             approval = false;
+            Movie.name = movieName[movieNum - 1];
+            // console.log(Movie.name);
+            // console.log(Musical.name);
+            // console.log(Play.name);
+            // console.log(Opera.name);
+            // console.log(Gallery.name);
         }
         else if (check == 'no' || check == 'n' || check == 'No' || check == 'N') {
             approval = true;
@@ -76,13 +81,21 @@ Movie.__proto__.selectMovie = async function (){
             approval = true;
             continue;
         }
-    }while(approval);
+    } while (approval);
 
-    return mvoieName[movieNum];
-}
+    // return movieName[movieNum];
+};
 
+var Gallery = new Culture('testGalleryName', 'testGalleryDate', 'testGalleryStartTime', 'testGalleryEndTime'); // 미술관
+
+// 아래꺼를 커링함수로 = 영화가 저장된 상태 시간을 선택가능하고 시간 상태로 좌석 선택 그리고 이 세가지 정보를 모아서 결제를 팍!
+// 아래꺼들은 함수로 구현 그리고 커링 함수로 파바박
+// 코스 선택(A, B, C)
+// 영화 선택-> 시간 선택-> 좌석 선택-> 결제
+
+// Think: 이 Movie Data와 name, date 등을 Movie 객체에 넣는 것은 어떠한가? (전역 변수로 말고)
 var movieData = [];
-var mvoieName = [];
+var movieName = [];
 
 // 전략 패턴
 var Strategy = (function () {
@@ -122,26 +135,29 @@ var CourseC = (function () {
     return CourseC;
 })();
 
-var SubSystemOne = function () { }
-var SubSystemTwo = function () { }
-var SubSystemThree = function () { }
-var SubSystemFour = function () { }
-var SubSystemFive = function () { }
+var SubSystemOne = function () { }      // Movie
+var SubSystemTwo = function () { }      // Musical
+var SubSystemThree = function () { }    // Play
+var SubSystemFour = function () { }     // Gallery
+var SubSystemFive = function () { }     // Opera
 
-SubSystemOne.prototype.MethodOne = function () {
-    console.log('Enjoy Movie [Box Office]');
+SubSystemOne.prototype.MethodOne = async function () {        // Movie
+    console.log('\n[Box Office]');
+    await Movie.selectMovie();
+    await Movie.reserveMovie();
+
 }
-SubSystemTwo.prototype.MethodTwo = function () {
-    console.log('Enjoy Musical');
+SubSystemTwo.prototype.MethodTwo = function () {        // Musical
+    // console.log('\nEnjoy Musical');
 }
-SubSystemThree.prototype.MethodThree = function () {
-    console.log('Enjoy play');
+SubSystemThree.prototype.MethodThree = function () {    // Play
+    // console.log('\nEnjoy play');
 }
-SubSystemFour.prototype.MethodFour = function () {
-    console.log('Enjoy Gallery');
+SubSystemFour.prototype.MethodFour = function () {      // Gallery
+    // console.log('\nEnjoy Gallery');
 }
-SubSystemFive.prototype.MethodFive = function () {
-    console.log('Enjoy Opera');
+SubSystemFive.prototype.MethodFive = function () {      // Opera
+    // console.log('\nEnjoy Opera');
 }
 
 var Facade = function () { }
@@ -153,34 +169,101 @@ Facade.prototype.four = new SubSystemFour()     // Gallery
 Facade.prototype.five = new SubSystemFive()     // Opera
 
 Facade.prototype.FacadeCourseA = function () {  // selected Course A
-    var check = false;
     console.log("Course A");
-    console.log("0. [Movie]");
-    console.log("1. [Musical]");
-    console.log("2. [Gallery]");
-    this.one.MethodOne();
-    this.two.MethodTwo();
-    this.four.MethodFour();
+    this.one.MethodOne();   // Movie
+    this.two.MethodTwo();   //Musical
+    this.four.MethodFour(); // Gallery
 }
 Facade.prototype.FacadeCourseB = function () {
-    var check = false;
-    console.log("Course A");
-    console.log("0. [Movie]");
-    console.log("1. [Play]");
-    console.log("2. [Opera]");
-    this.one.MethodOne();
-    this.three.MethodThree();
-    this.five.MethodFive();
+    console.log("Course B");
+    this.one.MethodOne();       // Movie
+    this.three.MethodThree();   // Play
+    this.five.MethodFive();     // Opera
 }
 Facade.prototype.FacadeCourseC = function () {
-    var check = false;
-    console.log("Course A");
-    console.log("0. [Movie]");
-    console.log("1. [Musical]");
-    console.log("2. [Opera]");
-    this.one.MethodOne();
-    this.two.MethodTwo();
-    this.five.MethodFive();
+    console.log("Course C");
+    this.one.MethodOne();       // Movie
+    this.two.MethodTwo();       // Musical
+    this.five.MethodFive();     // Opera
+}
+
+Movie.prototype.reserveMovie = async function () {
+
+    console.log("\n" + Movie.name);
+    seats = Movie.seats(5, 5);
+    var isRun = false;
+    do {
+        console.log("──────────────────SCREEN──────────────────\n");
+        process.stdout.write("       ");
+        for (let i = 0; i < seats.length; i++) {
+            process.stdout.write(" [ " + (i + 1) + " ] ");
+        }
+        console.log();
+        for (let i = 0; i < seats.length; i++) {
+            process.stdout.write("\n");
+            process.stdout.write(" [ " + String.fromCharCode([i + 65]) + " ] ");
+            for (let j = 0; j < seats[i].length; j++) {
+                if (seats[i][j] == null) {
+                    process.stdout.write(" [ □ ] ");
+                } else if (seats[i][j] == 0) {
+                    process.stdout.write(" [ □ ] ");
+                } else {
+                    process.stdout.write(" [ ■ ] ");
+                }
+            }
+            process.stdout.write("\n");
+        }
+        console.log("──────────────────────────────────────────");
+        console.log("(예약 종료 exit)")
+        process.stdout.write("Input(A ~ E): ");
+        var q1 = await input();
+        if(q1 == 'exit' || q1 == 'EXIT'){
+            isRun = false;
+            break;
+        }
+        process.stdout.write("Input(1 ~ 5): ");
+        var q2 = await input();
+        if(q2 == 'exit' || q2 == 'EXIT'){
+            isRun = false;
+            break;
+        }
+        if (q1 >= String.fromCharCode([65]) && q1 <= String.fromCharCode([69]) && q2 > 0 && q2 < 6) {// A, B, C, D, E
+            console.log(q1 + "열 " + q2 + "행");
+        }
+        else {
+            console.log("Wrong!");
+            isRun = true;
+            continue;
+        }
+        process.stdout.write("Is Correct? (yes or no): ");
+        var q3 = await input();
+        if (q3 == 'yes' || q3 == 'y' || q3 == 'Yes' || q3 == 'Y') {
+            if (seats[q1.charCodeAt() - 65][q2 - 1] == undefined || seats[q1.charCodeAt() - 65][q2 - 1] == 0 || seats[q1.charCodeAt() - 65][q2 - 1] == null) {
+                seats[q1.charCodeAt() - 65][q2 - 1] = 1;
+                console.log("\nComplete reservation");
+            }
+            else {
+                console.log("This seat is already reserved.");
+            }
+            isRun = true;
+            continue;
+
+        }
+        else if (q3 == 'no' || q3 == 'n' || q3 == 'No' || q3 == 'N') {
+            isRun = true;
+            continue;
+        }
+        else if(q3 == 'exit' || q3 == 'EXIT'){
+            isRun = false;
+            break;
+        }
+        else {
+            console.log("Wrong!");
+            isRun = true;
+            continue;
+        }
+    } while (isRun);
+
 }
 
 // API 불러오기
@@ -205,10 +288,9 @@ var getMovieApi = function () { // JSON
         for (let i = 0; i < dailyBoxOfficeList.length; i++) {
             // console.log(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
             movieData.push(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
-            mvoieName.push(dailyBoxOfficeList[i].movieNm);
+            movieName.push(dailyBoxOfficeList[i].movieNm);
         }
     });
-
 }
 
 // 코스 고르기
@@ -216,9 +298,9 @@ var selectCourse = async function () {
     do {
         var approval;
         console.log("[Course]");
-        console.log("1. A [Movie, Musical, Gallery]");
-        console.log("2. B [Movie, Play, Opera]");
-        console.log("3. C [Movie, Musical, Opera]");
+        console.log("1. A  -  [Movie, Musical, Gallery]");
+        console.log("2. B  -  [Movie, Play, Opera]");
+        console.log("3. C  -  [Movie, Musical, Opera]");
 
         process.stdout.write('입력(1,2,3): ');
         var course = await input();
@@ -241,7 +323,6 @@ var selectCourse = async function () {
         console.log("\nReally?")
         process.stdout.write("Input(yes or no): ");
         var check = await input();
-
         if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
             strat.execute(); // execute strategy
             approval = false;
@@ -255,16 +336,16 @@ var selectCourse = async function () {
             approval = true;
             continue;
         }
-
-        Movie.selectMovie();
     } while (approval);
 };
 
 var faca = new Facade();
 
 var main = function () {
-    getMovieApi();
-    selectCourse();
+    // getMovieApi();
+    // selectCourse();
+    console.log(Movie.prototype);
+    console.log(new Movie().selectMovie());
 }
 
 main()
