@@ -19,7 +19,6 @@ const input = () => new Promise(resolve => {
 });
 
 function Movie() { };
-Movie.prototype = watchShow.prototype;
 
 var movieData = [];
 var movieName = [];
@@ -90,7 +89,7 @@ Movie.prototype.selectMovie = async function () {
 
 Movie.prototype.reserveMovie = async function () {
     console.log("\n" + Movie.name);
-    seats = watchShow.prototype.seats(5, 5);
+    var seats = watchShow.prototype.seats(5, 5);
     var isRun = false;
     do {
         console.log("──────────────────SCREEN──────────────────\n");

@@ -1,7 +1,8 @@
 const readline = require('readline');
-module.exports = { watchShow };
+module.exports = { watchShow, watchArt };
 
 const { Movie } = require('./movie.js');
+const { Musical } = require('./musical');
 
 // input
 const input = () => new Promise(resolve => {
@@ -27,14 +28,12 @@ function watchArt() { }
 watchShow.prototype = Culture.prototype;
 watchArt.prototype = Culture.prototype;
 
-// Movie, Musical, Opera, Gallery, Museum
-Musical.prototype = watchShow.prototype;
-Opera.prototype = watchShow.prototype;
+// Movie, Musical, Gallery, Museum
+// Musical.prototype = watchShow.prototype;
 Gallery.prototype = watchArt.prototype;
 Museum.prototype = watchArt.prototype;
 
-function Musical() { };
-function Opera() { };
+// function Musical() { };
 function Gallery() { };
 function Museum() { };
 
@@ -94,55 +93,51 @@ var SubSystemOne = function () { }      // Movie
 var SubSystemTwo = function () { }      // Musical
 var SubSystemThree = function () { }    // Play
 var SubSystemFour = function () { }     // Gallery
-var SubSystemFive = function () { }     // Opera
 
 SubSystemOne.prototype.MethodOne = async function () {        // Movie
     console.log('\n[Box Office]');
     await new Movie().selectMovie();
     await new Movie().reserveMovie();
 }
-SubSystemTwo.prototype.MethodTwo = function () {        // Musical
-    // console.log('\nEnjoy Musical');
+SubSystemTwo.prototype.MethodTwo = async function () {        // Musical
+    // console.log('\n[Musical]');
+    await new Musical().whatever();
 }
-SubSystemThree.prototype.MethodThree = function () {    // Opera
-    // console.log('\nEnjoy Opera');
+SubSystemThree.prototype.MethodThree = function () {    // Museum
+    // console.log('\nEnjoy Museum');
 }
 SubSystemFour.prototype.MethodFour = function () {      // Gallery
     // console.log('\nEnjoy Gallery');
-}
-SubSystemFive.prototype.MethodFive = function () {      // Museum
-    // console.log('\nEnjoy Museum');
 }
 
 var Facade = function () { }
 
 Facade.prototype.one = new SubSystemOne()       // Movie
 Facade.prototype.two = new SubSystemTwo()       // Musical
-Facade.prototype.three = new SubSystemThree()   // Opera
+Facade.prototype.three = new SubSystemThree()   // Museum
 Facade.prototype.four = new SubSystemFour()     // Gallery
-Facade.prototype.five = new SubSystemFive()     // Museum
 
-Facade.prototype.FacadeCourseA = function () {  // selected Course A
+Facade.prototype.FacadeCourseA = async function () {  // selected Course A
     console.log("Course A");
-    this.one.MethodOne();   // Movie
-    this.two.MethodTwo();   // Musical
-    this.four.MethodFour(); // Gallery
+    await this.one.MethodOne();   // Movie
+    await this.two.MethodTwo();   // Musical
+    await this.four.MethodFour(); // Gallery
 }
 Facade.prototype.FacadeCourseB = function () {
     console.log("Course B");
     this.one.MethodOne();       // Movie
-    this.three.MethodThree();   // Opera
-    this.five.MethodFive();     // Museum
+    this.three.MethodTwo();   // Musical
+    this.five.MethodThree();     // Museum
 }
 Facade.prototype.FacadeCourseC = function () {
     console.log("Course C");
     this.one.MethodOne();       // Movie
-    this.two.MethodFour();       // Gallery
-    this.five.MethodFive();     // Museum
+    this.two.MethodFour();      // Gallery
+    this.five.MethodThree();     // Museum
 }
 
 // A - 영화, 뮤지컬, 미술관
-// B - 영화, 오페라, 박물관
+// B - 영화, 뮤지컬, 박물관
 // C - 영화, 미술관, 박물관
 
 // 코스 고르기
@@ -151,7 +146,7 @@ var selectCourse = async function () {
         var approval;
         console.log("[Course]");
         console.log("1. A  -  [Movie, Musical, Gallery]");
-        console.log("2. B  -  [Movie, Opera, Museum]");
+        console.log("2. B  -  [Movie, Musical, Museum]");
         console.log("3. C  -  [Movie, Gallery, Museum]");
 
         process.stdout.write('입력(1,2,3): ');
@@ -194,6 +189,7 @@ var selectCourse = async function () {
 var faca = new Facade();
 
 var main = async function () {
+    
     var movie = new Movie();
     movie.getMovieApi();
     await selectCourse();
