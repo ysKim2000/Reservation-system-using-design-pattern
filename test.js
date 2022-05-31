@@ -185,7 +185,7 @@ Movie.__proto__.selectMovie = async function () {
 Movie.__proto__.reserveMovie = async function () {
 
     console.log("\n" + Movie.name);
-    Movie.seats(5, 5);
+    seats = Movie.seats(5, 5);
     var isRun = false;
     do {
         console.log("──────────────────SCREEN──────────────────\n");
@@ -223,26 +223,29 @@ Movie.__proto__.reserveMovie = async function () {
         }
         process.stdout.write("Is Correct? (yes or no): ");
         var q3 = await input();
-        if(q3 == 'yes' || q3 == 'y' || q3 == 'Yes' || q3 == 'Y'){
-            console.log(q1.charCodeAt()-65)
-            console.log(q2-1)
+        if (q3 == 'yes' || q3 == 'y' || q3 == 'Yes' || q3 == 'Y') {
+            console.log(q1.charCodeAt() - 65)
+            console.log(q2 - 1)
             // 버그!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            if(Movie.seats[q1.charCodeAt()-65][q2-1] == null){
-                Movie.seats[q1.charCodeAt()-65][q2-1] = 1;
+            if (seats[q1.charCodeAt() - 65][q2 - 1] == undefined) {
+                seats[q1.charCodeAt() - 65][q2 - 1] = 1;
             }
-            else if(Movie.seats[q1.charCodeAt()-65][q2-1]){
-                Movie.seats[q1.charCodeAt()-65][q2-1] = 1;
+            else if (seats[q1.charCodeAt() - 65][q2 - 1]) {
+                seats[q1.charCodeAt() - 65][q2 - 1] = 1;
             }
-            else{
+            else {
                 console.log("이미 예약된 자리");
             }
-            console.log("Complete reservation")
+            console.log("Complete reservation");
+            isRun = true;
+            continue;
+
         }
-        else if(q3 == 'no' || q3 == 'n' || q3 == 'No' || q3 == 'N'){
+        else if (q3 == 'no' || q3 == 'n' || q3 == 'No' || q3 == 'N') {
             isRun = true;
             continue;
         }
-        else{
+        else {
             console.log("Wrong!");
             isRun = true;
             continue;
