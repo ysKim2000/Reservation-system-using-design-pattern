@@ -16,31 +16,55 @@ const input = () => new Promise(resolve => {
 });
 
 const CultureInform = {
-    name : 'testName',
-    date : 'testDate',
-    startTime : 'testDateTime',
-    endTime : 'testEndTime',
-    seats : function (row, column) {
-        seats = Array.from(Array(row), () => Array(column));
-        return seats;
+    First_startTime : 0, 
+    Second_startTime : 0,
+    Third_startTime : 0,
+    First_startTimeList : ['10 : 00', '12 : 00', '14 : 00'],
+    settingTime : function(){
+        var check;
+        do{
+            console.log("set the " + this.type + " time");
+            
+        }while(check);
+        
     }
 };
 
-
 function Culture() {}
-Object.setPrototypeOf(Culture, CultureInform);
+Culture.prototype = CultureInform;
 
-function Movie(){};
-function Musical(){};
-function Play(){};
-function Opera(){};
-function Gallery(){};
+function watchShow(){}
+function watchArt(){}
 
-Movie.prototype = Culture.prototype;
-Musical.prototype = Culture.prototype;
-Play.prototype = Culture.prototype;
-Opera.prototype = Culture.prototype;
-Gallery.prototype = Culture.prototype;
+watchShow.prototype = Culture.prototype;
+watchArt.prototype = Culture.prototype;
+
+function culture(type, name){
+    this.type = type;
+    this.name = name;
+};
+
+var Movie = culture;
+var Musical = culture; 
+var Opera = culture;
+var Gallery = culture;
+var Museum = culture;
+
+// 영화, 뮤지컬, 오페라, 박물관, 미술관  
+Movie.prototype = watchShow.prototype;
+Musical.prototype = watchShow.prototype;
+Opera.prototype = watchShow.prototype;
+Gallery.prototype = watchArt.prototype;
+Museum.prototype = watchArt.prototype;
+
+// new Movie('movie', '범죄도시2').settingTime();
+
+watchShow.prototype.seats = function (row, column) {
+    seats = Array.from(Array(row), () => Array(column));
+    return seats;
+}
+
+new Movie('movie', '범죄도시2').settingTime()
 
 Movie.prototype.selectMovie = async function () {
     var movieNum;
@@ -85,8 +109,6 @@ Movie.prototype.selectMovie = async function () {
 
     // return movieName[movieNum];
 };
-
-var Gallery = new Culture('testGalleryName', 'testGalleryDate', 'testGalleryStartTime', 'testGalleryEndTime'); // 미술관
 
 // 아래꺼를 커링함수로 = 영화가 저장된 상태 시간을 선택가능하고 시간 상태로 좌석 선택 그리고 이 세가지 정보를 모아서 결제를 팍!
 // 아래꺼들은 함수로 구현 그리고 커링 함수로 파바박
@@ -344,8 +366,6 @@ var faca = new Facade();
 var main = function () {
     // getMovieApi();
     // selectCourse();
-    console.log(Movie.prototype);
-    console.log(new Movie().selectMovie());
 }
 
 main()
