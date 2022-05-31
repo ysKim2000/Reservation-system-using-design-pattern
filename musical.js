@@ -20,15 +20,55 @@ const input = () => new Promise(resolve => {
 function Musical() { };
 Musical.prototype = watchShow.prototype;
 
-Musical.prototype.whatever = async function(){
-    Musical.name = "TestMusicalName";
-    console.log("\n" + Musical.name);
-    var seats = watchShow.prototype.seats(5, 5);
+Musical.prototype.selectMusical = async function () {
+    var musicalName= Array("지킬 앤 하이드", "난타", "오페라의 유령");
+    do {
+        console.log("\n[Musical]")
+        console.log("Please choose a musical.");
+        for (let i = 0; i < musicalName.length; i++) {
+            console.log(i+1 +" - "+musicalName[i]);
+        }
+        var approval;
+        process.stdout.write('Input(1,2,3): ');
+        var musicalNum = await input();
+
+        if (musicalName[musicalNum - 1] == undefined) {
+            console.log("Wrong.");
+            approval = true;
+            continue;
+        }
+        console.log("\nDid you choose [" + musicalName[musicalNum - 1] + "]?");
+        process.stdout.write("Input(yes or no): ");
+        var check = await input();
+
+        if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
+            Musical.prototype.name = musicalName[musicalNum - 1];
+            approval = false;
+        }
+        else if (check == 'no' || check == 'n' || check == 'No' || check == 'N') {
+            approval = true;
+            continue;
+        }
+        else {
+            console.log("Wrong.\n");
+            approval = true;
+            continue;
+        }
+    } while (approval);
+};
+
+Musical.prototype.reserveMusical = async function () {
+    var seats = watchShow.prototype.seats(3, 5);
     var isRun = false;
     do {
-        console.log("──────────────────STAGE──────────────────\n");
+        console.log("\n" + Musical.prototype.name);
+        console.log(" ──────────────────STAGE──────────────────");
+        console.log("|                                         |")
+        console.log("|                                         |")
+        console.log("|                                         |")
+        console.log(" ─────────────────────────────────────────")
         process.stdout.write("       ");
-        for (let i = 0; i < seats.length; i++) {
+        for (let i = 0; i < seats[0].length; i++){
             process.stdout.write(" [ " + (i + 1) + " ] ");
         }
         console.log();
@@ -48,7 +88,7 @@ Musical.prototype.whatever = async function(){
         }
         console.log("──────────────────────────────────────────");
         console.log("(예약 종료 exit)")
-        process.stdout.write("Input(A ~ E): ");
+        process.stdout.write("Input(A ~ C): ");
         var q1 = await input();
         if (q1 == 'exit' || q1 == 'EXIT') {
             isRun = false;

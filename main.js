@@ -2,7 +2,7 @@ const readline = require('readline');
 module.exports = { watchShow, watchArt };
 
 const { Movie } = require('./movie.js');
-const { Musical } = require('./musical');
+const { Musical } = require('./musical.js');
 
 // input
 const input = () => new Promise(resolve => {
@@ -10,7 +10,6 @@ const input = () => new Promise(resolve => {
         input: process.stdin,
         output: process.stdout
     });
-
     rl.on('line', line => {
         rl.close();
         resolve(line);
@@ -29,7 +28,6 @@ watchShow.prototype = Culture.prototype;
 watchArt.prototype = Culture.prototype;
 
 // Movie, Musical, Gallery, Museum
-// Musical.prototype = watchShow.prototype;
 Gallery.prototype = watchArt.prototype;
 Museum.prototype = watchArt.prototype;
 
@@ -45,11 +43,6 @@ watchShow.prototype.seats = function (row, column) {
 watchArt.prototype.move = function () {
     console.log("move");
 }
-
-// Culture.prototype.seats = function (row, column) {
-//     seats = Array.from(Array(row), () => Array(column));
-//     return seats;
-// }
 
 // Strategy Pattern
 var Strategy = (function () {
@@ -94,14 +87,14 @@ var SubSystemTwo = function () { }      // Musical
 var SubSystemThree = function () { }    // Play
 var SubSystemFour = function () { }     // Gallery
 
-SubSystemOne.prototype.MethodOne = async function () {        // Movie
-    console.log('\n[Box Office]');
+SubSystemOne.prototype.MethodOne = async function () {    // Movie
     await new Movie().selectMovie();
     await new Movie().reserveMovie();
 }
-SubSystemTwo.prototype.MethodTwo = async function () {        // Musical
+SubSystemTwo.prototype.MethodTwo = async function () {   // Musical
     // console.log('\n[Musical]');
-    await new Musical().whatever();
+    await new Musical().selectMusical();
+    await new Musical().reserveMusical();
 }
 SubSystemThree.prototype.MethodThree = function () {    // Museum
     // console.log('\nEnjoy Museum');
@@ -189,9 +182,7 @@ var selectCourse = async function () {
 var faca = new Facade();
 
 var main = async function () {
-    
-    var movie = new Movie();
-    movie.getMovieApi();
+    Movie.prototype.getMovieApi();
     await selectCourse();
 }
 

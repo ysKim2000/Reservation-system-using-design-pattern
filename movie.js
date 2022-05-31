@@ -41,9 +41,7 @@ Movie.prototype.getMovieApi = function () { // JSON
         const API = JSON.parse(body);
         const dailyBoxOfficeList = API.boxOfficeResult.dailyBoxOfficeList;
 
-        // console.log("\n" + API.boxOfficeResult.boxofficeType);
         for (let i = 0; i < dailyBoxOfficeList.length; i++) {
-            // console.log(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
             movieData.push(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
             movieName.push(dailyBoxOfficeList[i].movieNm);
         }
@@ -52,6 +50,7 @@ Movie.prototype.getMovieApi = function () { // JSON
 
 Movie.prototype.selectMovie = async function () {
     var movieNum;
+    console.log('\n[Box Office]');
     do {
         console.log("Please choose a movie.");
         for (let i = 0; i < movieData.length; i++) {
@@ -71,8 +70,8 @@ Movie.prototype.selectMovie = async function () {
         var check = await input();
 
         if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
+            Movie.prototype.name = movieName[movieNum - 1];
             approval = false;
-            Movie.name = movieName[movieNum - 1];
         }
         else if (check == 'no' || check == 'n' || check == 'No' || check == 'N') {
             approval = true;
@@ -86,15 +85,14 @@ Movie.prototype.selectMovie = async function () {
     } while (approval);
 };
 
-
 Movie.prototype.reserveMovie = async function () {
-    console.log("\n" + Movie.name);
     var seats = watchShow.prototype.seats(5, 5);
     var isRun = false;
     do {
+        console.log(Movie.prototype.name);
         console.log("──────────────────SCREEN──────────────────\n");
         process.stdout.write("       ");
-        for (let i = 0; i < seats.length; i++) {
+        for (let i = 0; i < seats[0].length; i++) {
             process.stdout.write(" [ " + (i + 1) + " ] ");
         }
         console.log();
