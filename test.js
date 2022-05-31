@@ -212,8 +212,16 @@ Movie.__proto__.reserveMovie = async function () {
         console.log("(예약 종료 exit)")
         process.stdout.write("Input(A ~ E): ");
         var q1 = await input();
+        if(q1 == 'exit' || q1 == 'EXIT'){
+            isRun = false;
+            break;
+        }
         process.stdout.write("Input(1 ~ 5): ");
         var q2 = await input();
+        if(q2 == 'exit' || q2 == 'EXIT'){
+            isRun = false;
+            break;
+        }
         if (q1 >= String.fromCharCode([65]) && q1 <= String.fromCharCode([69]) && q2 > 0 && q2 < 6) {// A, B, C, D, E
             console.log(q1 + "열 " + q2 + "행");
         }
@@ -240,8 +248,9 @@ Movie.__proto__.reserveMovie = async function () {
             isRun = true;
             continue;
         }
-        else if(q1 == 'exit' || q1 == 'EXIT' || q2 == 'exit' || q2 == 'EXIT' || q3 == 'exit' || q3 == 'EXIT'){
+        else if(q3 == 'exit' || q3 == 'EXIT'){
             isRun = false;
+            break;
         }
         else {
             console.log("Wrong!");
@@ -277,7 +286,6 @@ var getMovieApi = function () { // JSON
             movieName.push(dailyBoxOfficeList[i].movieNm);
         }
     });
-
 }
 
 // 코스 고르기
@@ -285,9 +293,9 @@ var selectCourse = async function () {
     do {
         var approval;
         console.log("[Course]");
-        console.log("1. A [Movie, Musical, Gallery]");
-        console.log("2. B [Movie, Play, Opera]");
-        console.log("3. C [Movie, Musical, Opera]");
+        console.log("1. A  -  [Movie, Musical, Gallery]");
+        console.log("2. B  -  [Movie, Play, Opera]");
+        console.log("3. C  -  [Movie, Musical, Opera]");
 
         process.stdout.write('입력(1,2,3): ');
         var course = await input();
