@@ -1,7 +1,7 @@
 const readline = require('readline');
-module.exports = { Culture };
+module.exports = { watchShow };
 
-const { Movie ,getMovieApi } = require('./movie.js');
+const { Movie } = require('./movie.js');
 
 // input
 const input = () => new Promise(resolve => {
@@ -16,30 +16,41 @@ const input = () => new Promise(resolve => {
     });
 });
 
-function Culture(name, date, startTime, endTime) {
+function Culture(type, name) {
+    this.type = type;
     this.name = name;
-    this.date = date;
-    this.startTime = startTime;
-    this.endTime = endTime;
-    this.join = function () { };
-}
+};
 
-Culture.prototype.seats = function (row, column) {
+function watchShow() { }
+function watchArt() { }
+
+watchShow.prototype = Culture.prototype;
+watchArt.prototype = Culture.prototype;
+
+// Movie, Musical, Opera, Gallery, Museum
+Musical.prototype = watchShow.prototype;
+Opera.prototype = watchShow.prototype;
+Gallery.prototype = watchArt.prototype;
+Museum.prototype = watchArt.prototype;
+
+function Musical() { };
+function Opera() { };
+function Gallery() { };
+function Museum() { };
+
+watchShow.prototype.seats = function (row, column) {
     seats = Array.from(Array(row), () => Array(column));
     return seats;
 }
 
-// function Movie() { };
-// function Musical() { };
-// function Play() { };
-// function Opera() { };
-// function Gallery() { };
+watchArt.prototype.move = function () {
+    console.log("move");
+}
 
-// Movie.prototype = Culture.prototype;
-// Musical.prototype = Culture.prototype;
-// Play.prototype = Culture.prototype;
-// Opera.prototype = Culture.prototype;
-// Gallery.prototype = Culture.prototype;
+// Culture.prototype.seats = function (row, column) {
+//     seats = Array.from(Array(row), () => Array(column));
+//     return seats;
+// }
 
 // Strategy Pattern
 var Strategy = (function () {
@@ -89,47 +100,50 @@ SubSystemOne.prototype.MethodOne = async function () {        // Movie
     console.log('\n[Box Office]');
     await new Movie().selectMovie();
     await new Movie().reserveMovie();
-
 }
 SubSystemTwo.prototype.MethodTwo = function () {        // Musical
     // console.log('\nEnjoy Musical');
 }
-SubSystemThree.prototype.MethodThree = function () {    // Play
-    // console.log('\nEnjoy play');
+SubSystemThree.prototype.MethodThree = function () {    // Opera
+    // console.log('\nEnjoy Opera');
 }
 SubSystemFour.prototype.MethodFour = function () {      // Gallery
     // console.log('\nEnjoy Gallery');
 }
-SubSystemFive.prototype.MethodFive = function () {      // Opera
-    // console.log('\nEnjoy Opera');
+SubSystemFive.prototype.MethodFive = function () {      // Museum
+    // console.log('\nEnjoy Museum');
 }
 
 var Facade = function () { }
 
 Facade.prototype.one = new SubSystemOne()       // Movie
 Facade.prototype.two = new SubSystemTwo()       // Musical
-Facade.prototype.three = new SubSystemThree()   // Play
+Facade.prototype.three = new SubSystemThree()   // Opera
 Facade.prototype.four = new SubSystemFour()     // Gallery
-Facade.prototype.five = new SubSystemFive()     // Opera
+Facade.prototype.five = new SubSystemFive()     // Museum
 
 Facade.prototype.FacadeCourseA = function () {  // selected Course A
     console.log("Course A");
     this.one.MethodOne();   // Movie
-    this.two.MethodTwo();   //Musical
+    this.two.MethodTwo();   // Musical
     this.four.MethodFour(); // Gallery
 }
 Facade.prototype.FacadeCourseB = function () {
     console.log("Course B");
     this.one.MethodOne();       // Movie
-    this.three.MethodThree();   // Play
-    this.five.MethodFive();     // Opera
+    this.three.MethodThree();   // Opera
+    this.five.MethodFive();     // Museum
 }
 Facade.prototype.FacadeCourseC = function () {
     console.log("Course C");
     this.one.MethodOne();       // Movie
-    this.two.MethodTwo();       // Musical
-    this.five.MethodFive();     // Opera
+    this.two.MethodFour();       // Gallery
+    this.five.MethodFive();     // Museum
 }
+
+// A - 영화, 뮤지컬, 미술관
+// B - 영화, 오페라, 박물관
+// C - 영화, 미술관, 박물관
 
 // 코스 고르기
 var selectCourse = async function () {
@@ -137,8 +151,8 @@ var selectCourse = async function () {
         var approval;
         console.log("[Course]");
         console.log("1. A  -  [Movie, Musical, Gallery]");
-        console.log("2. B  -  [Movie, Play, Opera]");
-        console.log("3. C  -  [Movie, Musical, Opera]");
+        console.log("2. B  -  [Movie, Opera, Museum]");
+        console.log("3. C  -  [Movie, Gallery, Museum]");
 
         process.stdout.write('입력(1,2,3): ');
         var course = await input();

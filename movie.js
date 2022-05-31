@@ -2,7 +2,7 @@ const request = require('request');
 const readline = require('readline');
 const moment = require('moment');
 
-const { Culture } = require('./main.js');
+const { watchShow } = require('./main.js');
 module.exports = { Movie };
 
 // input
@@ -19,7 +19,7 @@ const input = () => new Promise(resolve => {
 });
 
 function Movie() { };
-Movie.prototype = Culture.prototype;
+Movie.prototype = watchShow.prototype;
 
 var movieData = [];
 var movieName = [];
@@ -90,7 +90,7 @@ Movie.prototype.selectMovie = async function () {
 
 Movie.prototype.reserveMovie = async function () {
     console.log("\n" + Movie.name);
-    seats = Movie.prototype.seats(5, 5);
+    seats = watchShow.prototype.seats(5, 5);
     var isRun = false;
     do {
         console.log("──────────────────SCREEN──────────────────\n");
