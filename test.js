@@ -209,6 +209,7 @@ Movie.__proto__.reserveMovie = async function () {
             process.stdout.write("\n");
         }
         console.log("──────────────────────────────────────────");
+        console.log("(예약 종료 exit)")
         process.stdout.write("Input(A ~ E): ");
         var q1 = await input();
         process.stdout.write("Input(1 ~ 5): ");
@@ -224,19 +225,13 @@ Movie.__proto__.reserveMovie = async function () {
         process.stdout.write("Is Correct? (yes or no): ");
         var q3 = await input();
         if (q3 == 'yes' || q3 == 'y' || q3 == 'Yes' || q3 == 'Y') {
-            console.log(q1.charCodeAt() - 65)
-            console.log(q2 - 1)
-            // 버그!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            if (seats[q1.charCodeAt() - 65][q2 - 1] == undefined) {
+            if (seats[q1.charCodeAt() - 65][q2 - 1] == undefined || seats[q1.charCodeAt() - 65][q2 - 1] == 0 || seats[q1.charCodeAt() - 65][q2 - 1] == null) {
                 seats[q1.charCodeAt() - 65][q2 - 1] = 1;
-            }
-            else if (seats[q1.charCodeAt() - 65][q2 - 1]) {
-                seats[q1.charCodeAt() - 65][q2 - 1] = 1;
+                console.log("\nComplete reservation");
             }
             else {
-                console.log("이미 예약된 자리");
+                console.log("This seat is already reserved.");
             }
-            console.log("Complete reservation");
             isRun = true;
             continue;
 
@@ -245,12 +240,14 @@ Movie.__proto__.reserveMovie = async function () {
             isRun = true;
             continue;
         }
+        else if(q1 == 'exit' || q1 == 'EXIT' || q2 == 'exit' || q2 == 'EXIT' || q3 == 'exit' || q3 == 'EXIT'){
+            isRun = false;
+        }
         else {
             console.log("Wrong!");
             isRun = true;
             continue;
         }
-
     } while (isRun);
 
 }
