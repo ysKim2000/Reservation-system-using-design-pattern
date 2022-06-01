@@ -19,6 +19,49 @@ const input = () => new Promise(resolve => {
 function Culture(type, name) {
     this.type = type;   // Culture의 유형 - 영수증 쓸 때
     this.name = name;   // 고른 거의 이름
+
+};
+
+Culture.prototype = {
+    startTimeList: [8, 9, 10, 11, 12, 13, 14],
+    courseTimeList: [0, 0, 0],
+    type : this.type
+};
+
+Culture.prototype.settingCourseTime = async function (courseNum) {
+    var approval = true;
+    while (approval) {
+        console.log("set the " + this.type + " time");
+        console.log("<" + this.type + " timetable>");
+        for (let i = 0; i < this.startTimeList.length; i++) {
+            console.log(i + 1 + ".【" + this.startTimeList[i] + " : 00】" + "~【" + (this.startTimeList[i] + 1) + " : 00】");
+        }
+        console.log();
+        console.log("Choose the time you want to watch" + this.type + "(input : 1 ~ " + this.startTimeList.length + "): ");
+        var timeNum = await input();
+
+        if (timeNum < 1 || timeNum > this.startTimeList.length) {
+            console.log("Wrong.\n");
+            this.courseTimeList[courseNum] = 0;
+            continue;
+        }
+        else {
+            this.courseTimeList[courseNum] = timeNum;
+            return;
+        }
+    }
+}
+
+Culture.prototype.settingTime = async function () {
+    if (this.courseTimeList[0] == 0) {
+        await this.settingCourseTime(0);
+    }
+    else if (this.courseTimeList[1] == 0) {
+        await this.settingCourseTime(1);
+    }
+    else {
+        await this.settingCourseTime(2);
+    }
 };
 
 function watchShow() { }
