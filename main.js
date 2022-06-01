@@ -31,7 +31,6 @@ watchArt.prototype = Culture.prototype;
 Gallery.prototype = watchArt.prototype;
 Museum.prototype = watchArt.prototype;
 
-// function Musical() { };
 function Gallery() { };
 function Museum() { };
 
@@ -92,7 +91,6 @@ SubSystemOne.prototype.MethodOne = async function () {    // Movie
     await new Movie().reserveMovie();
 }
 SubSystemTwo.prototype.MethodTwo = async function () {   // Musical
-    // console.log('\n[Musical]');
     await new Musical().selectMusical();
     await new Musical().reserveMusical();
 }
