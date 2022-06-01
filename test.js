@@ -26,7 +26,7 @@ Culture.prototype = {
 Culture.prototype.settingCourseTime = async function (courseNum) {
     var approval = true;
     while (approval) {
-        console.log("set the " + this.type + " time\n");
+        console.log("set the " + this.type + " time");
         console.log("<" + this.type + " timetable>");
         for (let i = 0; i < this.startTimeList.length; i++) {
             console.log(i + 1 + ".【" + this.startTimeList[i] + " : 00】" + "~【" + (this.startTimeList[i] + 1) + " : 00】");
