@@ -15,70 +15,63 @@ const input = () => new Promise(resolve => {
     });
 });
 
-function Culture() {}
+function Culture() { }
 
 Culture.prototype = {
-    startTimeList : [8, 10, 12, 14, 16, 18, 20, 22, 24],
-    courseTimeList : [0, 0, 0],
-    async settingTime(){
-        var timeNum;
-        var approval;
-        type = this.type;
-        async function settingCourseTime(TimeList, courseNum){
-            console.log("<" + this.type + " timetable>");
-            for(let i = 0; i < TimeList.length; i++){
-                console.log(i + 1  + ".【" + TimeList[i] + " : 00】" + "~【" + (TimeList[i] + 1) + " : 00】");
-            }
-            console.log("Choose the time you want to watch the movie(input : 1 ~ " + TimeList.length + ")");
-            timeNum = await input();
-            if(timeNum < 1 || timeNum > TimeList.length){
-                console.log("Wrong.\n");
-                return true;
-            }
-            else{
-                TimeList[courseNum] = timeNum;
-                return false;
-            }
+    startTimeList: [8, 9, 10, 11, 12, 13, 14],
+    courseTimeList: [0, 0, 0],
+    type : this.type
+};
+
+Culture.prototype.settingCourseTime = async function (courseNum) {
+    var approval = true;
+    while (approval) {
+        console.log("set the " + this.type + " time\n");
+        console.log("<" + this.type + " timetable>");
+        for (let i = 0; i < this.startTimeList.length; i++) {
+            console.log(i + 1 + ".【" + this.startTimeList[i] + " : 00】" + "~【" + (this.startTimeList[i] + 1) + " : 00】");
         }
-        var a = 1;
-        do{
-            a++;
-            if(a == 10) return;
-            console.log("set the " + this.type + " time\n");
-            
-            if(this.courseTimeList[0] == 0){
-                if(settingCourseTime(this.startTimeList, 0)){
-                    console.log("aa");
-                    continue;
-                }
-                console.log("dd");
-                approval = true;
-            }
-            else if(this.courseTimeList[1] == 0){
-                if(settingCourseTime(this.startTimeList, 1)) continue;
-                approval = true;
-            }
-            else{
-                if(settingCourseTime(this.startTimeList, 2)) continue;
-                approval = false;
-            }
-        }while(approval);
+        console.log();
+        console.log("Choose the time you want to watch" + this.type + "(input : 1 ~ " + this.startTimeList.length + "): ");
+        var timeNum = await input();
+
+        if (timeNum < 1 || timeNum > this.startTimeList.length) {
+            console.log("Wrong.\n");
+            this.courseTimeList[courseNum] = 0;
+            continue;
+        }
+        else {
+            this.courseTimeList[courseNum] = timeNum;
+            return;
+        }
+    }
+}
+
+Culture.prototype.settingTime = async function () {
+    if (this.courseTimeList[0] == 0) {
+        await this.settingCourseTime(0);
+    }
+    else if (this.courseTimeList[1] == 0) {
+        await this.settingCourseTime(1);
+    }
+    else {
+        await this.settingCourseTime(2);
     }
 };
 
-function watchShow(){}
-function watchArt(){}
+function watchShow() { }
+function watchArt() { }
 
 watchShow.prototype = Culture.prototype;
 watchArt.prototype = Culture.prototype;
 
-function culture(type, name){
+function culture(type, name) {
     this.type = type;
     this.name = name;
 };
 
 var Movie = culture;
-var Musical = culture; 
+var Musical = culture;
 var Opera = culture;
 var Gallery = culture;
 var Museum = culture;
@@ -89,8 +82,6 @@ Musical.prototype = watchShow.prototype;
 Opera.prototype = watchShow.prototype;
 Gallery.prototype = watchArt.prototype;
 Museum.prototype = watchArt.prototype;
-
-new Movie('movie', '범죄도시2').settingTime();
 
 
 watchShow.prototype.seats = function (row, column) {
@@ -272,13 +263,13 @@ Movie.prototype.reserveMovie = async function () {
         console.log("(예약 종료 exit)")
         process.stdout.write("Input(A ~ E): ");
         var q1 = await input();
-        if(q1 == 'exit' || q1 == 'EXIT'){
+        if (q1 == 'exit' || q1 == 'EXIT') {
             isRun = false;
             break;
         }
         process.stdout.write("Input(1 ~ 5): ");
         var q2 = await input();
-        if(q2 == 'exit' || q2 == 'EXIT'){
+        if (q2 == 'exit' || q2 == 'EXIT') {
             isRun = false;
             break;
         }
@@ -308,7 +299,7 @@ Movie.prototype.reserveMovie = async function () {
             isRun = true;
             continue;
         }
-        else if(q3 == 'exit' || q3 == 'EXIT'){
+        else if (q3 == 'exit' || q3 == 'EXIT') {
             isRun = false;
             break;
         }
@@ -396,9 +387,16 @@ var selectCourse = async function () {
 
 var faca = new Facade();
 
-var main = function () {
+async function main() {
     // getMovieApi();
     // selectCourse();
+
+    movie =  new Movie('movie', '범죄도시2');
+    opera = new Opera('opera', 'test');
+    await movie.settingTime();
+    await opera.settingTime(); 
+    console.log(movie.courseTimeList[0]);
+    console.log(opera.courseTimeList[1]);
 }
 
 main()
