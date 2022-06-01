@@ -18,55 +18,48 @@ const input = () => new Promise(resolve => {
 function Culture() {}
 
 Culture.prototype = {
-    First_startTimeNum : 0, 
-    Second_startTimeNum : 0,
-    Third_startTimeNum : 0,
     startTimeList : [8, 10, 12, 14, 16, 18, 20, 22, 24],
-    TimeList : [0, 0, 0],
-    settingTime : function(){
-        var check;
-        var approval;
+    courseTimeList : [0, 0, 0],
+    async settingTime(){
         var timeNum;
+        var approval;
         type = this.type;
-        function settingCourseTime(TimeList, courseNum){
+        async function settingCourseTime(TimeList, courseNum){
             console.log("<" + this.type + " timetable>");
             for(let i = 0; i < TimeList.length; i++){
                 console.log(i + 1  + ".【" + TimeList[i] + " : 00】" + "~【" + (TimeList[i] + 1) + " : 00】");
             }
             console.log("Choose the time you want to watch the movie(input : 1 ~ " + TimeList.length + ")");
-            timeNum = input();
+            timeNum = await input();
             if(timeNum < 1 || timeNum > TimeList.length){
                 console.log("Wrong.\n");
                 return true;
             }
             else{
-                console.log("false");
                 TimeList[courseNum] = timeNum;
                 return false;
             }
         }
-        var a = 0;
+        var a = 1;
         do{
             a++;
             if(a == 10) return;
             console.log("set the " + this.type + " time\n");
             
-            if(this.First_startTimeNum == 0){
-                check = settingCourseTime(this.First_startTimeList, 0);
-                if(check){
+            if(this.courseTimeList[0] == 0){
+                if(settingCourseTime(this.startTimeList, 0)){
+                    console.log("aa");
                     continue;
                 }
                 console.log("dd");
                 approval = true;
             }
-            else if(this.Second_startTimeNum == 0){
-                check = settingCourseTime(this.Second_startTimeList, 1);
-                if(check) continue;
+            else if(this.courseTimeList[1] == 0){
+                if(settingCourseTime(this.startTimeList, 1)) continue;
                 approval = true;
             }
             else{
-                check = settingCourseTime(this.Third_startTimeNum, 2);
-                if(check) continue;
+                if(settingCourseTime(this.startTimeList, 2)) continue;
                 approval = false;
             }
         }while(approval);
