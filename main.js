@@ -17,8 +17,8 @@ const input = () => new Promise(resolve => {
 });
 
 function Culture(type, name) {
-    this.type = type;
-    this.name = name;
+    this.type = type;   // Culture의 유형 - 영수증 쓸 때
+    this.name = name;   // 고른 거의 이름
 };
 
 function watchShow() { }
