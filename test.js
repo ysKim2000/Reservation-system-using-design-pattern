@@ -65,16 +65,16 @@ function watchArt() { }
 watchShow.prototype = Culture.prototype;
 watchArt.prototype = Culture.prototype;
 
-function culture(type, name) {
+function Culture(type, name) {
     this.type = type;
     this.name = name;
 };
 
-var Movie = culture;
-var Musical = culture;
-var Opera = culture;
-var Gallery = culture;
-var Museum = culture;
+var Movie = Culture;
+var Musical = Culture;
+var Opera = Culture;
+var Gallery = Culture;
+var Museum = Culture;
 
 // 영화, 뮤지컬, 오페라, 박물관, 미술관  
 Movie.prototype = watchShow.prototype;
