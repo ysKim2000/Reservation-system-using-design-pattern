@@ -1,4 +1,24 @@
-Culture.prototype.settingCourseTime = async function (courseNum) {
+const readline = require('readline');
+
+module.exports = 
+{
+    settingCourseTime : settingCourseTime,
+    settingTime : settingTime
+}
+
+const input = () => new Promise(resolve => {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    rl.on('line', line => {
+        rl.close();
+        resolve(line);
+    });
+});
+
+async function settingCourseTime(courseNum) {
     var approval = true;
     while (approval) {
         console.log("set the " + this.type + " time\n");
@@ -7,7 +27,7 @@ Culture.prototype.settingCourseTime = async function (courseNum) {
             console.log(i + 1 + ".【" + this.startTimeList[i] + " : 00】" + "~【" + (this.startTimeList[i] + 1) + " : 00】");
         }
         console.log();
-        console.log("Choose the time you want to watch" + this.type + "(input : 1 ~ " + this.startTimeList.length + "): ");
+        console.log("Choose the time you want to watch " + this.type + "(input : 1 ~ " + this.startTimeList.length + "): ");
         var timeNum = await input();
 
         if (timeNum < 1 || timeNum > this.startTimeList.length) {
@@ -22,7 +42,7 @@ Culture.prototype.settingCourseTime = async function (courseNum) {
     }
 }
 
-Culture.prototype.settingTime = async function () {
+async function settingTime() {
     if (this.courseTimeList[0] == 0) {
         await this.settingCourseTime(0);
     }
