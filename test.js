@@ -21,9 +21,7 @@ Culture.prototype = {
     First_startTimeNum : 0, 
     Second_startTimeNum : 0,
     Third_startTimeNum : 0,
-    First_startTimeList : [8, 10, 12, 14, 16],
-    Second_startTimeList : [10, 12, 14, 16, 18],
-    Third_startTimeList : [12, 14, 16, 18, 20],
+    startTimeList : [8, 10, 12, 14, 16, 18, 20, 22, 24],
     TimeList : [0, 0, 0],
     settingTime : function(){
         var check;
