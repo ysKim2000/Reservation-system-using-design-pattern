@@ -58,6 +58,12 @@ Musical.prototype.selectMusical = async function () {
 };
 
 Musical.prototype.reserveMusical = async function () {
+    var musicalName = Musical.prototype.name;
+    Musical.prototype = watchShow.prototype;
+    Musical.prototype.type = "Musical";
+    Musical.prototype.name = musicalName;
+
+    await Musical.prototype.settingCourseTime(1);
     var seats = watchShow.prototype.seats(3, 5);
     var isRun = false;
     do {

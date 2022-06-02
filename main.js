@@ -16,10 +16,10 @@ const input = () => new Promise(resolve => {
     });
 });
 
-function Culture(type, name) {
+function Culture(type, name, time) {
     this.type = type;   // Culture의 유형 - 영수증 쓸 때
     this.name = name;   // 고른 거의 이름
-
+    this.time = time;
 };
 
 Culture.prototype = {
@@ -37,7 +37,7 @@ Culture.prototype.settingCourseTime = async function (courseNum) {
             console.log(i + 1 + ".【" + this.startTimeList[i] + " : 00】" + "~【" + (this.startTimeList[i] + 1) + " : 00】");
         }
         console.log();
-        console.log("Choose the time you want to watch" + this.type + "(input : 1 ~ " + this.startTimeList.length + "): ");
+        process.stdout.write("Choose the time you want to watch" + this.type + "(input : 1 ~ " + this.startTimeList.length + "): ");
         var timeNum = await input();
 
         if (timeNum < 1 || timeNum > this.startTimeList.length) {
@@ -69,6 +69,9 @@ function watchArt() { }
 
 watchShow.prototype = Culture.prototype;
 watchArt.prototype = Culture.prototype;
+
+// Movie.prototype = watchShow.prototype;
+
 
 // Movie, Musical, Gallery, Museum
 Gallery.prototype = watchArt.prototype;
@@ -131,6 +134,8 @@ var SubSystemFour = function () { }     // Gallery
 
 SubSystemOne.prototype.MethodOne = async function () {    // Movie
     await new Movie().selectMovie();
+    // console.log(Movie.prototype);
+    // await Movie.prototype.settingCourseTime(0);
     await new Movie().reserveMovie();
 }
 SubSystemTwo.prototype.MethodTwo = async function () {   // Musical
@@ -144,6 +149,12 @@ SubSystemFour.prototype.MethodFour = function () {      // Gallery
     // console.log('\nEnjoy Gallery');
 }
 
+
+// Test
+movieReceipt = Array(Movie.prototype.name, seats);
+musicalReceipt = Array(Musical.prototype.name, seats);
+receiptObject = Array(movieReceipt, musicalReceipt, watchShow.courseTimeList);
+
 var Facade = function () { }
 
 Facade.prototype.one = new SubSystemOne()       // Movie
@@ -154,8 +165,11 @@ Facade.prototype.four = new SubSystemFour()     // Gallery
 Facade.prototype.FacadeCourseA = async function () {  // selected Course A
     console.log("Course A");
     await this.one.MethodOne();   // Movie
+    console.log(Movie.prototype);
     await this.two.MethodTwo();   // Musical
     await this.four.MethodFour(); // Gallery
+    console.log(Movie.prototype);
+    console.log(Musical.prototype);
 }
 Facade.prototype.FacadeCourseB = function () {
     console.log("Course B");

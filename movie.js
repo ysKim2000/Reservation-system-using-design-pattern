@@ -86,8 +86,18 @@ Movie.prototype.selectMovie = async function () {
 };
 
 Movie.prototype.reserveMovie = async function () {
+    var movieName = Movie.prototype.name;
+    Movie.prototype.type = "Movie";
+    console.log(Movie.prototype);
+    Movie.prototype = watchShow.prototype;
+    Movie.prototype.name = movieName;
+    console.log(Movie.prototype);
+
+
+    await Movie.prototype.settingCourseTime(0);
     var seats = watchShow.prototype.seats(5, 5);
     var isRun = false;
+    console.log(Movie.prototype);
     do {
         console.log(Movie.prototype.name);
         console.log("──────────────────SCREEN──────────────────\n");
