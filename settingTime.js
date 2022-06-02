@@ -1,27 +1,16 @@
-const readline = require('readline');
-
+var input = require('./test.js').input;
 module.exports = 
 {
     settingCourseTime : settingCourseTime,
     settingTime : settingTime
 }
 
-const input = () => new Promise(resolve => {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
-
-    rl.on('line', line => {
-        rl.close();
-        resolve(line);
-    });
-});
+console.log(typeof(input));
 
 async function settingCourseTime(courseNum) {
     var approval = true;
     while (approval) {
-        console.log("set the " + this.type + " time\n");
+        console.log("\nset the " + this.type + " time\n");
         console.log("<" + this.type + " timetable>");
         for (let i = 0; i < this.startTimeList.length; i++) {
             console.log(i + 1 + ".【" + this.startTimeList[i] + " : 00】" + "~【" + (this.startTimeList[i] + 1) + " : 00】");
