@@ -13,7 +13,7 @@ Movie.prototype = Culture.prototype;
 
 // 영화 선택
 Movie.prototype.selectMovie = function () {    
-    var movieData = Array("범죄도시 2", "나는 내일, 어제의 너를 만난다", "극장판 귀멸의 칼날: 무한열차편");
+    var movieData = Array("그 시절, 우리가 좋아했던 소녀", "나는 내일, 어제의 너를 만난다", "극장판 귀멸의 칼날: 무한열차편");
     console.log('[Box Office]');
     console.log("Please choose the movie.");
     for (let i = 0; i < movieData.length; i++) {
