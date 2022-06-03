@@ -1,21 +1,4 @@
-const readline = require('readline');
-const { watchShow } = require('./main.js');
-
 module.exports = { Musical };
-
-// input
-const input = () => new Promise(resolve => {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
-
-    rl.on('line', line => {
-        rl.close();
-        resolve(line);
-    });
-});
-
 
 function Musical() { };
 Musical.prototype = watchShow.prototype;

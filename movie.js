@@ -1,172 +1,58 @@
-const request = require('request');
-const readline = require('readline');
-const moment = require('moment');
-
-const { watchShow } = require('./main.js');
+const { Culture } = require('./main.js');
+const { MovieType } = require('./movieType.js');
+const { Seats } = require('./seats.js');
 module.exports = { Movie };
 
-// input
-const input = () => new Promise(resolve => {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
+function Movie(movieTime, movieType, movieSeat) { 
+    this.movieTime = movieTime;
+    this.movieType = movieType;
+    this.movieSeat = movieSeat;
+};
+// clone
+Movie.prototype = Culture.prototype;
 
-    rl.on('line', line => {
-        rl.close();
-        resolve(line);
-    });
-});
-
-function Movie() { };
-
-var movieData = [];
-var movieName = [];
-
-// Request API
-Movie.prototype.getMovieApi = function () { // JSON 
-    const targetDate = moment().subtract(1, 'days').format('YYYYMMDD'); // 하루 전 날
-    const REQUEST_URL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
-    var queryParams = '?' + encodeURIComponent('key') + '=999bdc7e274c0a5e1557a0642d612aee'; // Service Key
-    queryParams += '&' + encodeURIComponent('targetDt') + '=' + encodeURIComponent(targetDate); // 날짜
-    queryParams += '&' + encodeURIComponent('itemPerPage') + '=' + encodeURIComponent('5'); // item의 갯수 
-    queryParams += '&' + encodeURIComponent('multiMovieYn') + '=' + encodeURIComponent('N'); // Y: 다양성 영화, N: 상업영화 (default: 전체)
-    queryParams += '&' + encodeURIComponent('repNationCd') + '=' + encodeURIComponent(''); // K: 한국영화, F: 외국영화 (default: 전체)
-    // queryParams += '&' + encodeURIComponent('wideAreaCd') + '=' + encodeURIComponent(''); // 지역 Code
-    request({
-        url: REQUEST_URL + queryParams,
-        method: 'GET'
-    }, function (error, response, body) {
-        if (error) throw error;
-        const API = JSON.parse(body);
-        const dailyBoxOfficeList = API.boxOfficeResult.dailyBoxOfficeList;
-
-        for (let i = 0; i < dailyBoxOfficeList.length; i++) {
-            movieData.push(dailyBoxOfficeList[i].rnum + " - " + dailyBoxOfficeList[i].movieNm);
-            movieName.push(dailyBoxOfficeList[i].movieNm);
-        }
-    });
-}
-
-Movie.prototype.selectMovie = async function () {
-    var movieNum;
-    console.log('\n[Box Office]');
-    do {
-        console.log("Please choose a movie.");
-        for (let i = 0; i < movieData.length; i++) {
-            console.log(movieData[i]);
-        }
-        var approval;
-        process.stdout.write('Input(1,2,3 ~): ');
-        movieNum = await input();
-
-        if (movieName[movieNum - 1] == undefined) {
-            console.log("Wrong.");
-            approval = true;
-            continue;
-        }
-        console.log("\nDid you choose [" + movieName[movieNum - 1] + "]?");
-        process.stdout.write("Input(yes or no): ");
-        var check = await input();
-
-        if (check == 'yes' || check == 'y' || check == 'Yes' || check == 'Y') {
-            Movie.prototype.name = movieName[movieNum - 1];
-            approval = false;
-        }
-        else if (check == 'no' || check == 'n' || check == 'No' || check == 'N') {
-            approval = true;
-            continue;
-        }
-        else {
-            console.log("Wrong.\n");
-            approval = true;
-            continue;
-        }
-    } while (approval);
+// 영화 선택
+Movie.prototype.selectMovie = function () {    
+    var movieData = Array("범죄도시 2", "나는 내일, 어제의 너를 만난다", "극장판 귀멸의 칼날: 무한열차편");
+    console.log('[Box Office]');
+    console.log("Please choose the movie.");
+    for (let i = 0; i < movieData.length; i++) {
+        console.log(i + 1 + ". " + movieData[i]);
+    }
+    this.name = movieData[1];
+    this.type = "Movie";
+    console.log("Selected \"" + this.name + "\".\n");
 };
 
-Movie.prototype.reserveMovie = async function () {
-    var movieName = Movie.prototype.name;
-    Movie.prototype.type = "Movie";
-    console.log(Movie.prototype);
-    Movie.prototype = watchShow.prototype;
-    Movie.prototype.name = movieName;
-    console.log(Movie.prototype);
+// 영화 시간 선택
+Movie.prototype.selectTime = function(){
+    var movieTimes = Array("morning", "branch", "basic");
+    console.log("Please choose the time.");
+    for (let i = 0; i < movieTimes.length; i++) {
+        console.log(i + 1 + ". " + movieTimes[i]);
+    }
+    this.movieTime = new MovieType().selectMovieTime(movieTimes[2]).getPrice();
+    console.log("Selected \"" + movieTimes[2] + "\".\n");
+}
 
+// 영화 유형 선택
+Movie.prototype.selectType = function(){
+    var movieTypes = Array("2D Movie", "3D Movie", "IMAX Movie", "4DX Movie");
+    console.log("Please choose the type.");
+    for (let i = 0; i < movieTypes.length; i++) {
+        console.log(i + 1 + ". " + movieTypes[i]);
+    }
+    this.movieType = new MovieType().selectMovieType(movieTypes[2]).getPrice();
+    console.log("Selected \"" + movieTypes[2] + "\".\n");
+}
 
-    await Movie.prototype.settingCourseTime(0);
-    var seats = watchShow.prototype.seats(5, 5);
-    var isRun = false;
-    console.log(Movie.prototype);
-    do {
-        console.log(Movie.prototype.name);
-        console.log("──────────────────SCREEN──────────────────\n");
-        process.stdout.write("       ");
-        for (let i = 0; i < seats[0].length; i++) {
-            process.stdout.write(" [ " + (i + 1) + " ] ");
-        }
-        console.log();
-        for (let i = 0; i < seats.length; i++) {
-            process.stdout.write("\n");
-            process.stdout.write(" [ " + String.fromCharCode([i + 65]) + " ] ");
-            for (let j = 0; j < seats[i].length; j++) {
-                if (seats[i][j] == null) {
-                    process.stdout.write(" [ □ ] ");
-                } else if (seats[i][j] == 0) {
-                    process.stdout.write(" [ □ ] ");
-                } else {
-                    process.stdout.write(" [ ■ ] ");
-                }
-            }
-            process.stdout.write("\n");
-        }
-        console.log("──────────────────────────────────────────");
-        console.log("(예약 종료 exit)")
-        process.stdout.write("Input(A ~ E): ");
-        var q1 = await input();
-        if (q1 == 'exit' || q1 == 'EXIT') {
-            isRun = false;
-            break;
-        }
-        process.stdout.write("Input(1 ~ 5): ");
-        var q2 = await input();
-        if (q2 == 'exit' || q2 == 'EXIT') {
-            isRun = false;
-            break;
-        }
-        if (q1 >= String.fromCharCode([65]) && q1 <= String.fromCharCode([69]) && q2 > 0 && q2 < 6) {// A, B, C, D, E
-            console.log(q1 + "열 " + q2 + "행");
-        }
-        else {
-            console.log("Wrong!");
-            isRun = true;
-            continue;
-        }
-        process.stdout.write("Is Correct? (yes or no): ");
-        var q3 = await input();
-        if (q3 == 'yes' || q3 == 'y' || q3 == 'Yes' || q3 == 'Y') {
-            if (seats[q1.charCodeAt() - 65][q2 - 1] == undefined || seats[q1.charCodeAt() - 65][q2 - 1] == 0 || seats[q1.charCodeAt() - 65][q2 - 1] == null) {
-                seats[q1.charCodeAt() - 65][q2 - 1] = 1;
-                console.log("\nComplete reservation");
-            }
-            else {
-                console.log("This seat is already reserved.");
-            }
-            isRun = true;
-            continue;
-        }
-        else if (q3 == 'no' || q3 == 'n' || q3 == 'No' || q3 == 'N') {
-            isRun = true;
-            continue;
-        }
-        else if (q3 == 'exit' || q3 == 'EXIT') {
-            isRun = false;
-            break;
-        }
-        else {
-            console.log("Wrong!");
-            isRun = true;
-            continue;
-        }
-    } while (isRun);
+// 영화 좌석 선택
+Movie.prototype.selectSeat = function(){
+    var movieSeats = Array("Economy Zone", "Standard Zone", "Prime Zone", "Impaired Zone");
+    console.log("Please choose the seat.");
+    for (let i = 0; i < movieSeats.length; i++) {
+        console.log(i + 1 + ". " + movieSeats[i]);
+    }
+    this.movieSeat = new Seats().createSeats(movieSeats[2]).getPrice();
+    console.log("Selected \"" + movieSeats[2] + "\".\n");
 }
