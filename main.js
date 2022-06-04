@@ -1,6 +1,5 @@
 module.exports = { Culture };
 const { Movie } = require('./movie.js');
-// const { MovieType } = require('./movieType.js');
 const { Opera } = require('./opera.js');
 
 function Culture(type, name) {
@@ -90,7 +89,6 @@ SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     Opera.prototype.selectOpera();
     Opera.prototype.selectOperaSeat();
     Opera.prototype.selectService();
-    // Movie.prototype.selectType();
 
     const operaPrice = sumPrice(Opera.prototype.operaSeat)(Opera.prototype.operaService)(0);
     receipt.push(Opera.prototype.type + ": " + Opera.prototype.name + " - " + operaPrice + "원");

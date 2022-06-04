@@ -13,7 +13,7 @@ function Opera(operaService, operaType, operaSeat) {
 Opera.prototype = Culture.prototype;
 
 // 오페라 선택
-Opera.prototype.selectOpera = function () {    
+Opera.prototype.selectOpera = function () {
     const operaData= Array("Cats", "Les Miserables", "The Phantom Of The Opera");
     console.log('[Opera Office]');
     console.log("Please choose the opera.");
