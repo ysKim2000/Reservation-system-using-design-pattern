@@ -1,27 +1,19 @@
-module.exports = { Culture };
+module.exports = { Reservation };
 const { Movie } = require('./movie.js');
 const { Opera } = require('./opera.js');
+const CustomerPoint = require('./points.js').CustomerPoint;
+const Customer = require('./points.js').Customer;
 
-function Culture(type, name) {
+
+function Reservation(type, name) {
     this.type = type;
     this.name = name;
 };
 
-// function Modern() { }
-// function Traditional() { }
-
-// // Modern.prototype = Culture.prototype;
-// // Traditional.prototype = Culture.prototype;
-
-// // // Movie, Opera, Gallery, Museum
-// // Movie.prototype = Modern.prototype;
-// // Opera.prototype = Modern.prototype;
-// // Gallery.prototype = Traditional.prototype;
-// // Museum.prototype = Traditional.prototype;
-
-// function Gallery() { };
-// function Museum() { };
-
+Reservation.prototype.subscribers = [];
+Reservation.prototype.reserve = Customer.prototype.reserve;
+Reservation.prototype.register = Customer.prototype.register;
+const customerPoint = new CustomerPoint();
 const receipt = [];
 
 // Strategy Pattern
@@ -64,29 +56,35 @@ const CourseC = (function () {
 
 const SubSystemMovie = function () { }      // Movie
 const SubSystemOpera = function () { }      // Opera
-const SubSystemMuseum = function () { }    // Play
-const SubSystemGallery = function () { }     // Gallery
+const SubSystemMuseum = function () { }     // Museum
+const SubSystemGallery = function () { }    // Gallery
 
 // 커링 함수
 const plus = (a, b, c) => a + b + c;
 const sumPrice = (x) => (y) => (z) => plus(x, y, z);
 
 SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
-    Movie.prototype.selectMovie();
-    Movie.prototype.selectTime();
-    Movie.prototype.selectType();
-    Movie.prototype.selectMovieSeat();
+    const movie = new Movie()
+    customerPoint.subscribe(movie);
+    movie.selectMovie();
+    movie.selectTime();
+    movie.selectType();
+    movie.selectMovieSeat();
 
-    const moviePrice = sumPrice(Movie.prototype.movieTime)(Movie.prototype.movieType)(Movie.prototype.movieSeat);
-    receipt.push(Movie.prototype.type + ": " + Movie.prototype.name + " - " + moviePrice + "원");
+    const moviePrice = sumPrice(movie.movieTime)(movie.movieType)(movie.movieSeat);
+    movie.reserve(moviePrice);
+    receipt.push(movie.type + ": " + movie.name + " - " + moviePrice + "원");
 }
 SubSystemOpera.prototype.MethodOpera = function () {   // Opera
-    Opera.prototype.selectOpera();
-    Opera.prototype.selectOperaSeat();
-    Opera.prototype.selectService();
+    const opera = new Opera();
+    customerPoint.subscribe(opera);
+    opera.selectOpera();
+    opera.selectOperaSeat();
+    opera.selectService();
 
-    const operaPrice = sumPrice(Opera.prototype.operaSeat)(Opera.prototype.operaService)(0);
-    receipt.push(Opera.prototype.type + ": " + Opera.prototype.name + " - " + operaPrice + "원");
+    const operaPrice = sumPrice(opera.operaSeat)(opera.operaService)(0);
+    opera.reserve(operaPrice);
+    receipt.push(opera.type + ": " + opera.name + " - " + operaPrice + "원");
 }
 SubSystemMuseum.prototype.MethodMuseum = function () {     // Museum
     // console.log('\nEnjoy Museum');
@@ -100,7 +98,7 @@ const Package = function () { }
 
 Package.prototype.movie = new SubSystemMovie();       // Movie
 Package.prototype.opera = new SubSystemOpera();       // Opera
-Package.prototype.gallery = new SubSystemGallery();   // Opera
+Package.prototype.gallery = new SubSystemGallery();   // Gallery
 Package.prototype.museum = new SubSystemMuseum();     // museum
 
 Package.prototype.PackageCourseA = function () {     // selected Course A
@@ -110,7 +108,7 @@ Package.prototype.PackageCourseA = function () {     // selected Course A
 }
 Package.prototype.PackageCourseB = function () {    // selected Course B
     this.movie.MethodMovie();           // Movie
-    // this.Opera.MethodOpera();   // Opera
+    // this.Opera.MethodOpera();     // Opera
     // this.museum.MethodMuseum();     // Museum
 }
 Package.prototype.PackageCourseC = function () {    // selected Course C
@@ -149,8 +147,10 @@ const choose = new Package();
 
 let main = function () {
     selectCourse();
-    console.log(receipt);
-
+    console.log("[Receipt]");
+    receipt.forEach((value, index) => console.log(index + 1 + ". " + value + "  "))
+    console.log("Point: " + customerPoint.totalPoint);
+    // console.log(receipt);
 }
 
 main();
