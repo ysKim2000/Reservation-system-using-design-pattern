@@ -1,9 +1,8 @@
 module.exports = { Culture };
 const { Movie } = require('./movie.js');
-const { Customer } = require('./observer.js');
 const { Opera } = require('./opera.js');
 const CustomerPoint = require('./observer.js').CustomerPoint;
-const Company = require('./observer.js').Company;
+const Customer = require('./observer.js').Customer;
 
 function Culture(type, name) {
     this.type = type;
@@ -151,7 +150,7 @@ const choose = new Package();
 let main = function () {
     selectCourse();
     console.log(receipt);
-    console.log(customerPoint.list[0].point);
+    console.log(customerPoint.totalPoint);
 }
 
 main();
