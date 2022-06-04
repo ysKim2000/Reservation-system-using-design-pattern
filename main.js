@@ -11,7 +11,7 @@ function Reservation(type, name) {
 };
 
 Reservation.prototype.subscribers = [];
-Reservation.prototype.reserve = Customer.prototype.reserve;
+Reservation.prototype.getPoint = Customer.prototype.getPoint;
 Reservation.prototype.register = Customer.prototype.register;
 const customerPoint = new CustomerPoint();
 const receipt = [];
@@ -59,7 +59,7 @@ const SubSystemOpera = function () { }      // Opera
 const SubSystemMuseum = function () { }     // Museum
 const SubSystemGallery = function () { }    // Gallery
 
-// 커링 함수
+// Currying function
 const plus = (a, b, c) => a + b + c;
 const sumPrice = (x) => (y) => (z) => plus(x, y, z);
 
@@ -72,7 +72,7 @@ SubSystemMovie.prototype.MethodMovie = function () {    // Movie
     movie.selectMovieSeat();
 
     const moviePrice = sumPrice(movie.movieTime)(movie.movieType)(movie.movieSeat);
-    movie.reserve(moviePrice);
+    movie.getPoint(moviePrice);
     receipt.push(movie.type + ": " + movie.name + " - " + moviePrice + "원");
 }
 SubSystemOpera.prototype.MethodOpera = function () {   // Opera
@@ -83,13 +83,13 @@ SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     opera.selectService();
 
     const operaPrice = sumPrice(opera.operaSeat)(opera.operaService)(0);
-    opera.reserve(operaPrice);
+    opera.getPoint(operaPrice);
     receipt.push(opera.type + ": " + opera.name + " - " + operaPrice + "원");
 }
 SubSystemMuseum.prototype.MethodMuseum = function () {     // Museum
     // console.log('\nEnjoy Museum');
 }
-SubSystemGallery.prototype.MethodGallery = function ()  {  // Gallery
+SubSystemGallery.prototype.MethodGallery = function () {  // Gallery
     // console.log('\nEnjoy Gallery');
 }
 
@@ -139,7 +139,7 @@ const selectCourse = function () {
 
     // console.log("Selected C Course!\n");
     // select.setCourse(new CourseC()); // C strategy
-    
+
     select.execute();
 };
 

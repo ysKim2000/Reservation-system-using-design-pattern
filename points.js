@@ -3,12 +3,12 @@ var Customer = (function () {
         this.subscriber;
 
     }
-    Customer.prototype.reserve = function (price) {
+    Customer.prototype.getPoint = function (price) {
         var self = this;
-        this.subscriber.getPoint(self, price) 
+        this.subscriber.point(self, price);
     };
     Customer.prototype.register = function (target) {  //target에 들어가는 인자는 CustomerPoint의 인스턴스
-        if(this.subscriber != null) return;
+        if (this.subscriber != null) return;
         this.subscriber = target;
     };
     return Customer;
@@ -34,10 +34,10 @@ var CustomerPoint = (function () {
         });
     };
 
-    CustomerPoint.prototype.getPoint = function (target, price) {  //target에 들어가는 인자는 Customer의 인스턴스
+    CustomerPoint.prototype.point = function (target, price) {  //target에 들어가는 인자는 Customer의 인스턴스
         this.list.some(function (person) {  //some : 콜백함수 리턴 값이 한번이라도 참이면 참 리턴
             if (person.target === target) {
-                CustomerPoint.prototype.totalPoint += (price * (1/100)); 
+                CustomerPoint.prototype.totalPoint += (price * (1 / 100));
                 return true;
             }
         });
@@ -45,8 +45,8 @@ var CustomerPoint = (function () {
     return CustomerPoint;
 })();
 
-module.exports = 
+module.exports =
 {
-    Customer : Customer,
-    CustomerPoint : CustomerPoint
+    Customer: Customer,
+    CustomerPoint: CustomerPoint
 }
