@@ -1,7 +1,7 @@
 module.exports = { Culture };
 const { Movie } = require('./movie.js');
-const { MovieType } = require('./movieType.js');
-// const { Musical } = require('./musical.js');
+// const { MovieType } = require('./movieType.js');
+const { Opera } = require('./opera.js');
 
 function Culture(type, name) {
     this.type = type;
@@ -14,9 +14,9 @@ function Culture(type, name) {
 // // Modern.prototype = Culture.prototype;
 // // Traditional.prototype = Culture.prototype;
 
-// // // Movie, Musical, Gallery, Museum
+// // // Movie, Opera, Gallery, Museum
 // // Movie.prototype = Modern.prototype;
-// // Musical.prototype = Modern.prototype;
+// // Opera.prototype = Modern.prototype;
 // // Gallery.prototype = Traditional.prototype;
 // // Museum.prototype = Traditional.prototype;
 
@@ -69,7 +69,7 @@ const CourseC = (function () {
 })();
 
 const SubSystemMovie = function () { }      // Movie
-const SubSystemMusical = function () { }      // Musical
+const SubSystemOpera = function () { }      // Opera
 const SubSystemMuseum = function () { }    // Play
 const SubSystemGallery = function () { }     // Gallery
 
@@ -77,18 +77,23 @@ const SubSystemGallery = function () { }     // Gallery
 const plus = (a, b, c) => a + b + c;
 const sumPrice = (x) => (y) => (z) => plus(x, y, z);
 
-SubSystemMovie.prototype.MethodMovie = function () {    // Movie
+SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
     Movie.prototype.selectMovie();
     Movie.prototype.selectTime();
     Movie.prototype.selectType();
-    Movie.prototype.selectSeat();
+    Movie.prototype.selectMovieSeat();
 
     const moviePrice = sumPrice(Movie.prototype.movieTime)(Movie.prototype.movieType)(Movie.prototype.movieSeat);
     receipt.push(Movie.prototype.type + ": " + Movie.prototype.name + " - " + moviePrice + "원");
 }
-SubSystemMusical.prototype.MethodMusical = function () {   // Musical
-    // new Musical().selectMusical();
-    // new Musical().reserveMusical();
+SubSystemOpera.prototype.MethodOpera = function () {   // Opera
+    Opera.prototype.selectOpera();
+    Opera.prototype.selectOperaSeat();
+    Opera.prototype.selectService();
+    // Movie.prototype.selectType();
+
+    const operaPrice = sumPrice(Opera.prototype.operaSeat)(Opera.prototype.operaService)(0);
+    receipt.push(Opera.prototype.type + ": " + Opera.prototype.name + " - " + operaPrice + "원");
 }
 SubSystemMuseum.prototype.MethodMuseum = function () {     // Museum
     // console.log('\nEnjoy Museum');
@@ -101,18 +106,18 @@ SubSystemGallery.prototype.MethodGallery = function ()  {  // Gallery
 const Package = function () { }
 
 Package.prototype.movie = new SubSystemMovie();       // Movie
-Package.prototype.musical = new SubSystemMusical();   // Musical
-Package.prototype.gallery = new SubSystemGallery();   // musical
+Package.prototype.opera = new SubSystemOpera();       // Opera
+Package.prototype.gallery = new SubSystemGallery();   // Opera
 Package.prototype.museum = new SubSystemMuseum();     // museum
 
 Package.prototype.PackageCourseA = function () {     // selected Course A
     this.movie.MethodMovie();           // Movie
-    // this.musical.MethodMusical();     // Musical
+    this.opera.MethodOpera();           // Opera
     // this.museum.MethodGallery();      // Gallery
 }
 Package.prototype.PackageCourseB = function () {    // selected Course B
     this.movie.MethodMovie();           // Movie
-    // this.musical.MethodMusical();   // Musical
+    // this.Opera.MethodOpera();   // Opera
     // this.museum.MethodMuseum();     // Museum
 }
 Package.prototype.PackageCourseC = function () {    // selected Course C
@@ -129,25 +134,19 @@ Package.prototype.PackageCourseC = function () {    // selected Course C
 // 코스 고르기
 const selectCourse = function () {
     console.log("[Course]");
-    console.log(" A  -  [Movie, Musical, Gallery]");
-    console.log(" B  -  [Movie, Musical, Museum]");
+    console.log(" A  -  [Movie, Opera, Gallery]");
+    console.log(" B  -  [Movie, Opera, Museum]");
     console.log(" C  -  [Movie, Gallery, Museum]");
 
     let select = new Course();
 
-    let course = "A"
-    if (course == "A") {
-        console.log("Selected A Course!\n");
-        select.setCourse(new CourseA()); // A strategy
-    }
-    else if (course == "B") {
-        console.log("Selected B Course!\n");
-        select.setCourse(new CourseB()); // B strategy
-    }
-    else if (course == "C") {
-        console.log("Selected C Course!\n");
-        select.setCourse(new CourseC()); // C strategy
-    }
+    console.log("Selected A Course!\n");
+    select.setCourse(new CourseA()); // A strategy
+    // console.log("Selected B Course!\n");
+    // select.setCourse(new CourseB()); // B strategy
+    // console.log("Selected C Course!\n");
+    // select.setCourse(new CourseC()); // C strategy
+    
     select.execute();
 };
 

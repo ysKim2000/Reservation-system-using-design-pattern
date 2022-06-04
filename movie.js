@@ -1,6 +1,7 @@
 const { Culture } = require('./main.js');
-const { MovieType } = require('./movieType.js');
-const { Seats } = require('./seats.js');
+const { MovieType } = require('./Compositions/movieType.js');
+const { Seats } = require('./Compositions/seats.js');
+const { Times } = require('./Compositions/times.js');
 module.exports = { Movie };
 
 function Movie(movieTime, movieType, movieSeat) { 
@@ -31,7 +32,7 @@ Movie.prototype.selectTime = function(){
     for (let i = 0; i < movieTimes.length; i++) {
         console.log(i + 1 + ". " + movieTimes[i]);
     }
-    this.movieTime = new MovieType().selectMovieTime(movieTimes[2]).getPrice();
+    this.movieTime = new Times().selectTime(movieTimes[2]).getPrice();
     console.log("Selected \"" + movieTimes[2] + "\".\n");
 }
 
@@ -47,7 +48,7 @@ Movie.prototype.selectType = function(){
 }
 
 // 영화 좌석 선택
-Movie.prototype.selectSeat = function(){
+Movie.prototype.selectMovieSeat = function(){
     var movieSeats = Array("Economy Zone", "Standard Zone", "Prime Zone", "Impaired Zone");
     console.log("Please choose the seat.");
     for (let i = 0; i < movieSeats.length; i++) {

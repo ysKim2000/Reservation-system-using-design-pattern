@@ -29,45 +29,8 @@ function FourDimensionalXMovie() { // 4D 영화
   }
 }
 
-// time 
-function MorningTimeMovie() { // 조조 영화
-  let timePrice = 10000;
-  this.getPrice = function () {
-    return timePrice;
-  }
-}
-function BranchTimeMovie() { // 아침 영화
-  let timePrice = 12000;
-  this.getPrice = function () {
-    return timePrice;
-  }
-}
-
-function BasicTimeMovie() { // 일반 영화
-  let timePrice = 14000;
-  this.getPrice = function () {
-    return timePrice;
-  }
-}
-
 //Movie Factory
 function MovieType() {
-  this.selectMovieTime = function (time) {
-    switch (time) {
-      case "morning":
-        return new MorningTimeMovie();
-
-      case "branch":
-        return new BranchTimeMovie();
-
-      case "basic":
-        return new BasicTimeMovie();
-
-      default:
-        return new BasicTimeMovie();
-    }
-  }
-
   this.selectMovieType = function (type) {
     switch (type) {
       case "2D Movie":
