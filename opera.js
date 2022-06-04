@@ -1,12 +1,10 @@
 const { Culture } = require('./main.js');
-// const { OperaType } = require('./Compositions/OperaType.js');
 const { Seats } = require('./Compositions/seats.js');
 const { OperaService } = require('./Compositions/service.js');
 module.exports = { Opera };
 
-function Opera(operaService, operaType, operaSeat) { 
+function Opera(operaService, operaSeat) { 
     this.operaService = operaService;
-    // this.OperaType = OperaType;
     this.operaSeat = operaSeat;
 };
 // clone
@@ -46,14 +44,3 @@ Opera.prototype.selectService = function(){
     this.operaService = new OperaService().selectOperaService(operaServices[2]).getPrice();
     console.log("Selected \"" + operaServices[2] + "\".\n");
 }
-
-// 오페라 유형 선택
-// Opera.prototype.selectType = function(){
-//     var OperaTypes = Array("2D Opera", "3D Opera", "IMAX Opera", "4DX Opera");
-//     console.log("Please choose the type.");
-//     for (let i = 0; i < OperaTypes.length; i++) {
-//         console.log(i + 1 + ". " + OperaTypes[i]);
-//     }
-//     this.OperaType = new OperaType().selectOperaType(OperaTypes[2]).getPrice();
-//     console.log("Selected \"" + OperaTypes[2] + "\".\n");
-// }

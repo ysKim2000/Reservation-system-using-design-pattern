@@ -140,8 +140,10 @@ const selectCourse = function () {
 
     console.log("Selected A Course!\n");
     select.setCourse(new CourseA()); // A strategy
+
     // console.log("Selected B Course!\n");
     // select.setCourse(new CourseB()); // B strategy
+
     // console.log("Selected C Course!\n");
     // select.setCourse(new CourseC()); // C strategy
     
@@ -153,6 +155,7 @@ const choose = new Package();
 let main = function () {
     selectCourse();
     console.log(receipt);
+    
 }
 
 main();

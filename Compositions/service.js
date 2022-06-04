@@ -22,7 +22,7 @@ function StockRoom() { // 물품보관소
   }
 }
 
-function ChildLounge() { // IMAX 영화
+function ChildLounge() { // 어린이 놀이터(라운지)
   let typePrice = 20000;
   this.getPrice = function () {
     return typePrice;
