@@ -2,20 +2,20 @@ module.exports = { Times };
 
 // time 
 function MorningTime() { // 조조
-  let timePrice = -2000;
+  var timePrice = -2000;
   this.getPrice = function () {
     return timePrice;
   }
 }
 function BranchTime() { // 아침
-  let timePrice = -1000;
+  var timePrice = -1000;
   this.getPrice = function () {
     return timePrice;
   }
 }
 
 function BasicTime() { // 일반
-  let timePrice = 0;
+  var timePrice = 0;
   this.getPrice = function () {
     return timePrice;
   }

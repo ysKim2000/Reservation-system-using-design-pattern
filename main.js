@@ -22,11 +22,6 @@ function Culture(type, name) {
 // function Gallery() { };
 // function Museum() { };
 
-// watchShow.prototype.seats = function (row, column) {
-//     seats = Array.from(Array(row), () => Array(column).fill(' [ ㅁ ] '));
-//     return seats;
-// }
-
 const receipt = [];
 
 // Strategy Pattern
@@ -155,7 +150,7 @@ const choose = new Package();
 let main = function () {
     selectCourse();
     console.log(receipt);
-    
+
 }
 
 main();

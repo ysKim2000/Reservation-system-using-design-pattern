@@ -4,7 +4,7 @@ const { Seats } = require('./Compositions/seats.js');
 const { Times } = require('./Compositions/times.js');
 module.exports = { Movie };
 
-function Movie(movieTime, movieType, movieSeat) { 
+function Movie(movieTime, movieType, movieSeat) {
     this.movieTime = movieTime;
     this.movieType = movieType;
     this.movieSeat = movieSeat;
@@ -13,47 +13,44 @@ function Movie(movieTime, movieType, movieSeat) {
 Movie.prototype = Culture.prototype;
 
 // 영화 선택
-Movie.prototype.selectMovie = function () {    
-    var movieData = Array("그 시절, 우리가 좋아했던 소녀", "나는 내일, 어제의 너를 만난다", "극장판 귀멸의 칼날: 무한열차편");
+Movie.prototype.selectMovie = function () {
+    const movieData = Array("그 시절, 우리가 좋아했던 소녀", "나는 내일, 어제의 너를 만난다", "극장판 귀멸의 칼날: 무한열차편");
     console.log('[Box Office]');
     console.log("Please choose the movie.");
-    for (let i = 0; i < movieData.length; i++) {
-        console.log(i + 1 + ". " + movieData[i]);
-    }
+    // movieData.forEach((value, index) => console.log(index + 1 + ". " + value + "  "))
+    console.log("1. 그 시절, 우리가 좋아했던 소녀 ", " 2. 나는 내일, 어제의 너를 만난다", " 3. 극장판 귀멸의 칼날: 무한열차편")
+
     this.name = movieData[1];
     this.type = "Movie";
     console.log("Selected \"" + this.name + "\".\n");
 };
 
 // 영화 시간 선택
-Movie.prototype.selectTime = function(){
-    var movieTimes = Array("morning", "branch", "basic");
+Movie.prototype.selectTime = function () {
+    const movieTimes = Array("morning", "branch", "basic");
     console.log("Please choose the time.");
-    for (let i = 0; i < movieTimes.length; i++) {
-        console.log(i + 1 + ". " + movieTimes[i]);
-    }
+    console.log("1. morning ", " 2. branch ", " 3. basic")
+    // movieTimes.forEach((value, index) => console.log(index + 1 + ". " + value + "  "))
     this.movieTime = new Times().selectTime(movieTimes[2]).getPrice();
     console.log("Selected \"" + movieTimes[2] + "\".\n");
 }
 
 // 영화 유형 선택
-Movie.prototype.selectType = function(){
-    var movieTypes = Array("2D Movie", "3D Movie", "IMAX Movie", "4DX Movie");
+Movie.prototype.selectType = function () {
+    const movieTypes = Array("2D Movie", "3D Movie", "IMAX Movie", "4DX Movie");
     console.log("Please choose the type.");
-    for (let i = 0; i < movieTypes.length; i++) {
-        console.log(i + 1 + ". " + movieTypes[i]);
-    }
+    // movieTypes.forEach((value, index) => console.log(index + 1 + ". " + value + "  "))
+    console.log("1. 2D Movie ", " 2. 3D Movie ", " 3. IMAX Movie ", " 4. 4DX Movie")
     this.movieType = new MovieType().selectMovieType(movieTypes[2]).getPrice();
     console.log("Selected \"" + movieTypes[2] + "\".\n");
 }
 
 // 영화 좌석 선택
-Movie.prototype.selectMovieSeat = function(){
-    var movieSeats = Array("Economy Zone", "Standard Zone", "Prime Zone", "Impaired Zone");
+Movie.prototype.selectMovieSeat = function () {
+    const movieSeats = Array("Economy Zone", "Standard Zone", "Prime Zone", "Impaired Zone");
     console.log("Please choose the seat.");
-    for (let i = 0; i < movieSeats.length; i++) {
-        console.log(i + 1 + ". " + movieSeats[i]);
-    }
+    // movieSeats.forEach((value, index) => console.log(index + 1 + ". " + value + "  "))
+    console.log("1. Economy Zone ", " 2. Standard Zone ", " 3. Prime Zone ", " 4. Impaired Zone")
     this.movieSeat = new Seats().createSeats(movieSeats[2]).getPrice();
     console.log("Selected \"" + movieSeats[2] + "\".\n");
 }
