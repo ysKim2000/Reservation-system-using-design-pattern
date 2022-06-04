@@ -1,13 +1,19 @@
 module.exports = { Culture };
 const { Movie } = require('./movie.js');
+const { Customer } = require('./observer.js');
 const { Opera } = require('./opera.js');
-const Customer = require('./observer.js').Customer;
+const CustomerPoint = require('./observer.js').CustomerPoint;
 const Company = require('./observer.js').Company;
 
 function Culture(type, name) {
     this.type = type;
     this.name = name;
 };
+
+Culture.prototype.subscribers = [];
+Culture.prototype.reserve = Customer.prototype.reserve;
+Culture.prototype.register = Customer.prototype.register;
+const customerPoint = new CustomerPoint();
 
 const receipt = [];
 
@@ -58,22 +64,30 @@ const SubSystemGallery = function () { }     // Gallery
 const plus = (a, b, c) => a + b + c;
 const sumPrice = (x) => (y) => (z) => plus(x, y, z);
 
-SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
-    Movie.prototype.selectMovie();
-    Movie.prototype.selectTime();
-    Movie.prototype.selectType();
-    Movie.prototype.selectMovieSeat();
 
-    const moviePrice = sumPrice(Movie.prototype.movieTime)(Movie.prototype.movieType)(Movie.prototype.movieSeat);
-    receipt.push(Movie.prototype.type + ": " + Movie.prototype.name + " - " + moviePrice + "원");
+SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
+    const movie = new Movie();
+    customerPoint.subscribe(movie);
+    movie.selectMovie();
+    movie.selectTime();
+    movie.selectType();
+    movie.selectMovieSeat();
+
+    const moviePrice = sumPrice(movie.movieTime)(movie.movieType)(movie.movieSeat);
+    movie.reserve(moviePrice);
+    receipt.push(movie.type + ": " + movie.name + " - " + moviePrice + "원");
+
 }
 SubSystemOpera.prototype.MethodOpera = function () {   // Opera
-    Opera.prototype.selectOpera();
-    Opera.prototype.selectOperaSeat();
-    Opera.prototype.selectService();
+    const opera = new Opera();
+    customerPoint.subscribe(opera);
+    opera.selectOpera();
+    opera.selectOperaSeat();
+    opera.selectService();
 
-    const operaPrice = sumPrice(Opera.prototype.operaSeat)(Opera.prototype.operaService)(0);
-    receipt.push(Opera.prototype.type + ": " + Opera.prototype.name + " - " + operaPrice + "원");
+    const operaPrice = sumPrice(opera.operaSeat)(opera.operaService)(0);
+    opera.reserve(operaPrice);
+    receipt.push(opera.type + ": " + opera.name + " - " + operaPrice + "원");
 }
 SubSystemMuseum.prototype.MethodMuseum = function () {     // Museum
     // console.log('\nEnjoy Museum');
@@ -137,7 +151,7 @@ const choose = new Package();
 let main = function () {
     selectCourse();
     console.log(receipt);
-    
+    console.log(customerPoint.list[0].point);
 }
 
 main();
