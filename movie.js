@@ -2,13 +2,13 @@ const { Reservation } = require('./main.js');
 const { MovieType } = require('./Compositions/movieType.js');
 const { Seats } = require('./Compositions/seats.js');
 const { Times } = require('./Compositions/times.js');
-module.exports = { Movie };
 
 function Movie(movieTime, movieType, movieSeat) {
     this.movieTime = movieTime;
     this.movieType = movieType;
     this.movieSeat = movieSeat;
 };
+
 // clone
 Movie.prototype = Reservation.prototype;
 
@@ -33,7 +33,7 @@ Movie.prototype.selectTime = function () {
     // movieTimes.forEach((value, index) => console.log(index + 1 + ". " + value + "  "));
     this.movieTime = new Times().selectTime(movieTimes[2]).getPrice();
     console.log("Selected \"" + movieTimes[2] + "\".\n");
-}
+};
 
 // 영화 유형 선택
 Movie.prototype.selectType = function () {
@@ -43,7 +43,7 @@ Movie.prototype.selectType = function () {
     console.log("1. 2D Movie ", " 2. 3D Movie ", " 3. IMAX Movie ", " 4. 4DX Movie");
     this.movieType = new MovieType().selectMovieType(movieTypes[2]).getPrice();
     console.log("Selected \"" + movieTypes[2] + "\".\n");
-}
+};
 
 // 영화 좌석 선택
 Movie.prototype.selectMovieSeat = function () {
@@ -53,4 +53,6 @@ Movie.prototype.selectMovieSeat = function () {
     console.log("1. Economy Zone ", " 2. Standard Zone ", " 3. Prime Zone ", " 4. Impaired Zone");
     this.movieSeat = new Seats().createSeats(movieSeats[2]).getPrice();
     console.log("Selected \"" + movieSeats[2] + "\".\n");
-}
+};
+
+module.exports = { Movie };

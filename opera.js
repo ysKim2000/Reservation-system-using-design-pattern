@@ -1,7 +1,6 @@
 const { Reservation } = require('./main.js');
 const { Seats } = require('./Compositions/seats.js');
 const { OperaService } = require('./Compositions/service.js');
-module.exports = { Opera };
 
 function Opera(operaService, operaSeat) {
     this.operaService = operaService;
@@ -30,7 +29,7 @@ Opera.prototype.selectOperaSeat = function () {
     console.log("1. A Zone ", " 2. S Zone ", " 3. R Zone ", " 4. VIP Zone");
     this.operaSeat = new Seats().createSeats(operaSeats[1]).getPrice();
     console.log("Selected \"" + operaSeats[1] + "\".\n");
-}
+};
 
 // 오페라 서비스 선택
 Opera.prototype.selectService = function () {
@@ -40,4 +39,6 @@ Opera.prototype.selectService = function () {
     console.log("1. Opera Glasses ", " 2. Stock Room ", " 3. Child Lounge");
     this.operaService = new OperaService().selectOperaService(operaServices[2]).getPrice();
     console.log("Selected \"" + operaServices[2] + "\".\n");
-}
+};
+
+module.exports = { Opera };

@@ -4,7 +4,6 @@ const { Opera } = require('./opera.js');
 const CustomerPoint = require('./points.js').CustomerPoint;
 const Customer = require('./points.js').Customer;
 
-
 function Reservation(type, name) {
     this.type = type;
     this.name = name;
@@ -54,17 +53,17 @@ const CourseC = (function () {
     return CourseC;
 })();
 
-const SubSystemMovie = function () { }      // Movie
-const SubSystemOpera = function () { }      // Opera
-const SubSystemMuseum = function () { }     // Museum
-const SubSystemGallery = function () { }    // Gallery
+const SubSystemMovie = function () { };     // Movie
+const SubSystemOpera = function () { };     // Opera
+const SubSystemMuseum = function () { };    // Museum
+const SubSystemGallery = function () { };   // Gallery
 
 // Currying function
 const plus = (a, b, c) => a + b + c;
 const sumPrice = (x) => (y) => (z) => plus(x, y, z);
 
 SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
-    const movie = new Movie()
+    const movie = new Movie();
     customerPoint.subscribe(movie);
     movie.selectMovie();
     movie.selectTime();
@@ -104,16 +103,16 @@ Package.prototype.museum = new SubSystemMuseum();     // museum
 Package.prototype.PackageCourseA = function () {     // selected Course A
     this.movie.MethodMovie();           // Movie
     this.opera.MethodOpera();           // Opera
-    // this.museum.MethodGallery();      // Gallery
+    // this.museum.MethodGallery();     // Gallery
 }
 Package.prototype.PackageCourseB = function () {    // selected Course B
     this.movie.MethodMovie();           // Movie
-    // this.Opera.MethodOpera();     // Opera
-    // this.museum.MethodMuseum();     // Museum
+    // this.Opera.MethodOpera();        // Opera
+    // this.museum.MethodMuseum();      // Museum
 }
 Package.prototype.PackageCourseC = function () {    // selected Course C
     console.log("Course C");
-    this.movie.MethodMovie();               // Movie
+    this.movie.MethodMovie();              // Movie
     // this.gallery.MethodGallery();       // Gallery
     // this.museum.MethodMuseum();         // Museum
 }
@@ -132,25 +131,25 @@ const selectCourse = function () {
     let select = new Course();
 
     console.log("Selected A Course!\n");
-    select.setCourse(new CourseA()); // A strategy
+    select.setCourse(new CourseA());        // A strategy
 
     // console.log("Selected B Course!\n");
-    // select.setCourse(new CourseB()); // B strategy
+    // select.setCourse(new CourseB());     // B strategy
 
     // console.log("Selected C Course!\n");
-    // select.setCourse(new CourseC()); // C strategy
+    // select.setCourse(new CourseC());     // C strategy
 
     select.execute();
 };
 
 const choose = new Package();
 
-let main = function () {
+const main = function () {
     selectCourse();
     console.log("[Receipt]");
     receipt.forEach((value, index) => console.log(index + 1 + ". " + value + "  "))
     console.log("Point: " + customerPoint.totalPoint);
-    // console.log(receipt);
+    console.log(Reservation.prototype);
 }
 
 main();

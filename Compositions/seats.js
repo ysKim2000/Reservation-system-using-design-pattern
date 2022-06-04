@@ -1,58 +1,58 @@
-module.exports = { Seats };
-
 function EconomyZone() {    // Movie 일반석보다 아래
-    var price = 10000;
+    let price = 10000;
     this.getPrice = function () {
         return price;
-    }
-}
+    };
+};
 
 function StandardZone() {    // Movie 일반석
-    var price = 12000;
+    let price = 12000;
     this.getPrice = function () {
         return price;
-    }
-}
+    };
+};
 
 function PrimeZone() {     // Movie 프라임석
-    var price = 14000;
+    let price = 14000;
     this.getPrice = function () {
         return price;
-    }
-}
+    };
+};
 
 function ImpairedZone() {  // Movie 장애인석
-    var price = 8000;
+    let price = 8000;
     this.getPrice = function () {
         return price;
-    }
-}
+    };
+};
 
 function AZone() {  // Musical A Zone
-    var price = 70000;
+    let price = 70000;
     this.getPrice = function () {
         return price;
-    }
-}
+    };
+};
+
 function SZone() {  // Musical S Zone
-    var price = 100000;
+    let price = 100000;
     this.getPrice = function () {
         return price;
-    }
-}
+    };
+};
+
 function RZone() {  // Musical R Zone
-    var price = 130000;
+    let price = 130000;
     this.getPrice = function () {
         return price;
-    }
-}
+    };
+};
 
 function VIPZone() {  // Musical VIP Zone
-    var price = 150000;
+    let price = 150000;
     this.getPrice = function () {
         return price;
-    }
-}
+    };
+};
 
 //Seats Factory
 function Seats() {
@@ -77,5 +77,7 @@ function Seats() {
             default:
                 return new StandardZone();
         }
-    }
-}
+    };
+};
+
+module.exports = { Seats };

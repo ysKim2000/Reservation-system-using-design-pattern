@@ -1,33 +1,31 @@
-module.exports = { OperaService };
-
 // type
 function Basic() {
-    var typePrice = 0;
+    let typePrice = 0;
     this.getPrice = function () {
         return typePrice;
-    }
-}
+    };
+};
 
 function OperaGlasses() {  // 오페라 글라스
-    var typePrice = 4000;
+    let typePrice = 4000;
     this.getPrice = function () {
         return typePrice;
-    }
-}
+    };
+};
 
 function StockRoom() { // 물품보관소
-    var typePrice = 2000;
+    let typePrice = 2000;
     this.getPrice = function () {
         return typePrice;
-    }
-}
+    };
+};
 
 function ChildLounge() { // 어린이 놀이터(라운지)
-    var typePrice = 20000;
+    let typePrice = 20000;
     this.getPrice = function () {
         return typePrice;
-    }
-}
+    };
+};
 
 //Service Factory
 function OperaService() {
@@ -45,5 +43,7 @@ function OperaService() {
             default:
                 return new Basic();
         }
-    }
-}
+    };
+};
+
+module.exports = { OperaService };
