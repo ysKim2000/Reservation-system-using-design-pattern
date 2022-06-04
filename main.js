@@ -1,26 +1,9 @@
 const readline = require('readline');
-module.exports = { watchShow, watchArt };
+module.exports = { watchShow, watchArt, Movie };
 
-const { Movie } = require('./movie.js');
-const { Musical } = require('./musical.js');
 
-// input
-const input = () => new Promise(resolve => {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
-    rl.on('line', line => {
-        rl.close();
-        resolve(line);
-    });
-});
+function Culture() {};
 
-function Culture(type, name) {
-    this.type = type;   // Culture의 유형 - 영수증 쓸 때
-    this.name = name;   // 고른 거의 이름
-
-};
 
 Culture.prototype = {
     startTimeList: [8, 9, 10, 11, 12, 13, 14],
@@ -28,54 +11,46 @@ Culture.prototype = {
     type : this.type
 };
 
-Culture.prototype.settingCourseTime = async function (courseNum) {
-    var approval = true;
-    while (approval) {
-        console.log("set the " + this.type + " time");
-        console.log("<" + this.type + " timetable>");
-        for (let i = 0; i < this.startTimeList.length; i++) {
-            console.log(i + 1 + ".【" + this.startTimeList[i] + " : 00】" + "~【" + (this.startTimeList[i] + 1) + " : 00】");
-        }
-        console.log();
-        console.log("Choose the time you want to watch" + this.type + "(input : 1 ~ " + this.startTimeList.length + "): ");
-        var timeNum = await input();
 
-        if (timeNum < 1 || timeNum > this.startTimeList.length) {
-            console.log("Wrong.\n");
-            this.courseTimeList[courseNum] = 0;
-            continue;
-        }
-        else {
-            this.courseTimeList[courseNum] = timeNum;
-            return;
-        }
-    }
+Culture.prototype.settingCourseTime = function () {
 }
 
 Culture.prototype.settingTime = async function () {
-    if (this.courseTimeList[0] == 0) {
-        await this.settingCourseTime(0);
-    }
-    else if (this.courseTimeList[1] == 0) {
-        await this.settingCourseTime(1);
-    }
-    else {
-        await this.settingCourseTime(2);
-    }
 };
+
+function Movie(type, name) 
+{
+    this.type = type;
+    this.name = name;
+};
+function Gallery(type, name) 
+{
+    this.type = type;
+    this.name = name;
+};
+function Museum(type, name) 
+{
+    this.type = type;
+    this.name = name;
+};
+function Musical(type, name) 
+{
+    this.type = type;
+    this.name = name;
+};
+
 
 function watchShow() { }
 function watchArt() { }
 
 watchShow.prototype = Culture.prototype;
 watchArt.prototype = Culture.prototype;
-
-// Movie, Musical, Gallery, Museum
+Movie.prototype = watchShow.prototype;
 Gallery.prototype = watchArt.prototype;
 Museum.prototype = watchArt.prototype;
 
-function Gallery() { };
-function Museum() { };
+Movie.prototype.selectMovie = require('./movie.js').selectMovie
+Movie.prototype.reserveMovie = require('./movie.js').reserveMovie;
 
 watchShow.prototype.seats = function (row, column) {
     seats = Array.from(Array(row), () => Array(column));
@@ -84,6 +59,16 @@ watchShow.prototype.seats = function (row, column) {
 
 watchArt.prototype.move = function () {
     console.log("move");
+}
+
+var movieData = Array('1 - 영화1', '2 - 영화2', '3 - 영화3', '4 - 영화4');
+var movieName = Array('영화1', ' 영화2', '영화3', '영화4');
+
+
+function selectMovie() {
+}
+
+function reserveMovie() {
 }
 
 // Strategy Pattern
@@ -129,13 +114,16 @@ var SubSystemTwo = function () { }      // Musical
 var SubSystemThree = function () { }    // Play
 var SubSystemFour = function () { }     // Gallery
 
+
 SubSystemOne.prototype.MethodOne = async function () {    // Movie
-    await new Movie().selectMovie();
-    await new Movie().reserveMovie();
+    var movieName = await Movie.prototype.selectMovie();
+    var movie = new Movie('movie', movieName);
+    await movie.settingTime();
+    await movie.reserveMovie();
 }
 SubSystemTwo.prototype.MethodTwo = async function () {   // Musical
-    await new Musical().selectMusical();
-    await new Musical().reserveMusical();
+    // await new Musical().selectMusical();
+    // await new Musical().reserveMusical();
 }
 SubSystemThree.prototype.MethodThree = function () {    // Museum
     // console.log('\nEnjoy Museum');
@@ -143,6 +131,12 @@ SubSystemThree.prototype.MethodThree = function () {    // Museum
 SubSystemFour.prototype.MethodFour = function () {      // Gallery
     // console.log('\nEnjoy Gallery');
 }
+
+
+// Test
+// movieReceipt = Array(Movie.prototype.name, seats);
+// musicalReceipt = Array(Musical.prototype.name, seats);
+// receiptObject = Array(movieReceipt, musicalReceipt, watchShow.courseTimeList);
 
 var Facade = function () { }
 
@@ -156,6 +150,12 @@ Facade.prototype.FacadeCourseA = async function () {  // selected Course A
     await this.one.MethodOne();   // Movie
     await this.two.MethodTwo();   // Musical
     await this.four.MethodFour(); // Gallery
+    
+    console.log(Culture.prototype);
+    console.log(watchArt.prototype);
+    console.log(watchShow.prototype);
+    console.log(Movie.prototype);
+    console.log(Musical.prototype);
 }
 Facade.prototype.FacadeCourseB = function () {
     console.log("Course B");
@@ -223,7 +223,6 @@ var selectCourse = async function () {
 var faca = new Facade();
 
 var main = async function () {
-    Movie.prototype.getMovieApi();
     await selectCourse();
 }
 
