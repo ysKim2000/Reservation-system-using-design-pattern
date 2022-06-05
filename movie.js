@@ -1,4 +1,4 @@
-const { Reservation } = require('./main.js');
+const { ReserveSystem } = require('./main.js');
 const { MovieType } = require('./Compositions/movieType.js');
 const { Seats } = require('./Compositions/seats.js');
 const { Times } = require('./Compositions/times.js');
@@ -10,7 +10,7 @@ function Movie(movieTime, movieType, movieSeat) {
 };
 
 // clone
-Movie.prototype = Reservation.prototype;
+Movie.prototype = ReserveSystem.prototype;
 
 // 영화 선택
 Movie.prototype.selectMovie = function () {

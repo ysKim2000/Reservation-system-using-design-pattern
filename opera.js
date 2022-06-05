@@ -1,4 +1,4 @@
-const { Reservation } = require('./main.js');
+const { ReserveSystem } = require('./main.js');
 const { Seats } = require('./Compositions/seats.js');
 const { OperaService } = require('./Compositions/service.js');
 
@@ -7,7 +7,7 @@ function Opera(operaService, operaSeat) {
     this.operaSeat = operaSeat;
 };
 // clone
-Opera.prototype = Reservation.prototype;
+Opera.prototype = ReserveSystem.prototype;
 
 // 오페라 선택
 Opera.prototype.selectOpera = function () {
