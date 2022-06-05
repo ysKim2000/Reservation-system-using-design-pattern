@@ -27,7 +27,7 @@ Opera.prototype.selectOperaSeat = function () {
     console.log("Please choose the seat.");
     // operaSeats.forEach((value, index) => console.log(index + 1 + ". " + value + "  "));
     console.log("1. A Zone ", " 2. S Zone ", " 3. R Zone ", " 4. VIP Zone");
-    this.operaSeat = new Seats().createSeats(operaSeats[1]).getPrice();
+    this.operaSeat = new Seats().createOperaSeats(operaSeats[1]).getPrice();
     console.log("Selected \"" + operaSeats[1] + "\".\n");
 };
 

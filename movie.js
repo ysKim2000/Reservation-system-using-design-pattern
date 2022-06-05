@@ -51,7 +51,7 @@ Movie.prototype.selectMovieSeat = function () {
     console.log("Please choose the seat.");
     // movieSeats.forEach((value, index) => console.log(index + 1 + ". " + value + "  "));
     console.log("1. Economy Zone ", " 2. Standard Zone ", " 3. Prime Zone ", " 4. Impaired Zone");
-    this.movieSeat = new Seats().createSeats(movieSeats[2]).getPrice();
+    this.movieSeat = new Seats().createMovieSeats(movieSeats[2]).getPrice();
     console.log("Selected \"" + movieSeats[2] + "\".\n");
 };
 

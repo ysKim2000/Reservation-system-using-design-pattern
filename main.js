@@ -1,7 +1,8 @@
 module.exports = { ReserveSystem };
+// const { Ticket } = require('./amusementPark.js');
+const { Soccer } = require('./soccer.js');
 const { Movie } = require('./movie.js');
 const { Opera } = require('./opera.js');
-const { Ticket } = require('./amusementPark.js');
 const CustomerPoint = require('./points.js').CustomerPoint;
 const Customer = require('./points.js').Customer;
 
@@ -56,7 +57,7 @@ const CourseC = (function () {
 
 const SubSystemMovie = function () { };     // Movie
 const SubSystemOpera = function () { };     // Opera
-const SubSystemDiseny = function () { };    // Diseny
+const SubSystemSoccer = function () { };    // Soccer
 
 // Currying function
 const plus = (a, b, c) => a + b + c;
@@ -85,13 +86,16 @@ SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     opera.getPoint(operaPrice);
     receipt.push(opera.type + ": " + opera.name + " - " + operaPrice + "원");
 };
-SubSystemDiseny.prototype.MethodDiseny = function () {     // Diseny World Tour(4 days)
-    const ticket = new Ticket();
-    // customerPoint.subscribe(ticket);
-    const test = ticket.selectTicket();
-    // disney.getPoint(test.price);
-    receipt.push(test.type + ": " + test.name + " - " + test.price + "원")
+SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
+    const soccer = new Soccer();
+    customerPoint.subscribe(soccer);
+    soccer.selectTeam();
+    soccer.selectHomeOrArray();
+    soccer.selectSoccerSeat();
 
+    const soccerPrice = sumPrice(soccer.soccerTeam)(soccer.soccerPlace)(soccer.soccerSeat);
+    soccer.getPoint(soccerPrice);
+    receipt.push(soccer.type + ": ["+ soccer.league +"] " + soccer.name + " - " + soccerPrice + "원");
 };
 
 // Facade pattern
@@ -99,20 +103,20 @@ const Package = function () { }
 
 Package.prototype.movie = new SubSystemMovie();       // Movie
 Package.prototype.opera = new SubSystemOpera();       // Opera
-Package.prototype.diseny = new SubSystemDiseny();   // Diseny
+Package.prototype.soccer = new SubSystemSoccer();     // Soccer
 
 Package.prototype.PackageA = function () {  // selected Course A
     this.movie.MethodMovie();               // Movie
     this.opera.MethodOpera();               // Opera
-    this.diseny.MethodDiseny();             // Disney World Tour
+    this.soccer.MethodSoccer();             // Soccer
 };
 Package.prototype.PackageB = function () {  // selected Course B
     this.movie.MethodMovie();               // Movie
-    this.diseny.MethodDiseny();             // Disney World Tour
+    this.soccer.MethodSoccer();             // Soccer
 };
 Package.prototype.PackageC = function () {  // selected Course C
     this.opera.MethodOpera();               // Opera
-    this.diseny.MethodDiseny();             // Disney World Tour
+    this.soccer.MethodSoccer();             // Soccer
 };
 
 // 코스 고르기

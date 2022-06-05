@@ -1,3 +1,5 @@
+// https://www.dofactory.com/javascript/design-patterns/factory-method
+
 // type
 function BasicMovie() {  // 일반 영화
   let typePrice = 0;

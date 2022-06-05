@@ -61,4 +61,4 @@ Ticket.prototype.selectTicket = function () {
 // Ticket.prototype.selectTicket();
 
 
-module.exports = { Ticket };
+// module.exports = { Ticket };
