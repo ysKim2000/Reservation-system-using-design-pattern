@@ -1,5 +1,4 @@
 module.exports = { ReserveSystem };
-// const { Ticket } = require('./amusementPark.js');
 const { Soccer } = require('./soccer.js');
 const { Movie } = require('./movie.js');
 const { Opera } = require('./opera.js');
@@ -19,8 +18,12 @@ function Receipt(totalPrice, tatalList){
 ReserveSystem.prototype.subscribers = [];
 ReserveSystem.prototype.getPoint = Customer.prototype.getPoint;
 ReserveSystem.prototype.register = Customer.prototype.register;
-const customerPoint = new CustomerPoint();
 Receipt.prototype = ReserveSystem.prototype;
+const customerPoint = new CustomerPoint();
+
+// Currying function
+const plus = (a, b, c) => a + b + c;
+const sumPrice = (x) => (y) => (z) => plus(x, y, z);
 
 // Strategy Pattern
 const Course = (function () {
@@ -64,9 +67,6 @@ const SubSystemMovie = function () { };     // Movie
 const SubSystemOpera = function () { };     // Opera
 const SubSystemSoccer = function () { };    // Soccer
 
-// Currying function
-const plus = (a, b, c) => a + b + c;
-const sumPrice = (x) => (y) => (z) => plus(x, y, z);
 
 SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
     const movie = new Movie();
@@ -78,7 +78,6 @@ SubSystemMovie.prototype.MethodMovie = function () {    // Movie
     const moviePrice = sumPrice(movie.movieTime)(movie.movieType)(movie.movieSeat);
     movie.movieList.price = moviePrice;
     movie.getPoint(moviePrice);
-    // receipt.push(movie.type + ": " + movie.name + " - " + moviePrice + "원");
 };
 SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     const opera = new Opera();
@@ -89,18 +88,16 @@ SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     const operaPrice = sumPrice(opera.operaSeat)(opera.operaService)(0);
     opera.operaList.price = operaPrice;
     opera.getPoint(operaPrice);
-    // receipt.push(opera.type + ": " + opera.name + " - " + operaPrice + "원");
 };
 SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     const soccer = new Soccer();
     customerPoint.subscribe(soccer);
     soccer.selectTeam();
-    soccer.selectHomeOrArray();
+    soccer.selectHomeOrAway();
     soccer.selectSoccerSeat();
     const soccerPrice = sumPrice(soccer.soccerTeam)(soccer.soccerPlace)(soccer.soccerSeat);
     soccer.soccerList.price = soccerPrice;
     soccer.getPoint(soccerPrice);
-    // receipt.push(soccer.type + ": ["+ soccer.league +"] " + soccer.name + " - " + soccerPrice + "원");
 };
 
 // Facade pattern
@@ -132,9 +129,9 @@ Receipt.prototype.getTotalPrice = function(){
 // 코스 고르기
 const selectCourse = function () {
     console.log("[Package]");
-    console.log(" A  -  [Movie, Opera, Disney World Tour(4 days)]");
-    console.log(" B  -  [Movie, Disney World Tour(4 days)]");
-    console.log(" C  -  [Opera, Disney World Tour(4 days)]");
+    console.log(" A  -  [Movie, Opera, Soccer]");
+    console.log(" B  -  [Movie, Soccer]");
+    console.log(" C  -  [Opera, Soccer]");
 
     let select = new Course();
     console.log("Selected A Package!\n");
@@ -152,18 +149,17 @@ const selectCourse = function () {
 const getTotalPrice = function(){
     var test = new Receipt()
     test.totalPrice = sumPrice(test.movieList.price)(test.operaList.price)(test.soccerList.price);
-    console.log(test.totalPrice);
-}
+    console.log("Total Price: " + test.totalPrice);
+    // test.totalList = 
+};
 
 const choose = new Package();
 
 const main = function () {
     selectCourse();
     console.log("[Receipt]");
-    // receipt.forEach((value, index) => console.log(index + 1 + ". " + value + "  "))
     console.log("Point: " + customerPoint.totalPoint);
     getTotalPrice();
-    // console.log("Total Price: " + x);
 };
 
 main();
