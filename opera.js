@@ -22,7 +22,6 @@ Opera.prototype.selectOpera = function () {
     console.log("1. Cats ", " 2. Les Misérables ", " 3. The Phantom Of The Opera");
     this.name = operaData[2];
     this.type = "Opera";
-    // 메모리 낭비인가?
     Opera.prototype.operaList.name = this.name;
     console.log("Selected \"" + this.name + "\".\n");
 };

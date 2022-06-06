@@ -41,7 +41,7 @@ function Away(price) { // 원정 경기
     };
 };
 
-//League Factory
+//Team Factory
 function Team() {
     this.selectTeam = function (type) {
         switch (type) {

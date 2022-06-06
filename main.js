@@ -10,7 +10,7 @@ function ReserveSystem(type, name) {
     this.name = name;
 };
 
-function Receipt(totalPrice, tatalList){
+function Receipt(totalPrice, tatalList) {
     this.totalPrice = totalPrice;
     this.totalList = tatalList
 };
@@ -102,7 +102,6 @@ SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
 
 // Facade pattern
 const Package = function () { }
-
 Package.prototype.movie = new SubSystemMovie();       // Movie
 Package.prototype.opera = new SubSystemOpera();       // Opera
 Package.prototype.soccer = new SubSystemSoccer();     // Soccer
@@ -121,7 +120,7 @@ Package.prototype.PackageC = function () {  // selected Course C
     this.soccer.MethodSoccer();             // Soccer
 };
 
-Receipt.prototype.getTotalPrice = function(){
+Receipt.prototype.getTotalPrice = function () {
     this.totalPrice = sumPrice(this.movieList.price)(this.operaList.price)(this.soccerList.price);
     console.log(this.totalPrice);
 }
@@ -146,11 +145,11 @@ const selectCourse = function () {
     select.execute();
 };
 
-const getTotalPrice = function(){
-    var test = new Receipt()
-    test.totalPrice = sumPrice(test.movieList.price)(test.operaList.price)(test.soccerList.price);
-    console.log("Total Price: " + test.totalPrice);
-    // test.totalList = 
+const getTotalPrice = function () {
+    const receipt = new Receipt()
+    receipt.totalPrice = sumPrice(receipt.movieList.price)(receipt.operaList.price)(receipt.soccerList.price);
+    console.log("Total Price: " + receipt.totalPrice);
+    // 1. 모두 보여주기, 2. 1번 항목 보여주기, 3. 2번 항목 보여주기, 4. 3번 항목 보여주기
 };
 
 const choose = new Package();

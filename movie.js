@@ -19,7 +19,6 @@ Movie.prototype.movieList = {
     price: null
 };
 
-
 // 영화 선택
 Movie.prototype.selectMovie = function () {
     const movieData = Array("그 시절, 우리가 좋아했던 소녀", "나는 내일, 어제의 너를 만난다", "극장판 귀멸의 칼날: 무한열차편");

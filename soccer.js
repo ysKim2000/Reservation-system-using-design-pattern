@@ -1,6 +1,6 @@
 const { ReserveSystem } = require('./main.js');
 const { Seats } = require('./Compositions/seats.js');
-const { Team } = require('./Compositions/soccerLeague.js');
+const { Team } = require('./Compositions/soccerTeam.js');
 
 function Soccer(soccerTeam, league, soccerPlace, soccerSeat) {
     this.soccerTeam = soccerTeam;
@@ -23,7 +23,7 @@ Soccer.prototype.selectTeam = function () {
     this.league = "Premier League"
     this.type = "Soccer";
     const TeamList = Array("Manchester City", "Liverpool", "Chelsea", "Tottenham Hotspur");
-    console.log('['+ this.league +']');
+    console.log('[' + this.league + ']');
     console.log("1. Manchester City ", " 2. Liverpool ", " 3. Chelsea ", " 4. Tottenham Hotspur");
     this.soccerTeam = new Team().selectTeam(TeamList[0]).getPrice();
     this.name = TeamList[0];
