@@ -67,7 +67,6 @@ const SubSystemMovie = function () { };     // Movie
 const SubSystemOpera = function () { };     // Opera
 const SubSystemSoccer = function () { };    // Soccer
 
-
 SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
     const movie = new Movie();
     customerPoint.subscribe(movie);
@@ -147,8 +146,10 @@ const selectCourse = function () {
 
 const getTotalPrice = function () {
     const receipt = new Receipt()
+    console.log("[Receipt]");
+    console.log("Point: " + customerPoint.totalPoint);
     receipt.totalPrice = sumPrice(receipt.movieList.price)(receipt.operaList.price)(receipt.soccerList.price);
-    console.log("Total Price: " + receipt.totalPrice);
+    console.log("Total Price: $" + receipt.totalPrice);
     // 1. 모두 보여주기, 2. 1번 항목 보여주기, 3. 2번 항목 보여주기, 4. 3번 항목 보여주기
 };
 
@@ -156,8 +157,6 @@ const choose = new Package();
 
 const main = function () {
     selectCourse();
-    console.log("[Receipt]");
-    console.log("Point: " + customerPoint.totalPoint);
     getTotalPrice();
 };
 

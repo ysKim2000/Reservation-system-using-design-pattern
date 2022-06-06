@@ -6,6 +6,7 @@ function Opera(operaService, operaSeat) {
     this.operaService = operaService;
     this.operaSeat = operaSeat;
 };
+
 // clone
 Opera.prototype = ReserveSystem.prototype;
 Opera.prototype.operaList = {

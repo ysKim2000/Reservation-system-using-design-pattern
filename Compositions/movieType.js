@@ -33,16 +33,12 @@ function MovieType() {
     switch (type) {
       case "2D Movie":
         return new BasicMovie();
-
       case "3D Movie":
         return new ThreeDimensionalMovie();
-
       case "IMAX Movie":
         return new IMaxMovie();
-
       case "4DX Movie":
         return new FourDimensionalXMovie();
-
       default:
         return new BasicMovie();
     }
