@@ -4,8 +4,8 @@ function Ticket(name) {
     this.name = name;
     this.price = 0;
     this.items = [];
-}
-;
+};
+
 Ticket.prototype = {
     showItems: function () {
         var itemString = "- Package information\n",
@@ -57,8 +57,3 @@ Ticket.prototype.selectTicket = function () {
 
     return reservations;
 };
-
-// Ticket.prototype.selectTicket();
-
-
-// module.exports = { Ticket };

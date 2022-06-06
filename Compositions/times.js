@@ -26,13 +26,10 @@ function Times() {
     switch (time) {
       case "morning":
         return new MorningTime();
-
       case "branch":
         return new BranchTime();
-
       case "basic":
         return new BasicTime();
-
       default:
         return new BasicTime();
     }

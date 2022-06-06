@@ -11,11 +11,16 @@ function ReserveSystem(type, name) {
     this.name = name;
 };
 
+function Receipt(totalPrice, tatalList){
+    this.totalPrice = totalPrice;
+    this.totalList = tatalList
+};
+
 ReserveSystem.prototype.subscribers = [];
 ReserveSystem.prototype.getPoint = Customer.prototype.getPoint;
 ReserveSystem.prototype.register = Customer.prototype.register;
 const customerPoint = new CustomerPoint();
-const receipt = [];
+Receipt.prototype = ReserveSystem.prototype;
 
 // Strategy Pattern
 const Course = (function () {
@@ -70,10 +75,10 @@ SubSystemMovie.prototype.MethodMovie = function () {    // Movie
     movie.selectTime();
     movie.selectType();
     movie.selectMovieSeat();
-
     const moviePrice = sumPrice(movie.movieTime)(movie.movieType)(movie.movieSeat);
+    movie.movieList.price = moviePrice;
     movie.getPoint(moviePrice);
-    receipt.push(movie.type + ": " + movie.name + " - " + moviePrice + "원");
+    // receipt.push(movie.type + ": " + movie.name + " - " + moviePrice + "원");
 };
 SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     const opera = new Opera();
@@ -81,10 +86,10 @@ SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     opera.selectOpera();
     opera.selectOperaSeat();
     opera.selectService();
-
     const operaPrice = sumPrice(opera.operaSeat)(opera.operaService)(0);
+    opera.operaList.price = operaPrice;
     opera.getPoint(operaPrice);
-    receipt.push(opera.type + ": " + opera.name + " - " + operaPrice + "원");
+    // receipt.push(opera.type + ": " + opera.name + " - " + operaPrice + "원");
 };
 SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     const soccer = new Soccer();
@@ -92,10 +97,10 @@ SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     soccer.selectTeam();
     soccer.selectHomeOrArray();
     soccer.selectSoccerSeat();
-
     const soccerPrice = sumPrice(soccer.soccerTeam)(soccer.soccerPlace)(soccer.soccerSeat);
+    soccer.soccerList.price = soccerPrice;
     soccer.getPoint(soccerPrice);
-    receipt.push(soccer.type + ": ["+ soccer.league +"] " + soccer.name + " - " + soccerPrice + "원");
+    // receipt.push(soccer.type + ": ["+ soccer.league +"] " + soccer.name + " - " + soccerPrice + "원");
 };
 
 // Facade pattern
@@ -119,6 +124,11 @@ Package.prototype.PackageC = function () {  // selected Course C
     this.soccer.MethodSoccer();             // Soccer
 };
 
+Receipt.prototype.getTotalPrice = function(){
+    this.totalPrice = sumPrice(this.movieList.price)(this.operaList.price)(this.soccerList.price);
+    console.log(this.totalPrice);
+}
+
 // 코스 고르기
 const selectCourse = function () {
     console.log("[Package]");
@@ -139,13 +149,21 @@ const selectCourse = function () {
     select.execute();
 };
 
+const getTotalPrice = function(){
+    var test = new Receipt()
+    test.totalPrice = sumPrice(test.movieList.price)(test.operaList.price)(test.soccerList.price);
+    console.log(test.totalPrice);
+}
+
 const choose = new Package();
 
 const main = function () {
     selectCourse();
     console.log("[Receipt]");
-    receipt.forEach((value, index) => console.log(index + 1 + ". " + value + "  "))
+    // receipt.forEach((value, index) => console.log(index + 1 + ". " + value + "  "))
     console.log("Point: " + customerPoint.totalPoint);
+    getTotalPrice();
+    // console.log("Total Price: " + x);
 };
 
 main();

@@ -93,46 +93,30 @@ function RedZone() {  // Musical VIP Zone
 function Seats() {
     this.createMovieSeats = function (type) {
         switch (type) {
-            case "Economy Zone":
-                return new EconomyZone();
-            case "Standard Zone":
-                return new StandardZone();
-            case "Prime Zone":
-                return new PrimeZone();
-            case "Impaired Zone":
-                return new ImpairedZone();
-            default:
-                return new StandardZone();
+            case "Economy Zone": return new EconomyZone();
+            case "Standard Zone": return new StandardZone();
+            case "Prime Zone": return new PrimeZone();
+            case "Impaired Zone": return new ImpairedZone();
+            default: return new StandardZone();
         }
     };
     this.createOperaSeats = function (type) {
         switch (type) {
-            case "A Zone":
-                return new AZone();
-            case "S Zone":
-                return new SZone();
-            case "R Zone":
-                return new RZone();
-            case "VIP Zone":
-                return new VIPZone();
-            default:
-                return new AZone();
+            case "A Zone": return new AZone();
+            case "S Zone": return new SZone();
+            case "R Zone": return new RZone();
+            case "VIP Zone": return new VIPZone();
+            default: return new AZone();
         }
     };
     this.createSoccerSeats = function (type) {
         switch (type) {
-            case "Orange Zone":
-                return new OrangeZone();
-            case "Yellow Zone":
-                return new YellowZone();
-            case "Green Zone":
-                return new GreenZone();
-            case "Blue Zone":
-                return new BlueZone();
-            case "Red Zone":
-                return new RedZone();
-            default:
-                return new OrangeZone();
+            case "Orange Zone": return new OrangeZone();
+            case "Yellow Zone": return new YellowZone();
+            case "Green Zone": return new GreenZone();
+            case "Blue Zone": return new BlueZone();
+            case "Red Zone": return new RedZone();
+            default: return new OrangeZone();
         }
     };
 }

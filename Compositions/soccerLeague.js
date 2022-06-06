@@ -47,16 +47,12 @@ function Team() {
         switch (type) {
             case "Manchester City":
                 return new ManchesterCity();
-
             case "Liverpool":
                 return new Liverpool();
-
             case "Chelsea":
                 return new Chelsea();
-
             case "Tottenham Hotspur":
                 return new TottenhamHotspur();
-
             default:
                 return new ManchesterCity();
         }
@@ -66,10 +62,8 @@ function Team() {
         switch (type) {
             case "Home":
                 return new Home(price);
-
             case "Away":
                 return new Away(price);
-
             default:
                 return new Away(price);
         }

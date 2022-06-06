@@ -8,6 +8,12 @@ function Opera(operaService, operaSeat) {
 };
 // clone
 Opera.prototype = ReserveSystem.prototype;
+Opera.prototype.operaList = {
+    name: null,
+    seat: null,
+    service: null,
+    price: null
+};
 
 // 오페라 선택
 Opera.prototype.selectOpera = function () {
@@ -18,6 +24,8 @@ Opera.prototype.selectOpera = function () {
     console.log("1. Cats ", " 2. Les Misérables ", " 3. The Phantom Of The Opera");
     this.name = operaData[2];
     this.type = "Opera";
+    // 메모리 낭비인가?
+    Opera.prototype.operaList.name = this.name;
     console.log("Selected \"" + this.name + "\".\n");
 };
 
@@ -28,6 +36,7 @@ Opera.prototype.selectOperaSeat = function () {
     // operaSeats.forEach((value, index) => console.log(index + 1 + ". " + value + "  "));
     console.log("1. A Zone ", " 2. S Zone ", " 3. R Zone ", " 4. VIP Zone");
     this.operaSeat = new Seats().createOperaSeats(operaSeats[1]).getPrice();
+    Opera.prototype.operaList.seat = operaSeats[1];
     console.log("Selected \"" + operaSeats[1] + "\".\n");
 };
 
@@ -38,6 +47,7 @@ Opera.prototype.selectService = function () {
     // operaServices.forEach((value, index) => console.log(index + 1 + ". " + value + "  "));
     console.log("1. Opera Glasses ", " 2. Stock Room ", " 3. Child Lounge");
     this.operaService = new OperaService().selectOperaService(operaServices[2]).getPrice();
+    Opera.prototype.operaList.service = operaServices[2]
     console.log("Selected \"" + operaServices[2] + "\".\n");
 };
 

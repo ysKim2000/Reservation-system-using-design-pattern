@@ -11,6 +11,12 @@ function Soccer(soccerTeam, league, soccerPlace, soccerSeat) {
 
 // clone
 Soccer.prototype = ReserveSystem.prototype;
+Soccer.prototype.soccerList = {
+    team: null,
+    place: null,
+    seat: null,
+    price: null
+};
 
 // 팀 선택
 Soccer.prototype.selectTeam = function () {
@@ -23,6 +29,7 @@ Soccer.prototype.selectTeam = function () {
     console.log("1. Manchester City ", " 2. Liverpool ", " 3. Chelsea ", " 4. Tottenham Hotspur");
     this.soccerTeam = new Team().selectTeam(TeamList[0]).getPrice();
     this.name = TeamList[0];
+    Soccer.prototype.soccerList.team = this.name;
     console.log("Selected \"" + this.name + "\".\n");
 };
 
@@ -33,6 +40,7 @@ Soccer.prototype.selectHomeOrArray = function () {
     console.log("1. Home ", " 2. Away ");
     // Place.forEach((value, index) => console.log(index + 1 + ". " + value + "  "));
     this.soccerPlace = new Team().selectPlace(Place[1], this.soccerTeam).getPrice();
+    Soccer.prototype.soccerList.place = Place[1];
     console.log("Selected \"" + Place[1] + "\".\n");
 };
 
@@ -43,6 +51,7 @@ Soccer.prototype.selectSoccerSeat = function () {
     // soccerSeats.forEach((value, index) => console.log(index + 1 + ". " + value + "  "));
     console.log("1. Orange Zone ", " 2. Yellow Zone ", " 3. Green Zone ", " 4. Blue Zone ", " 5. Red Zone");
     this.soccerSeat = new Seats().createSoccerSeats(soccerSeats[2]).getPrice();
+    Soccer.prototype.soccerList.seat = soccerSeats[2];
     console.log("Selected \"" + soccerSeats[2] + "\".\n");
 };
 

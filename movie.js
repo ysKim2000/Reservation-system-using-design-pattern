@@ -11,6 +11,14 @@ function Movie(movieTime, movieType, movieSeat) {
 
 // clone
 Movie.prototype = ReserveSystem.prototype;
+Movie.prototype.movieList = {
+    name: null,
+    type: null,
+    seat: null,
+    time: null,
+    price: null
+};
+
 
 // 영화 선택
 Movie.prototype.selectMovie = function () {
@@ -19,9 +27,9 @@ Movie.prototype.selectMovie = function () {
     console.log("Please choose the movie.");
     // movieData.forEach((value, index) => console.log(index + 1 + ". " + value + "  "));
     console.log("1. 그 시절, 우리가 좋아했던 소녀 ", " 2. 나는 내일, 어제의 너를 만난다", " 3. 극장판 귀멸의 칼날: 무한열차편");
-
     this.name = movieData[1];
     this.type = "Movie";
+    Movie.prototype.movieList.name = this.name;
     console.log("Selected \"" + this.name + "\".\n");
 };
 
@@ -32,6 +40,7 @@ Movie.prototype.selectTime = function () {
     console.log("1. morning ", " 2. branch ", " 3. basic");
     // movieTimes.forEach((value, index) => console.log(index + 1 + ". " + value + "  "));
     this.movieTime = new Times().selectTime(movieTimes[2]).getPrice();
+    Movie.prototype.movieList.time = movieTimes[2];
     console.log("Selected \"" + movieTimes[2] + "\".\n");
 };
 
@@ -42,6 +51,7 @@ Movie.prototype.selectType = function () {
     // movieTypes.forEach((value, index) => console.log(index + 1 + ". " + value + "  "));
     console.log("1. 2D Movie ", " 2. 3D Movie ", " 3. IMAX Movie ", " 4. 4DX Movie");
     this.movieType = new MovieType().selectMovieType(movieTypes[2]).getPrice();
+    Movie.prototype.movieList.type = movieTypes[2];
     console.log("Selected \"" + movieTypes[2] + "\".\n");
 };
 
@@ -52,6 +62,7 @@ Movie.prototype.selectMovieSeat = function () {
     // movieSeats.forEach((value, index) => console.log(index + 1 + ". " + value + "  "));
     console.log("1. Economy Zone ", " 2. Standard Zone ", " 3. Prime Zone ", " 4. Impaired Zone");
     this.movieSeat = new Seats().createMovieSeats(movieSeats[2]).getPrice();
+    Movie.prototype.movieList.seat = movieSeats[2];
     console.log("Selected \"" + movieSeats[2] + "\".\n");
 };
 
