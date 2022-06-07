@@ -1,6 +1,7 @@
 const { ReserveSystem } = require('./main.js');
 const { Seats } = require('./Compositions/seats.js');
 const { Team } = require('./Compositions/soccerTeam.js');
+const { Place } = require('./Compositions/sportPlace.js');
 
 function Soccer(soccerTeam, league, soccerPlace, soccerSeat) {
     this.soccerTeam = soccerTeam;
@@ -19,7 +20,7 @@ Soccer.prototype.soccerList = {
 };
 
 // 팀 선택
-Soccer.prototype.selectTeam = function () {
+Soccer.prototype.selectSoccerTeam = function () {
     this.league = "Premier League"
     this.type = "Soccer";
     const TeamList = Array("Manchester City", "Liverpool", "Chelsea", "Tottenham Hotspur");
@@ -32,12 +33,12 @@ Soccer.prototype.selectTeam = function () {
 };
 
 // 축구 홈, 어웨이 선택
-Soccer.prototype.selectHomeOrAway = function () {
-    const Place = Array("Home", "Away");
+Soccer.prototype.selectSoccerHomeOrAway = function () {
+    const place = Array("Home", "Away");
     console.log("1. Home ", " 2. Away ");
-    this.soccerPlace = new Team().selectPlace(Place[1], this.soccerTeam).getPrice();
-    Soccer.prototype.soccerList.place = Place[1];
-    console.log("Selected \"" + Place[1] + "\".\n");
+    this.soccerPlace = new Place().selectPlace(place[1], this.soccerTeam).getPrice();
+    Soccer.prototype.soccerList.place = place[1];
+    console.log("Selected \"" + place[1] + "\".\n");
 };
 
 // 축구 좌석 선택

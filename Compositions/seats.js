@@ -87,6 +87,14 @@ function Seats() {
             default: return new OrangeZone();
         }
     };
+    this.createBaseballSeats = function (type) {
+        switch (type) {
+            case "Orange Zone": return new OrangeZone();
+            case "Green Zone": return new GreenZone();
+            case "Red Zone": return new RedZone();
+            default: return new OrangeZone();
+        }
+    };
 }
 
 module.exports = { Seats };

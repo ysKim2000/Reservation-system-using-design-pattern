@@ -1,27 +1,27 @@
 // type
 function Team1() {  
-    let teamPrice = 10000;
+    let teamPrice = 50000;
     this.getPrice = function () {
         return teamPrice;
     };
 };
 
 function Team2() { 
-    let teamPrice = 20000;
+    let teamPrice = 40000;
     this.getPrice = function () {
         return teamPrice;
     };
 };
 
 function Team3() { 
-    let teamPrice = 30000;
+    let teamPrice = 70000;
     this.getPrice = function () {
         return teamPrice;
     };
 };
 
 function Team4() { 
-    let teamPrice = 40000;
+    let teamPrice = 20000;
     this.getPrice = function () {
         return teamPrice;
     };

@@ -1,7 +1,5 @@
 const Customer = (function () {
-    function Customer() {
-        this.subscriber;
-    }
+    function Customer() { }
     Customer.prototype.getPoint = function (price) {
         let self = this;
         this.subscriber.point(self, price);
