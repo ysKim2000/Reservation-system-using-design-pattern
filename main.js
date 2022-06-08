@@ -5,6 +5,7 @@ const { Opera } = require('./opera.js');
 const { Baseball } = require('./baseball.js');
 const CustomerPoint = require('./points.js').CustomerPoint;
 const Customer = require('./points.js').Customer;
+const Show = require('./show.js').Show;
 
 function ReserveSystem(type, name) {
     this.type = type;
@@ -22,7 +23,9 @@ function Receipt(totalPrice, tatalList) {
 ReserveSystem.prototype.getPoint = Customer.prototype.getPoint;
 ReserveSystem.prototype.register = Customer.prototype.register;
 Receipt.prototype = ReserveSystem.prototype;
+ReserveSystem.prototype.selectShow = Show.prototype.selectShow;
 const customerPoint = new CustomerPoint();
+ReserveSystem.prototype.totalPrice = 0;
 
 // Currying function
 const plus = (a, b, c) => a + b + c;
@@ -73,6 +76,7 @@ const SubSystemBaseball = function () { };    // Baseball
 
 SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
     const movie = new Movie();
+    // 묶기, setCommandMovie, setCommandTime
     customerPoint.subscribe(movie);
     movie.selectMovie();
     movie.selectTime();
@@ -91,6 +95,7 @@ SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     const operaPrice = sumPrice(opera.operaSeat)(opera.operaService)(0);
     opera.operaList.price = operaPrice;
     opera.getPoint(operaPrice);
+    opera.getTotalPrice(operaPrice);
 };
 SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     const soccer = new Soccer();
@@ -116,7 +121,7 @@ SubSystemBaseball.prototype.Methodbaseball = function () {     // Baseball
     console.log(baseball.baseballSeat);
 
     baseball.baseballList.price = baseballPrice;
-    baseball.getPoint(baseballPrice);
+    var a = [];
 };
 
 // Facade pattern
@@ -160,7 +165,7 @@ const selectCourse = function () {
 
     console.log("Selected B Course!\n");
     select.setCourse(new CourseB());     // B strategy
-
+    
     // console.log("Selected C Course!\n");
     // select.setCourse(new CourseC());     // C strategy
 

@@ -22,11 +22,11 @@ const CustomerPoint = (function () {
         });
         target.register(this);
     };
-    CustomerPoint.prototype.unsubscribe = function (target) {
-        this.list = this.list.filter(function (person) { 
-            return person.target !== target;
-        });
-    };
+    // CustomerPoint.prototype.unsubscribe = function (target) {
+    //     this.list = this.list.filter(function (person) { 
+    //         return person.target !== target;
+    //     });
+    // };
     CustomerPoint.prototype.point = function (target, price) {   
         this.list.some(function (person) {   
             if (person.target === target) {
