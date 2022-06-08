@@ -1,7 +1,7 @@
-const { ReserveSystem } = require('./main.js');
-const { Seats } = require('./Compositions/seats.js');
-const { Team } = require('./Compositions/baseballTeam.js');
-const { Place } = require('./Compositions/sportPlace.js');
+const { ReserveSystem } = require('../main.js');
+const { Seats } = require('../Compositions/seats.js');
+const { Team } = require('../Compositions/baseballTeam.js');
+const { Place } = require('../Compositions/sportPlace.js');
 
 function Baseball(baseballTeam, league, baseballPlace, baseballSeat) {
     this.baseballTeam = baseballTeam;

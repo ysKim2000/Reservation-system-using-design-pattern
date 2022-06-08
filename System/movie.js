@@ -1,7 +1,7 @@
-const { ReserveSystem } = require('./main.js');
-const { MovieType } = require('./Compositions/movieType.js');
-const { Seats } = require('./Compositions/seats.js');
-const { Times } = require('./Compositions/times.js');
+const { ReserveSystem } = require('../main.js');
+const { MovieType } = require('../Compositions/movieType.js');
+const { Seats } = require('../Compositions/seats.js');
+const { Times } = require('../Compositions/times.js');
 
 function Movie(movieTime, movieType, movieSeat) {
     this.movieTime = movieTime;

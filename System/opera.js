@@ -1,6 +1,6 @@
-const { ReserveSystem } = require('./main.js');
-const { Seats } = require('./Compositions/seats.js');
-const { OperaService } = require('./Compositions/service.js');
+const { ReserveSystem } = require('../main.js');
+const { Seats } = require('../Compositions/seats.js');
+const { OperaService } = require('../Compositions/service.js');
 
 function Opera(operaService, operaSeat) {
     this.operaService = operaService;
