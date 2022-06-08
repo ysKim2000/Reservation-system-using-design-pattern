@@ -1,11 +1,11 @@
 module.exports = { ReserveSystem };
-const { Soccer } = require('./soccer.js');
-const { Movie } = require('./movie.js');
-const { Opera } = require('./opera.js');
-const { Baseball } = require('./baseball.js');
+const { Soccer } = require('./System/soccer.js');
+const { Movie } = require('./System/movie.js');
+const { Opera } = require('./System/opera.js');
+const { Baseball } = require('./System/baseball.js');
 const CustomerPoint = require('./points.js').CustomerPoint;
 const Customer = require('./points.js').Customer;
-const Show = require('./show.js').Show;
+// const Show = require('./show.js').Show;
 
 function ReserveSystem(type, name) {
     this.type = type;
@@ -15,17 +15,12 @@ function ReserveSystem(type, name) {
     };
 };
 
-function Receipt(totalPrice, tatalList) {
-    this.totalPrice = totalPrice;
-    this.totalList = tatalList
-};
-
 ReserveSystem.prototype.getPoint = Customer.prototype.getPoint;
+ReserveSystem.prototype.getTotalPrice = Customer.prototype.getTotalPrice;
 ReserveSystem.prototype.register = Customer.prototype.register;
-Receipt.prototype = ReserveSystem.prototype;
-ReserveSystem.prototype.selectShow = Show.prototype.selectShow;
+// ReserveSystem.prototype.selectShow = Show.prototype.selectShow;
+// ReserveSystem.prototype.totalPrice = 0;
 const customerPoint = new CustomerPoint();
-ReserveSystem.prototype.totalPrice = 0;
 
 // Currying function
 const plus = (a, b, c) => a + b + c;
@@ -74,6 +69,7 @@ const SubSystemOpera = function () { };     // Opera
 const SubSystemSoccer = function () { };    // Soccer
 const SubSystemBaseball = function () { };    // Baseball
 
+// 총 계산도 옵저버에서 하자
 SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
     const movie = new Movie();
     // 묶기, setCommandMovie, setCommandTime
@@ -85,6 +81,7 @@ SubSystemMovie.prototype.MethodMovie = function () {    // Movie
     const moviePrice = sumPrice(movie.movieTime)(movie.movieType)(movie.movieSeat);
     movie.movieList.price = moviePrice;
     movie.getPoint(moviePrice);
+    movie.getTotalPrice(moviePrice);
 };
 SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     const opera = new Opera();
@@ -106,22 +103,19 @@ SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     const soccerPrice = sumPrice(soccer.soccerTeam)(soccer.soccerPlace)(soccer.soccerSeat);
     soccer.soccerList.price = soccerPrice;
     soccer.getPoint(soccerPrice);
+    soccer.getTotalPrice(soccerPrice);
 };
 
-SubSystemBaseball.prototype.Methodbaseball = function () {     // Baseball
+SubSystemBaseball.prototype.MethodBaseball = function () {     // Baseball
     const baseball = new Baseball();
     customerPoint.subscribe(baseball);
     baseball.selectTeam();
     baseball.selectHomeOrAway();
     baseball.selectBaseballSeat();
     const baseballPrice = sumPrice(baseball.baseballTeam)(baseball.baseballPlace)(baseball.baseballSeat);
-
-    console.log(baseball.baseballTeam);
-    console.log(baseball.baseballPlace);
-    console.log(baseball.baseballSeat);
-
     baseball.baseballList.price = baseballPrice;
-    var a = [];
+    baseball.getPoint(baseballPrice);
+    baseball.getTotalPrice(baseballPrice);
 };
 
 // Facade pattern
@@ -139,7 +133,7 @@ Package.prototype.PackageA = function () {  // selected Course A
 Package.prototype.PackageB = function () {  // selected Course B
     this.movie.MethodMovie();               // Movie
     this.soccer.MethodSoccer();             // Soccer
-    this.baseball.Methodbaseball();         // Baseball
+    this.baseball.MethodBaseball();         // Baseball
 };
 Package.prototype.PackageC = function () {  // selected Course C
     this.opera.MethodOpera();               // Opera
@@ -147,10 +141,6 @@ Package.prototype.PackageC = function () {  // selected Course C
     this.baseball.MethodBaseball();               // Baseball
 };
 
-Receipt.prototype.getTotalPrice = function () {
-    this.totalPrice = sumPrice(this.movieList.price)(this.operaList.price)(this.soccerList.price);
-    console.log(this.totalPrice);
-};
 
 // 코스 고르기
 const selectCourse = function () {
@@ -160,11 +150,11 @@ const selectCourse = function () {
     console.log(" C  -  [Opera, Soccer, Baseball]");
 
     let select = new Course();
-    // console.log("Selected A Package!\n");
-    // select.setCourse(new CourseA());        // A strategy
+    console.log("Selected A Package!\n");
+    select.setCourse(new CourseA());        // A strategy
 
-    console.log("Selected B Course!\n");
-    select.setCourse(new CourseB());     // B strategy
+    // console.log("Selected B Course!\n");
+    // select.setCourse(new CourseB());     // B strategy
     
     // console.log("Selected C Course!\n");
     // select.setCourse(new CourseC());     // C strategy
@@ -173,10 +163,8 @@ const selectCourse = function () {
 };
 
 const getTotalPrice = function () {
-    const receipt = new Receipt()
     console.log("[Receipt]");
-    receipt.totalPrice = sumPrice(receipt.movieList.price)(receipt.operaList.price)(receipt.soccerList.price);
-    console.log("Total Price: $" + receipt.totalPrice);
+    console.log("Total Price: $" + customerPoint.totalPrice);
     console.log("Point: " + customerPoint.totalPoint);
     // 1. 모두 보여주기, 2. 1번 항목 보여주기, 3. 2번 항목 보여주기, 4. 3번 항목 보여주기
 };

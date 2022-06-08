@@ -4,6 +4,10 @@ const Customer = (function () {
         let self = this;
         this.subscriber.point(self, price);
     };
+    Customer.prototype.getTotalPrice = function (price) {
+        let self = this;
+        this.subscriber.price(self, price);
+    };
     Customer.prototype.register = function (target) {   
         if (this.subscriber != null) return;
         this.subscriber = target;
@@ -16,6 +20,7 @@ const CustomerPoint = (function () {
         this.list = [];
     }
     CustomerPoint.prototype.totalPoint = 0;
+    CustomerPoint.prototype.totalPrice = 0;
     CustomerPoint.prototype.subscribe = function (target) {   
         this.list.push({
             target: target,
@@ -31,6 +36,14 @@ const CustomerPoint = (function () {
         this.list.some(function (person) {   
             if (person.target === target) {
                 CustomerPoint.prototype.totalPoint += (price * (1 / 100));
+                return true;
+            }
+        });
+    };
+    CustomerPoint.prototype.price = function (target, price) {   
+        this.list.some(function (person) {   
+            if (person.target === target) {
+                CustomerPoint.prototype.totalPrice += price;
                 return true;
             }
         });
