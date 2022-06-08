@@ -4,7 +4,7 @@ const Customer = (function () {
         let self = this;
         this.subscriber.point(self, price);
     };
-    Customer.prototype.getTotalPrice = function (price) {
+    Customer.prototype.getPrice = function (price) {
         let self = this;
         this.subscriber.price(self, price);
     };

@@ -16,10 +16,9 @@ function ReserveSystem(type, name) {
 };
 
 ReserveSystem.prototype.getPoint = Customer.prototype.getPoint;
-ReserveSystem.prototype.getTotalPrice = Customer.prototype.getTotalPrice;
+ReserveSystem.prototype.getPrice = Customer.prototype.getPrice;
 ReserveSystem.prototype.register = Customer.prototype.register;
 // ReserveSystem.prototype.selectShow = Show.prototype.selectShow;
-// ReserveSystem.prototype.totalPrice = 0;
 const customerPoint = new CustomerPoint();
 
 // Currying function
@@ -67,12 +66,12 @@ const CourseC = (function () {
 const SubSystemMovie = function () { };     // Movie
 const SubSystemOpera = function () { };     // Opera
 const SubSystemSoccer = function () { };    // Soccer
-const SubSystemBaseball = function () { };    // Baseball
+const SubSystemBaseball = function () { };  // Baseball
 
 // 총 계산도 옵저버에서 하자
 SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
     const movie = new Movie();
-    // 묶기, setCommandMovie, setCommandTime
+    // Builder pattern으로 묶기(모듈화)
     customerPoint.subscribe(movie);
     movie.selectMovie();
     movie.selectTime();
@@ -81,7 +80,7 @@ SubSystemMovie.prototype.MethodMovie = function () {    // Movie
     const moviePrice = sumPrice(movie.movieTime)(movie.movieType)(movie.movieSeat);
     movie.movieList.price = moviePrice;
     movie.getPoint(moviePrice);
-    movie.getTotalPrice(moviePrice);
+    movie.getPrice(moviePrice);
 };
 SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     const opera = new Opera();
@@ -92,7 +91,7 @@ SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     const operaPrice = sumPrice(opera.operaSeat)(opera.operaService)(0);
     opera.operaList.price = operaPrice;
     opera.getPoint(operaPrice);
-    opera.getTotalPrice(operaPrice);
+    opera.getPrice(operaPrice);
 };
 SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     const soccer = new Soccer();
@@ -103,10 +102,9 @@ SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     const soccerPrice = sumPrice(soccer.soccerTeam)(soccer.soccerPlace)(soccer.soccerSeat);
     soccer.soccerList.price = soccerPrice;
     soccer.getPoint(soccerPrice);
-    soccer.getTotalPrice(soccerPrice);
+    soccer.getPrice(soccerPrice);
 };
-
-SubSystemBaseball.prototype.MethodBaseball = function () {     // Baseball
+SubSystemBaseball.prototype.MethodBaseball = function () {   // Baseball
     const baseball = new Baseball();
     customerPoint.subscribe(baseball);
     baseball.selectTeam();
@@ -115,7 +113,7 @@ SubSystemBaseball.prototype.MethodBaseball = function () {     // Baseball
     const baseballPrice = sumPrice(baseball.baseballTeam)(baseball.baseballPlace)(baseball.baseballSeat);
     baseball.baseballList.price = baseballPrice;
     baseball.getPoint(baseballPrice);
-    baseball.getTotalPrice(baseballPrice);
+    baseball.getPrice(baseballPrice);
 };
 
 // Facade pattern
@@ -123,7 +121,7 @@ const Package = function () { }
 Package.prototype.movie = new SubSystemMovie();       // Movie
 Package.prototype.opera = new SubSystemOpera();       // Opera
 Package.prototype.soccer = new SubSystemSoccer();     // Soccer
-Package.prototype.baseball = new SubSystemBaseball();     // Baseball
+Package.prototype.baseball = new SubSystemBaseball(); // Baseball
 
 Package.prototype.PackageA = function () {  // selected Course A
     this.movie.MethodMovie();               // Movie
@@ -138,11 +136,11 @@ Package.prototype.PackageB = function () {  // selected Course B
 Package.prototype.PackageC = function () {  // selected Course C
     this.opera.MethodOpera();               // Opera
     this.soccer.MethodSoccer();             // Soccer
-    this.baseball.MethodBaseball();               // Baseball
+    this.baseball.MethodBaseball();         // Baseball
 };
 
 
-// 코스 고르기
+// Select Course
 const selectCourse = function () {
     console.log("[Package]");
     console.log(" A  -  [Movie, Opera, Soccer]");
@@ -166,7 +164,6 @@ const getTotalPrice = function () {
     console.log("[Receipt]");
     console.log("Total Price: $" + customerPoint.totalPrice);
     console.log("Point: " + customerPoint.totalPoint);
-    // 1. 모두 보여주기, 2. 1번 항목 보여주기, 3. 2번 항목 보여주기, 4. 3번 항목 보여주기
 };
 
 const choose = new Package();
