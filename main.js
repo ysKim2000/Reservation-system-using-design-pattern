@@ -3,23 +3,19 @@ const { Soccer } = require('./System/soccer.js');
 const { Movie } = require('./System/movie.js');
 const { Opera } = require('./System/opera.js');
 const { Baseball } = require('./System/baseball.js');
-const CustomerPoint = require('./points.js').CustomerPoint;
+const CustomerData = require('./points.js').CustomerData;
 const Customer = require('./points.js').Customer;
-// const Show = require('./show.js').Show;
 
-function ReserveSystem(type, name) {
+function ReserveSystem(type, name, price) {
     this.type = type;
     this.name = name;
-    this.seat = function(){
-        
-    };
+    this.price = price;
 };
 
 ReserveSystem.prototype.getPoint = Customer.prototype.getPoint;
 ReserveSystem.prototype.getPrice = Customer.prototype.getPrice;
 ReserveSystem.prototype.register = Customer.prototype.register;
-// ReserveSystem.prototype.selectShow = Show.prototype.selectShow;
-const customerPoint = new CustomerPoint();
+const customerData = new CustomerData();
 
 // Currying function
 const plus = (a, b, c) => a + b + c;
@@ -68,52 +64,47 @@ const SubSystemOpera = function () { };     // Opera
 const SubSystemSoccer = function () { };    // Soccer
 const SubSystemBaseball = function () { };  // Baseball
 
-// 총 계산도 옵저버에서 하자
 SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
     const movie = new Movie();
     // Builder pattern으로 묶기(모듈화)
-    customerPoint.subscribe(movie);
+    customerData.subscribe(movie);
     movie.selectMovie();
     movie.selectTime();
     movie.selectType();
     movie.selectMovieSeat();
-    const moviePrice = sumPrice(movie.movieTime)(movie.movieType)(movie.movieSeat);
-    movie.movieList.price = moviePrice;
-    movie.getPoint(moviePrice);
-    movie.getPrice(moviePrice);
+    movie.price = sumPrice(movie.movieTime)(movie.movieType)(movie.movieSeat);
+    movie.getPoint(movie.price);
+    movie.getPrice(movie.price);
 };
 SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     const opera = new Opera();
-    customerPoint.subscribe(opera);
+    customerData.subscribe(opera);
     opera.selectOpera();
     opera.selectOperaSeat();
     opera.selectService();
-    const operaPrice = sumPrice(opera.operaSeat)(opera.operaService)(0);
-    opera.operaList.price = operaPrice;
-    opera.getPoint(operaPrice);
-    opera.getPrice(operaPrice);
+    opera.price = sumPrice(opera.operaSeat)(opera.operaService)(0);
+    opera.getPoint(opera.price);
+    opera.getPrice(opera.price);
 };
 SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     const soccer = new Soccer();
-    customerPoint.subscribe(soccer);
+    customerData.subscribe(soccer);
     soccer.selectSoccerTeam();
     soccer.selectSoccerHomeOrAway();
     soccer.selectSoccerSeat();
-    const soccerPrice = sumPrice(soccer.soccerTeam)(soccer.soccerPlace)(soccer.soccerSeat);
-    soccer.soccerList.price = soccerPrice;
-    soccer.getPoint(soccerPrice);
-    soccer.getPrice(soccerPrice);
+    soccer.price = sumPrice(soccer.soccerTeam)(soccer.soccerPlace)(soccer.soccerSeat);
+    soccer.getPoint(soccer.price);
+    soccer.getPrice(soccer.price);
 };
 SubSystemBaseball.prototype.MethodBaseball = function () {   // Baseball
     const baseball = new Baseball();
-    customerPoint.subscribe(baseball);
+    customerData.subscribe(baseball);
     baseball.selectTeam();
     baseball.selectHomeOrAway();
     baseball.selectBaseballSeat();
-    const baseballPrice = sumPrice(baseball.baseballTeam)(baseball.baseballPlace)(baseball.baseballSeat);
-    baseball.baseballList.price = baseballPrice;
-    baseball.getPoint(baseballPrice);
-    baseball.getPrice(baseballPrice);
+    baseball.price = sumPrice(baseball.baseballTeam)(baseball.baseballPlace)(baseball.baseballSeat);
+    baseball.getPoint(baseball.price);
+    baseball.getPrice(baseball.price);
 };
 
 // Facade pattern
@@ -139,7 +130,6 @@ Package.prototype.PackageC = function () {  // selected Course C
     this.baseball.MethodBaseball();         // Baseball
 };
 
-
 // Select Course
 const selectCourse = function () {
     console.log("[Package]");
@@ -162,8 +152,8 @@ const selectCourse = function () {
 
 const getTotalPrice = function () {
     console.log("[Receipt]");
-    console.log("Total Price: $" + customerPoint.totalPrice);
-    console.log("Point: " + customerPoint.totalPoint);
+    console.log("Total Price: $" + customerData.totalPrice);
+    console.log("Point: " + customerData.totalPoint);
 };
 
 const choose = new Package();

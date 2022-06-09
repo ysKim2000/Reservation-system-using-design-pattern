@@ -15,44 +15,39 @@ const Customer = (function () {
     return Customer;
 })();
 
-const CustomerPoint = (function () {
-    function CustomerPoint() {
+const CustomerData = (function () {
+    function CustomerData() {
         this.list = [];
     }
-    CustomerPoint.prototype.totalPoint = 0;
-    CustomerPoint.prototype.totalPrice = 0;
-    CustomerPoint.prototype.subscribe = function (target) {   
+    CustomerData.prototype.totalPoint = 0;
+    CustomerData.prototype.totalPrice = 0;
+    CustomerData.prototype.subscribe = function (target) {   
         this.list.push({
             target: target,
         });
         target.register(this);
     };
-    // CustomerPoint.prototype.unsubscribe = function (target) {
-    //     this.list = this.list.filter(function (person) { 
-    //         return person.target !== target;
-    //     });
-    // };
-    CustomerPoint.prototype.point = function (target, price) {   
+    CustomerData.prototype.point = function (target, price) {   
         this.list.some(function (person) {   
             if (person.target === target) {
-                CustomerPoint.prototype.totalPoint += (price * (1 / 100));
+                CustomerData.prototype.totalPoint += (price * (1 / 100));
                 return true;
             }
         });
     };
-    CustomerPoint.prototype.price = function (target, price) {   
+    CustomerData.prototype.price = function (target, price) {   
         this.list.some(function (person) {   
             if (person.target === target) {
-                CustomerPoint.prototype.totalPrice += price;
+                CustomerData.prototype.totalPrice += price;
                 return true;
             }
         });
     };
-    return CustomerPoint;
+    return CustomerData;
 })();
 
 module.exports =
 {
     Customer: Customer,
-    CustomerPoint: CustomerPoint
+    CustomerData: CustomerData
 }
