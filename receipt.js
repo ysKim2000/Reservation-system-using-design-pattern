@@ -11,8 +11,8 @@ let Receipt = (function () {
 })();
 
 Receipt.prototype.makeReceipt = function (type) {
-    var totalPrice = null;
-    var totalPoint = null;
+    let totalPrice = null;
+    let totalPoint = null;
     return {
         setVal1: function (number) {
             totalPrice = number;

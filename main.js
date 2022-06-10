@@ -152,7 +152,9 @@ const selectCourse = function () {
     select.execute();
 };
 
-const getTotalPrice = function () {
+const getReceipt = function () {
+    console.log("[Receipt]");
+    receiptList.forEach(v => console.log("[" + v.type + "] - ", "Price: " + v.totalPrice, ", Point: " + v.totalPoint))
     console.log("Total Price: $" + customerData.totalPrice);
     console.log("Total Point: " + customerData.totalPoint);
 };
@@ -161,8 +163,7 @@ const choose = new Package();
 
 const main = function () {
     selectCourse();
-    receiptList.forEach(v => console.log("[" + v.type + "] - ", "Price: " + v.totalPrice, ", Point: " + v.totalPoint))
-    getTotalPrice();
+    getReceipt();
 };
 
 main();
