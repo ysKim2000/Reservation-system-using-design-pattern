@@ -140,21 +140,21 @@ const selectCourse = function () {
     console.log(" C  -  [Opera, Soccer, Baseball]");
 
     let select = new Course();
-    console.log("Selected A Package!\n");
-    select.setCourse(new CourseA());        // A strategy
+    // console.log("Selected A Package!\n");
+    // select.setCourse(new CourseA());        // A strategy
 
     // console.log("Selected B Course!\n");
     // select.setCourse(new CourseB());     // B strategy
     
-    // console.log("Selected C Course!\n");
-    // select.setCourse(new CourseC());     // C strategy
+    console.log("Selected C Course!\n");
+    select.setCourse(new CourseC());     // C strategy
 
     select.execute();
 };
 
 const getReceipt = function () {
     console.log("[Receipt]");
-    receiptList.forEach(v => console.log("[" + v.type + "] - ", "Price: " + v.totalPrice, ", Point: " + v.totalPoint))
+    receiptList.forEach(value => console.log("[" + value.type + "] - ", "Price: " + value.totalPrice, ", Point: " + value.totalPoint))
     console.log("Total Price: $" + customerData.totalPrice);
     console.log("Total Point: " + customerData.totalPoint);
 };
