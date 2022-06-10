@@ -3,6 +3,7 @@ const { Soccer } = require('./System/soccer.js');
 const { Movie } = require('./System/movie.js');
 const { Opera } = require('./System/opera.js');
 const { Baseball } = require('./System/baseball.js');
+const { Receipt } = require('./receipt');
 const CustomerData = require('./points.js').CustomerData;
 const Customer = require('./points.js').Customer;
 
@@ -16,6 +17,8 @@ ReserveSystem.prototype.getPoint = Customer.prototype.getPoint;
 ReserveSystem.prototype.getPrice = Customer.prototype.getPrice;
 ReserveSystem.prototype.register = Customer.prototype.register;
 const customerData = new CustomerData();
+const receipt = new Receipt();
+const receiptList = [];
 
 // Currying function
 const plus = (a, b, c) => a + b + c;
@@ -66,15 +69,14 @@ const SubSystemBaseball = function () { };  // Baseball
 
 SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
     const movie = new Movie();
-    // Builder pattern으로 묶기(모듈화)
     customerData.subscribe(movie);
     movie.selectMovie();
     movie.selectTime();
     movie.selectType();
     movie.selectMovieSeat();
     movie.price = sumPrice(movie.movieTime)(movie.movieType)(movie.movieSeat);
-    movie.getPoint(movie.price);
-    movie.getPrice(movie.price);
+    let movieReceipt = receipt.makeReceipt(movie.type).setVal1(movie.getPrice(movie.price)).setVal2(movie.getPoint(movie.price)).build();
+    receiptList.push(movieReceipt);
 };
 SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     const opera = new Opera();
@@ -83,8 +85,8 @@ SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     opera.selectOperaSeat();
     opera.selectService();
     opera.price = sumPrice(opera.operaSeat)(opera.operaService)(0);
-    opera.getPoint(opera.price);
-    opera.getPrice(opera.price);
+    let operaReceipt = receipt.makeReceipt(opera.type).setVal1(opera.getPrice(opera.price)).setVal2(opera.getPoint(opera.price)).build();
+    receiptList.push(operaReceipt);
 };
 SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     const soccer = new Soccer();
@@ -93,8 +95,8 @@ SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     soccer.selectSoccerHomeOrAway();
     soccer.selectSoccerSeat();
     soccer.price = sumPrice(soccer.soccerTeam)(soccer.soccerPlace)(soccer.soccerSeat);
-    soccer.getPoint(soccer.price);
-    soccer.getPrice(soccer.price);
+    let soccerReceipt = receipt.makeReceipt(soccer.type).setVal1(soccer.getPrice(soccer.price)).setVal2(soccer.getPoint(soccer.price)).build();
+    receiptList.push(soccerReceipt);
 };
 SubSystemBaseball.prototype.MethodBaseball = function () {   // Baseball
     const baseball = new Baseball();
@@ -103,8 +105,8 @@ SubSystemBaseball.prototype.MethodBaseball = function () {   // Baseball
     baseball.selectHomeOrAway();
     baseball.selectBaseballSeat();
     baseball.price = sumPrice(baseball.baseballTeam)(baseball.baseballPlace)(baseball.baseballSeat);
-    baseball.getPoint(baseball.price);
-    baseball.getPrice(baseball.price);
+    let baseballReceipt = receipt.makeReceipt(baseball.type).setVal1(baseball.getPrice(baseball.price)).setVal2(baseball.getPoint(baseball.price)).build();
+    receiptList.push(baseballReceipt);
 };
 
 // Facade pattern
@@ -151,15 +153,15 @@ const selectCourse = function () {
 };
 
 const getTotalPrice = function () {
-    console.log("[Receipt]");
     console.log("Total Price: $" + customerData.totalPrice);
-    console.log("Point: " + customerData.totalPoint);
+    console.log("Total Point: " + customerData.totalPoint);
 };
 
 const choose = new Package();
 
 const main = function () {
     selectCourse();
+    receiptList.forEach(v => console.log("[" + v.type + "] - ", "Price: " + v.totalPrice, ", Point: " + v.totalPoint))
     getTotalPrice();
 };
 

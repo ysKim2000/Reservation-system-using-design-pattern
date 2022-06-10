@@ -3,10 +3,12 @@ const Customer = (function () {
     Customer.prototype.getPoint = function (price) {
         let self = this;
         this.subscriber.point(self, price);
+        return price * (1 / 100);
     };
     Customer.prototype.getPrice = function (price) {
         let self = this;
         this.subscriber.price(self, price);
+        return price;
     };
     Customer.prototype.register = function (target) {   
         if (this.subscriber != null) return;
