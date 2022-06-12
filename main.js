@@ -153,7 +153,7 @@ function C코스를선택하다() {
     select.execute();
 };
 
-function 영수증을가져오다 () {
+function 영수증을가져오다() {
     console.log("[Receipt]");
     receiptList.forEach(value => console.log("[" + value.type + "]", "\tPrice: " + value.totalPrice, "\tPoint: " + value.totalPoint));
     console.log("Total Price: $" + customerData.totalPrice);
@@ -162,7 +162,7 @@ function 영수증을가져오다 () {
 
 const main = function () {
     A코스를선택하다();
-    영수증을가져오다 ();
+    영수증을가져오다();
 };
 
 main();
