@@ -1,18 +1,15 @@
 let Receipt = (function () {
     function Receipt(type, totalPrice, totalPoint) {
         this.type = type;
-        this.totalPrice = totalPrice || null;
-        this.totalPoint = totalPoint || null;
-    }
-    Receipt.prototype.showReceipt = function () {
-        console.log("["+ this.type + "] - 총 금액" + this.totalPrice + ", 포인트: " + this.totalPoint);
+        this.totalPrice = totalPrice;
+        this.totalPoint = totalPoint;
     }
     return Receipt;
 })();
 
 Receipt.prototype.makeReceipt = function (type) {
-    let totalPrice = null;
-    let totalPoint = null;
+    let totalPrice;
+    let totalPoint;
     return {
         setVal1: function (number) {
             totalPrice = number;

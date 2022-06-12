@@ -18,7 +18,7 @@ ReserveSystem.prototype.getPrice = Customer.prototype.getPrice;
 ReserveSystem.prototype.register = Customer.prototype.register;
 const customerData = new CustomerData();
 const receipt = new Receipt();
-const receiptList = [];
+const receiptList = Array();
 
 // Currying function
 const plus = (a, b, c) => a + b + c;
@@ -132,38 +132,37 @@ Package.prototype.PackageC = function () {  // selected Course C
     this.baseball.MethodBaseball();         // Baseball
 };
 
-// Select Course
-const selectCourse = function () {
-    console.log("[Package]");
-    console.log(" A  -  [Movie, Opera, Soccer]");
-    console.log(" B  -  [Movie, Soccer, Baseball]");
-    console.log(" C  -  [Opera, Soccer, Baseball]");
+const choose = new Package();
 
+// Testing functions
+function A코스를선택하다() {
     let select = new Course();
-    // console.log("Selected A Package!\n");
-    // select.setCourse(new CourseA());        // A strategy
-
-    // console.log("Selected B Course!\n");
-    // select.setCourse(new CourseB());     // B strategy
-    
-    console.log("Selected C Course!\n");
-    select.setCourse(new CourseC());     // C strategy
-
+    select.setCourse(new CourseA());
     select.execute();
 };
 
-const getReceipt = function () {
-    console.log("[Receipt]");
-    receiptList.forEach(value => console.log("[" + value.type + "] - ", "Price: " + value.totalPrice, ", Point: " + value.totalPoint))
-    console.log("Total Price: $" + customerData.totalPrice);
-    console.log("Total Point: " + customerData.totalPoint);
+function B코스를선택하다() {
+    let select = new Course();
+    select.setCourse(new CourseB());
+    select.execute();
 };
 
-const choose = new Package();
+function C코스를선택하다() {
+    let select = new Course();
+    select.setCourse(new CourseC());
+    select.execute();
+};
+
+function 영수증을가져오다 () {
+    console.log("[Receipt]");
+    receiptList.forEach(value => console.log("[" + value.type + "]", "\tPrice: " + value.totalPrice, "\tPoint: " + value.totalPoint));
+    console.log("Total Price: $" + customerData.totalPrice);
+    console.log("Total Point: " + customerData.totalPoint + " pts");
+};
 
 const main = function () {
-    selectCourse();
-    getReceipt();
+    A코스를선택하다();
+    영수증을가져오다 ();
 };
 
 main();
