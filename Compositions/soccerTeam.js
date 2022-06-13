@@ -1,26 +1,26 @@
 // type
-function Team1() {  
+function ManchesterCity() {  
     let teamPrice = 10000;
     this.getPrice = function () {
         return teamPrice;
     };
 };
 
-function Team2() { 
+function Liverpool() { 
     let teamPrice = 20000;
     this.getPrice = function () {
         return teamPrice;
     };
 };
 
-function Team3() { 
+function Chelsea() { 
     let teamPrice = 30000;
     this.getPrice = function () {
         return teamPrice;
     };
 };
 
-function Team4() { 
+function TottenhamHotspur() { 
     let teamPrice = 40000;
     this.getPrice = function () {
         return teamPrice;
@@ -31,16 +31,16 @@ function Team4() {
 function Team() {
     this.selectTeam = function (type) {
         switch (type) {
-            case "Team 1":
-                return new Team1();
-            case "Team 2":
-                return new Team2();
-            case "Team 3":
-                return new Team3();
-            case "Team 4":
-                return new Team4();
+            case "Manchester City":
+                return new ManchesterCity();
+            case "Liverpool":
+                return new Liverpool();
+            case "Chelsea":
+                return new Chelsea();
+            case "Tottenham Hotspur":
+                return new TottenhamHotspur();
             default:
-                return new Team1();
+                return new ManchesterCity();
         }
     };
 };
