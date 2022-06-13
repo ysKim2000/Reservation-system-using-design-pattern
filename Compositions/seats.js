@@ -1,4 +1,4 @@
-function EconomyZone() {    // Movie 일반석보다 아래
+function EconomyZone() {    
     let price = 10000;
     this.getPrice = function () {
         return price;

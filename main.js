@@ -11,6 +11,7 @@ function ReserveSystem(type, name, price) {
     this.type = type;
     this.name = name;
     this.price = price;
+    this.priceList = priceList;
 };
 
 ReserveSystem.prototype.getPoint = Customer.prototype.getPoint;
@@ -75,8 +76,8 @@ SubSystemMovie.prototype.MethodMovie = function () {    // Movie
     movie.selectType();
     movie.selectMovieSeat();
     movie.price = sumPrice(movie.movieTime)(movie.movieType)(movie.movieSeat);
-    let movieReceipt = receipt.makeReceipt(movie.type).setVal1(movie.getPrice(movie.price)).setVal2(movie.getPoint(movie.price)).build();
-    receiptList.push(movieReceipt);
+    movie.priceList = receipt.makeReceipt(movie.type).setVal1(movie.getPrice(movie.price)).setVal2(movie.getPoint(movie.price)).build();
+    receiptList.push(movie.priceList);
 };
 SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     const opera = new Opera();
@@ -85,8 +86,8 @@ SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     opera.selectOperaSeat();
     opera.selectService();
     opera.price = sumPrice(opera.operaSeat)(opera.operaService)(0);
-    let operaReceipt = receipt.makeReceipt(opera.type).setVal1(opera.getPrice(opera.price)).setVal2(opera.getPoint(opera.price)).build();
-    receiptList.push(operaReceipt);
+    opera.priceList = receipt.makeReceipt(opera.type).setVal1(opera.getPrice(opera.price)).setVal2(opera.getPoint(opera.price)).build();
+    receiptList.push(opera.priceList);
 };
 SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     const soccer = new Soccer();
@@ -95,8 +96,8 @@ SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     soccer.selectSoccerHomeOrAway();
     soccer.selectSoccerSeat();
     soccer.price = sumPrice(soccer.soccerTeam)(soccer.soccerPlace)(soccer.soccerSeat);
-    let soccerReceipt = receipt.makeReceipt(soccer.type).setVal1(soccer.getPrice(soccer.price)).setVal2(soccer.getPoint(soccer.price)).build();
-    receiptList.push(soccerReceipt);
+    soccer.priceList = receipt.makeReceipt(soccer.type).setVal1(soccer.getPrice(soccer.price)).setVal2(soccer.getPoint(soccer.price)).build();
+    receiptList.push(soccer.priceList);
 };
 SubSystemBaseball.prototype.MethodBaseball = function () {   // Baseball
     const baseball = new Baseball();
@@ -105,8 +106,8 @@ SubSystemBaseball.prototype.MethodBaseball = function () {   // Baseball
     baseball.selectHomeOrAway();
     baseball.selectBaseballSeat();
     baseball.price = sumPrice(baseball.baseballTeam)(baseball.baseballPlace)(baseball.baseballSeat);
-    let baseballReceipt = receipt.makeReceipt(baseball.type).setVal1(baseball.getPrice(baseball.price)).setVal2(baseball.getPoint(baseball.price)).build();
-    receiptList.push(baseballReceipt);
+    baseball.priceList = receipt.makeReceipt(baseball.type).setVal1(baseball.getPrice(baseball.price)).setVal2(baseball.getPoint(baseball.price)).build();
+    receiptList.push(baseball.priceList);
 };
 
 // Facade pattern
