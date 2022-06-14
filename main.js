@@ -22,6 +22,7 @@ const receipt = new Receipt();
 const receiptList = Array();
 
 // Currying function
+// 이 놈 가변인자로 쓰면 될 것 같다 하심
 const plus = (a, b, c) => a + b + c;
 const sumPrice = (x) => (y) => (z) => plus(x, y, z);
 
@@ -68,8 +69,10 @@ const SubSystemOpera = function () { };     // Opera
 const SubSystemSoccer = function () { };    // Soccer
 const SubSystemBaseball = function () { };  // Baseball
 
+// SubSystem 메소드 이름 변경, 코스A 좀 더 확장성 있는 이름으로 변경
 SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
     const movie = new Movie();
+    // 옵저버 지적
     customerData.subscribe(movie);
     movie.selectMovie();
     movie.selectTime();
