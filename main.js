@@ -11,7 +11,6 @@ function ReserveSystem(type, name, price) {
     this.type = type;
     this.name = name;
     this.price = price;
-    this.priceList = priceList;
 };
 
 ReserveSystem.prototype.getPoint = Customer.prototype.getPoint;
@@ -21,10 +20,11 @@ const customerData = new CustomerData();
 const receipt = new Receipt();
 const receiptList = Array();
 
-// Currying function
-// 이 놈 가변인자로 쓰면 될 것 같다 하심
-const plus = (a, b, c) => a + b + c;
-const sumPrice = (x) => (y) => (z) => plus(x, y, z);
+// Variable Argument Function
+function sum() {
+    var arrayValue = [...arguments];    //유사배열을 배열로 변환
+    return arrayValue.reduce((pre, cur) => pre + cur);
+}
 
 // Strategy Pattern
 const Course = (function () {
@@ -55,7 +55,6 @@ const CourseB = (function () {
     };
     return CourseB;
 })();
-
 const CourseC = (function () {
     function CourseC() { }
     CourseC.prototype.execute = function () {
@@ -78,9 +77,8 @@ SubSystemMovie.prototype.MethodMovie = function () {    // Movie
     movie.selectTime();
     movie.selectType();
     movie.selectMovieSeat();
-    movie.price = sumPrice(movie.movieTime)(movie.movieType)(movie.movieSeat);
-    movie.priceList = receipt.makeReceipt(movie.type).setVal1(movie.getPrice(movie.price)).setVal2(movie.getPoint(movie.price)).build();
-    receiptList.push(movie.priceList);
+    movie.price = sum(movie.movieTime, movie.movieType, movie.movieSeat);
+    receiptList.push(receipt.makeReceipt(movie.type).setVal1(movie.getPrice(movie.price)).setVal2(movie.getPoint(movie.price)).build());
 };
 SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     const opera = new Opera();
@@ -88,9 +86,8 @@ SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     opera.selectOpera();
     opera.selectOperaSeat();
     opera.selectService();
-    opera.price = sumPrice(opera.operaSeat)(opera.operaService)(0);
-    opera.priceList = receipt.makeReceipt(opera.type).setVal1(opera.getPrice(opera.price)).setVal2(opera.getPoint(opera.price)).build();
-    receiptList.push(opera.priceList);
+    opera.price = sum(opera.operaSeat, opera.operaService);
+    receiptList.push(receipt.makeReceipt(opera.type).setVal1(opera.getPrice(opera.price)).setVal2(opera.getPoint(opera.price)).build());
 };
 SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     const soccer = new Soccer();
@@ -98,9 +95,8 @@ SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     soccer.selectSoccerTeam();
     soccer.selectSoccerHomeOrAway();
     soccer.selectSoccerSeat();
-    soccer.price = sumPrice(soccer.soccerTeam)(soccer.soccerPlace)(soccer.soccerSeat);
-    soccer.priceList = receipt.makeReceipt(soccer.type).setVal1(soccer.getPrice(soccer.price)).setVal2(soccer.getPoint(soccer.price)).build();
-    receiptList.push(soccer.priceList);
+    soccer.price = sum(soccer.soccerTeam, soccer.soccerPlace, soccer.soccerSeat);
+    receiptList.push(receipt.makeReceipt(soccer.type).setVal1(soccer.getPrice(soccer.price)).setVal2(soccer.getPoint(soccer.price)).build());
 };
 SubSystemBaseball.prototype.MethodBaseball = function () {   // Baseball
     const baseball = new Baseball();
@@ -108,9 +104,8 @@ SubSystemBaseball.prototype.MethodBaseball = function () {   // Baseball
     baseball.selectTeam();
     baseball.selectHomeOrAway();
     baseball.selectBaseballSeat();
-    baseball.price = sumPrice(baseball.baseballTeam)(baseball.baseballPlace)(baseball.baseballSeat);
-    baseball.priceList = receipt.makeReceipt(baseball.type).setVal1(baseball.getPrice(baseball.price)).setVal2(baseball.getPoint(baseball.price)).build();
-    receiptList.push(baseball.priceList);
+    baseball.price = sum(baseball.baseballTeam, baseball.baseballPlace, baseball.baseballSeat);
+    receiptList.push(receipt.makeReceipt(baseball.type).setVal1(baseball.getPrice(baseball.price)).setVal2(baseball.getPoint(baseball.price)).build());
 };
 
 // Facade pattern
