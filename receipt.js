@@ -11,12 +11,12 @@ Receipt.prototype.makeReceipt = function (type) {
     let totalPrice;
     let totalPoint;
     return {
-        setVal1: function (number) {
+        getPrice: function (number) {
             totalPrice = number;
             return this;
         },
-        setVal2: function (number) {
-            totalPoint = number;
+        getPoint: function (number) {
+            totalPoint = number / 100;
             return this;
         },
         build: function () {
