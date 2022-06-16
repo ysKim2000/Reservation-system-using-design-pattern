@@ -71,41 +71,36 @@ const SubSystemBaseball = function () { };  // Baseball
 // SubSystem 메소드 이름 변경, 코스A 좀 더 확장성 있는 이름으로 변경
 SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
     const movie = new Movie();
-    // 옵저버 지적
-    customerData.subscribe(movie);
     movie.selectMovie();
     movie.selectTime();
     movie.selectType();
     movie.selectMovieSeat();
     movie.price = sum(movie.movieTime, movie.movieType, movie.movieSeat);
-    receiptList.push(receipt.makeReceipt(movie.type).setVal1(movie.getPrice(movie.price)).setVal2(movie.getPoint(movie.price)).build());
+    receiptList.push(receipt.makeReceipt(movie.type).getPrice(movie.price).getPoint(movie.price).build());
 };
 SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     const opera = new Opera();
-    customerData.subscribe(opera);
     opera.selectOpera();
     opera.selectOperaSeat();
     opera.selectService();
     opera.price = sum(opera.operaSeat, opera.operaService);
-    receiptList.push(receipt.makeReceipt(opera.type).setVal1(opera.getPrice(opera.price)).setVal2(opera.getPoint(opera.price)).build());
+    receiptList.push(receipt.makeReceipt(opera.type).getPrice(opera.price).getPoint(opera.price).build());
 };
 SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     const soccer = new Soccer();
-    customerData.subscribe(soccer);
     soccer.selectSoccerTeam();
     soccer.selectSoccerHomeOrAway();
     soccer.selectSoccerSeat();
     soccer.price = sum(soccer.soccerTeam, soccer.soccerPlace, soccer.soccerSeat);
-    receiptList.push(receipt.makeReceipt(soccer.type).setVal1(soccer.getPrice(soccer.price)).setVal2(soccer.getPoint(soccer.price)).build());
+    receiptList.push(receipt.makeReceipt(soccer.type).getPrice(soccer.price).getPoint(soccer.price).build());
 };
 SubSystemBaseball.prototype.MethodBaseball = function () {   // Baseball
     const baseball = new Baseball();
-    customerData.subscribe(baseball);
     baseball.selectTeam();
     baseball.selectHomeOrAway();
     baseball.selectBaseballSeat();
     baseball.price = sum(baseball.baseballTeam, baseball.baseballPlace, baseball.baseballSeat);
-    receiptList.push(receipt.makeReceipt(baseball.type).setVal1(baseball.getPrice(baseball.price)).setVal2(baseball.getPoint(baseball.price)).build());
+    receiptList.push(receipt.makeReceipt(baseball.type).getPrice(baseball.price).getPoint(baseball.price).build());
 };
 
 // Facade pattern
@@ -155,8 +150,8 @@ function C코스를선택하다() {
 function 영수증을가져오다() {
     console.log("[Receipt]");
     receiptList.forEach(value => console.log("[" + value.type + "]", "\tPrice: " + value.totalPrice, "\tPoint: " + value.totalPoint));
-    console.log("Total Price: $" + customerData.totalPrice);
-    console.log("Total Point: " + customerData.totalPoint + " pts");
+    console.log("Total Price: $" + receiptList.reduce((c, v) => c += v.totalPrice, 0));
+    console.log("Total Point: " + receiptList.reduce((c, v) => c += v.totalPoint, 0) + " pts");
 };
 
 const main = function () {
