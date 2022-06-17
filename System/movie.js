@@ -12,15 +12,24 @@ function Movie(movieTime, movieType, movieSeat) {
 // clone
 Movie.prototype = ReserveSystem.prototype;
 
-// 영화 선택
-Movie.prototype.selectMovie = function () {
+function selectMovie(movie) {
     const movieData = Array("그 시절, 우리가 좋아했던 소녀", "나는 내일, 어제의 너를 만난다", "극장판 귀멸의 칼날: 무한열차편");
     console.log('[Box Office]');
     console.log("1. 그 시절, 우리가 좋아했던 소녀 ", " 2. 나는 내일, 어제의 너를 만난다", " 3. 극장판 귀멸의 칼날: 무한열차편");
-    this.name = movieData[1];
-    this.type = "Movie";
-    console.log("Selected \"" + this.name + "\".\n");
-};
+    movie.name = movieData[1];
+    movie.type = "Movie";
+    console.log("Selected \"" + movie.name + "\".\n");
+}
+
+// 영화 선택
+// Movie.prototype.selectMovie = function () {
+//     const movieData = Array("그 시절, 우리가 좋아했던 소녀", "나는 내일, 어제의 너를 만난다", "극장판 귀멸의 칼날: 무한열차편");
+//     console.log('[Box Office]');
+//     console.log("1. 그 시절, 우리가 좋아했던 소녀 ", " 2. 나는 내일, 어제의 너를 만난다", " 3. 극장판 귀멸의 칼날: 무한열차편");
+//     this.name = movieData[1];
+//     this.type = "Movie";
+//     console.log("Selected \"" + this.name + "\".\n");
+// };
 
 // 영화 시간 선택
 Movie.prototype.selectTime = function () {
@@ -44,6 +53,13 @@ Movie.prototype.selectMovieSeat = function () {
     console.log("1. Economy Zone ", " 2. Standard Zone ", " 3. Prime Zone ");
     this.movieSeat = new Seats().createMovieSeats(movieSeats[1]).getPrice();
     console.log("Selected \"" + movieSeats[1] + "\".\n");
+};
+
+Movie.prototype.movieLogic = function () {
+    selectMovie(this);
+    this.selectTime();
+    this.selectType();
+    this.selectMovieSeat();
 };
 
 module.exports = { Movie };

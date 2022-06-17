@@ -4,23 +4,24 @@ const { Movie } = require('./System/movie.js');
 const { Opera } = require('./System/opera.js');
 const { Baseball } = require('./System/baseball.js');
 const { Receipt } = require('./receipt');
-const CustomerData = require('./points.js').CustomerData;
-const Customer = require('./points.js').Customer;
+// const CustomerData = require('./points.js').CustomerData;
+// const Customer = require('./points.js').Customer;
 
 function ReserveSystem(type, name, price) {
     this.type = type;
     this.name = name;
     this.price = price;
+    
 };
 
-ReserveSystem.prototype.getPoint = Customer.prototype.getPoint;
-ReserveSystem.prototype.getPrice = Customer.prototype.getPrice;
-ReserveSystem.prototype.register = Customer.prototype.register;
-const customerData = new CustomerData();
+// ReserveSystem.prototype.getPoint = Customer.prototype.getPoint;
+// ReserveSystem.prototype.getPrice = Customer.prototype.getPrice;
+// ReserveSystem.prototype.register = Customer.prototype.register;
+// const customerData = new CustomerData();
 const receipt = new Receipt();
 const receiptList = Array();
 
-// Variable Argument Function
+// Variable Argument Function (가변 인자 함수)
 function sum() {
     var arrayValue = [...arguments];    //유사배열을 배열로 변환
     return arrayValue.reduce((pre, cur) => pre + cur);
@@ -71,10 +72,7 @@ const SubSystemBaseball = function () { };  // Baseball
 // SubSystem 메소드 이름 변경, 코스A 좀 더 확장성 있는 이름으로 변경
 SubSystemMovie.prototype.MethodMovie = function () {    // Movie   
     const movie = new Movie();
-    movie.selectMovie();
-    movie.selectTime();
-    movie.selectType();
-    movie.selectMovieSeat();
+    movie.movieLogic();
     movie.price = sum(movie.movieTime, movie.movieType, movie.movieSeat);
     receiptList.push(receipt.makeReceipt(movie.type).getPrice(movie.price).getPoint(movie.price).build());
 };
