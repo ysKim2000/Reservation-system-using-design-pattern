@@ -4,6 +4,8 @@ const { Movie } = require('./System/movie.js');
 const { Opera } = require('./System/opera.js');
 const { Baseball } = require('./System/baseball.js');
 const { Receipt } = require('./receipt');
+const CardPoint  = require('./points.js').CardPoint;
+const CardCompany = require('./points.js').CardCompany;
 // const CustomerData = require('./points.js').CustomerData;
 // const Customer = require('./points.js').Customer;
 
@@ -25,6 +27,16 @@ function ReserveSystem(type, name, price) {
 // ReserveSystem.prototype.getPrice = Customer.prototype.getPrice;
 // ReserveSystem.prototype.register = Customer.prototype.register;
 // const customerData = new CustomerData();
+const cardPoint = new CardPoint();
+
+const cardCompany1 = new CardCompany('cardCompanyA');
+const cardCompany2 = new CardCompany('cardCompanyB');
+const cardCompany3 = new CardCompany('cardCompanyC');
+const cardCompany4 = new CardCompany('cardCompanyD');
+
+
+cardPoint.subscribe(cardCompany1).subscribe(cardCompany2).subscribe(cardCompany3).subscribe(cardCompany4);
+
 const receipt = new Receipt();
 const receiptList = Array();
 
@@ -81,6 +93,7 @@ SubSystemMovie.prototype.MethodMovie = function () {    // Movie
     const movie = new Movie();
     movie.movieLogic();
     movie.price = sum(movie.movieTime, movie.movieType, movie.movieSeat);
+    cardPoint.notifyAllCompanies(movie.price);
     receiptList.push(receipt.makeReceipt(movie.type).getPrice(movie.price).getPoint(movie.price).build());
 };
 SubSystemOpera.prototype.MethodOpera = function () {   // Opera
@@ -89,6 +102,7 @@ SubSystemOpera.prototype.MethodOpera = function () {   // Opera
     opera.selectOperaSeat();
     opera.selectService();
     opera.price = sum(opera.operaSeat, opera.operaService);
+    cardPoint.notifyAllCompanies(opera.price);
     receiptList.push(receipt.makeReceipt(opera.type).getPrice(opera.price).getPoint(opera.price).build());
 };
 SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
@@ -97,6 +111,7 @@ SubSystemSoccer.prototype.MethodSoccer = function () {     // Soccer
     soccer.selectSoccerHomeOrAway();
     soccer.selectSoccerSeat();
     soccer.price = sum(soccer.soccerTeam, soccer.soccerPlace, soccer.soccerSeat);
+    cardPoint.notifyAllCompanies(soccer.price);
     receiptList.push(receipt.makeReceipt(soccer.type).getPrice(soccer.price).getPoint(soccer.price).build());
 };
 SubSystemBaseball.prototype.MethodBaseball = function () {   // Baseball
@@ -105,6 +120,7 @@ SubSystemBaseball.prototype.MethodBaseball = function () {   // Baseball
     baseball.selectHomeOrAway();
     baseball.selectBaseballSeat();
     baseball.price = sum(baseball.baseballTeam, baseball.baseballPlace, baseball.baseballSeat);
+    cardPoint.notifyAllCompanies(baseball.price);
     receiptList.push(receipt.makeReceipt(baseball.type).getPrice(baseball.price).getPoint(baseball.price).build());
 };
 
