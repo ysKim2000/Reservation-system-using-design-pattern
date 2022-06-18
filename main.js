@@ -10,8 +10,8 @@ const { Receipt } = require('./receipt');
 /*
 디자인 패턴 추가
 https://www.devh.kr/2021/Design-Patterns-In-JavaScript/ 
-- 사용자 만들어주는 디자인 패턴 사용: Module Pattern
-- 사용자의 상태를 계속 관찰하는 패턴
+- 사용자 만들어주는 디자인 패턴 사용: Module Pattern 
+- 사용자의 상태를 계속 관찰하는 패턴: Observer Pattern
 */
 
 function ReserveSystem(type, name, price) {
