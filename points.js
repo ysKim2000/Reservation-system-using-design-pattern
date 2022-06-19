@@ -62,13 +62,11 @@ function CardPoint() {
 CardPoint.prototype = {
     totalPoint : 0,
     totalPrice : 0,
-
     subscribe: function (companyName) {
         this.cardCompanies.push(companyName);
 
         return this;
     },
-
     notifyAllCompanies: function (price) {
         this.cardCompanies.forEach(companyName => {
             companyName.getPoint(price);
