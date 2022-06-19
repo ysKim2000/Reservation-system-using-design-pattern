@@ -1,3 +1,4 @@
+// Builder Pattern
 let Receipt = (function () {
     function Receipt(type, totalPrice, totalPoint) {
         this.type = type;               // Reservation의 유형(movie, opera, soccer, baseball)
