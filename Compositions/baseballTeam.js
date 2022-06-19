@@ -1,4 +1,4 @@
-// type
+// Baseball Team
 function Team1() {  
     let teamPrice = 20000;
     this.getPrice = function () {
@@ -31,16 +31,11 @@ function Team4() {
 function Team() {
     this.selectTeam = function (type) {
         switch (type) {
-            case "Team 1":
-                return new Team1();
-            case "Team 2":
-                return new Team2();
-            case "Team 3":
-                return new Team3();
-            case "Team 4":
-                return new Team4();
-            default:
-                return new Team1();
+            case "Team 1": return new Team1();
+            case "Team 2": return new Team2();
+            case "Team 3": return new Team3();
+            case "Team 4": return new Team4();
+            default: return new Team1();
         }
     };
 };

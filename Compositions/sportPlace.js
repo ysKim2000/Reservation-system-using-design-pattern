@@ -1,4 +1,4 @@
-// type
+// Sports Place
 function Home() { // 홈 경기
     let price = 50000;
     this.getPrice = function () {
@@ -17,12 +17,9 @@ function Away() { // 원정 경기
 function Place() {
     this.selectPlace = function (type) {
         switch (type) {
-            case "Home":
-                return new Home();
-            case "Away":
-                return new Away();
-            default:
-                return new Away();
+            case "Home": return new Home();
+            case "Away": return new Away();
+            default: return new Away();
         }
     }
 };

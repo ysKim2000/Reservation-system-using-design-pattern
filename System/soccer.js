@@ -3,11 +3,11 @@ const { Seats } = require('../Compositions/seats.js');
 const { Team } = require('../Compositions/soccerTeam.js');
 const { Place } = require('../Compositions/sportPlace.js');
 
-function Soccer(soccerTeam, league, soccerPlace, soccerSeat) {
-    this.soccerTeam = soccerTeam;
-    this.league = league;
-    this.soccerPlace = soccerPlace;
-    this.soccerSeat = soccerSeat;
+function Soccer(league, soccerTeamPrice, soccerPlacePrice, soccerSeatPrice) {
+    this.league = league;                     
+    this.soccerTeamPrice = soccerTeamPrice;   
+    this.soccerPlacePrice = soccerPlacePrice; 
+    this.soccerSeatPrice = soccerSeatPrice;   
 };
 
 // clone
@@ -20,7 +20,7 @@ Soccer.prototype.selectSoccerTeam = function () {
     const TeamList = Array("Manchester City", "Liverpool", "Chelsea", "Tottenham Hotspur");
     console.log('[' + this.league + ']');
     console.log("1. Manchester City ", " 2. Liverpool ", " 3. Chelsea ", " 4. Tottenham Hotspur");
-    this.soccerTeam = new Team().selectTeam(TeamList[0]).getPrice();
+    this.soccerTeamPrice = new Team().selectTeam(TeamList[0]).getPrice();   
     this.name = TeamList[0];
     console.log("Selected \"" + this.name + "\".\n");
 };
@@ -29,7 +29,7 @@ Soccer.prototype.selectSoccerTeam = function () {
 Soccer.prototype.selectSoccerHomeOrAway = function () {
     const place = Array("Home", "Away");
     console.log("1. Home ", " 2. Away ");
-    this.soccerPlace = new Place().selectPlace(place[1], this.soccerTeam).getPrice();
+    this.soccerPlacePrice = new Place().selectPlace(place[1], this.soccerTeamPrice).getPrice(); 
     console.log("Selected \"" + place[1] + "\".\n");
 };
 
@@ -37,7 +37,7 @@ Soccer.prototype.selectSoccerHomeOrAway = function () {
 Soccer.prototype.selectSoccerSeat = function () {
     const soccerSeats = Array("Orange Zone", "Green Zone", "Red Zone");
     console.log("1. Orange Zone ", "2. Green Zone ", " 3. Red Zone");
-    this.soccerSeat = new Seats().createSoccerSeats(soccerSeats[1]).getPrice();
+    this.soccerSeatPrice = new Seats().createSoccerSeats(soccerSeats[1]).getPrice();   
     console.log("Selected \"" + soccerSeats[1] + "\".\n");
 };
 

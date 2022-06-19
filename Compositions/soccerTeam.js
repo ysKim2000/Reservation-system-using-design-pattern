@@ -1,4 +1,4 @@
-// type
+// Soccer Team
 function ManchesterCity() {  
     let teamPrice = 10000;
     this.getPrice = function () {
@@ -31,16 +31,11 @@ function TottenhamHotspur() {
 function Team() {
     this.selectTeam = function (type) {
         switch (type) {
-            case "Manchester City":
-                return new ManchesterCity();
-            case "Liverpool":
-                return new Liverpool();
-            case "Chelsea":
-                return new Chelsea();
-            case "Tottenham Hotspur":
-                return new TottenhamHotspur();
-            default:
-                return new ManchesterCity();
+            case "Manchester City": return new ManchesterCity();
+            case "Liverpool": return new Liverpool();
+            case "Chelsea": return new Chelsea();
+            case "Tottenham Hotspur": return new TottenhamHotspur();
+            default: return new ManchesterCity();
         }
     };
 };

@@ -1,8 +1,8 @@
 let Receipt = (function () {
     function Receipt(type, totalPrice, totalPoint) {
-        this.type = type;
-        this.totalPrice = totalPrice;
-        this.totalPoint = totalPoint;
+        this.type = type;               // Reservation의 유형(movie, opera, soccer, baseball)
+        this.totalPrice = totalPrice;   // 세부사항을 합한 가격
+        this.totalPoint = totalPoint;   // 세부사항의 포인트
     }
     return Receipt;
 })();

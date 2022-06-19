@@ -2,9 +2,9 @@ const { ReserveSystem } = require('../main.js');
 const { Seats } = require('../Compositions/seats.js');
 const { OperaService } = require('../Compositions/service.js');
 
-function Opera(operaService, operaSeat) {
-    this.operaService = operaService;
-    this.operaSeat = operaSeat;
+function Opera(operaServicePrice, operaSeatPrice) {
+    this.operaServicePrice = operaServicePrice;
+    this.operaSeatPrice = operaSeatPrice;
 };
 
 // clone
@@ -24,7 +24,7 @@ Opera.prototype.selectOpera = function () {
 Opera.prototype.selectOperaSeat = function () {
     const operaSeats = Array("A Zone", "S Zone", "VIP Zone");
     console.log("1. A Zone ", " 2. S Zone ", " 3. VIP Zone");
-    this.operaSeat = new Seats().createOperaSeats(operaSeats[1]).getPrice();
+    this.operaSeatPrice = new Seats().createOperaSeats(operaSeats[1]).getPrice();
     console.log("Selected \"" + operaSeats[1] + "\".\n");
 };
 
@@ -32,7 +32,7 @@ Opera.prototype.selectOperaSeat = function () {
 Opera.prototype.selectService = function () {
     const operaServices = Array("Opera Glasses", "Stock Room", "Child Lounge");
     console.log("1. Opera Glasses ", " 2. Stock Room ", " 3. Child Lounge");
-    this.operaService = new OperaService().selectOperaService(operaServices[2]).getPrice();
+    this.operaServicePrice = new OperaService().selectOperaService(operaServices[2]).getPrice();
     console.log("Selected \"" + operaServices[2] + "\".\n");
 };
 

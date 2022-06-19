@@ -1,4 +1,4 @@
-// type
+// Opera services
 function Basic() {
     let typePrice = 0;
     this.getPrice = function () {
@@ -31,14 +31,10 @@ function ChildLounge() { // 어린이 놀이터(라운지)
 function OperaService() {
     this.selectOperaService = function (type) {
         switch (type) {
-            case "Opera Glasses":
-                return new OperaGlasses();
-            case "Stock Room":
-                return new StockRoom();
-            case "Child Lounge":
-                return new ChildLounge();
-            default:
-                return new Basic();
+            case "Opera Glasses": return new OperaGlasses();
+            case "Stock Room": return new StockRoom();
+            case "Child Lounge": return new ChildLounge();
+            default: return new Basic();
         }
     };
 };
