@@ -16,7 +16,7 @@ const receiptList = Array();                // 전체 영수증을 보관할 영
 
 // Variable Argument Function (가변 인자 함수)
 function sum() {
-    var arrayValue = [...arguments];
+    let arrayValue = [...arguments];
     return arrayValue.reduce((pre, cur) => pre + cur);
 };
 
