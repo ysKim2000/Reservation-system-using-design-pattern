@@ -19,42 +19,42 @@ function PrimeZone() {     // Movie 프라임석
     };
 };
 
-function AZone() {  // Musical A Zone
+function AZone() {          // Opera A Zone
     let price = 70000;
     this.getPrice = function () {
         return price;
     };
 };
 
-function SZone() {  // Musical S Zone
+function SZone() {          // Opera S Zone
     let price = 100000;
     this.getPrice = function () {
         return price;
     };
 };
 
-function VIPZone() {  // Musical VIP Zone
+function VIPZone() {        // Opera VIP Zone
     let price = 150000;
     this.getPrice = function () {
         return price;
     };
 };
 
-function OrangeZone() {  // Movie 장애인석
+function OrangeZone() {     // Sport Orange Zone
     let price = 100000;
     this.getPrice = function () {
         return price;
     };
 };
 
-function GreenZone() {  // Musical S Zone
+function GreenZone() {      // Sport Green Zone
     let price = 200000;
     this.getPrice = function () {
         return price;
     };
 };
 
-function RedZone() {  // Musical VIP Zone
+function RedZone() {        // Sport Red Zone
     let price = 800000;
     this.getPrice = function () {
         return price;
@@ -95,6 +95,6 @@ function Seats() {
             default: return new OrangeZone();
         }
     };
-}
+};
 
 module.exports = { Seats };

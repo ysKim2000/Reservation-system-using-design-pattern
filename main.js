@@ -18,7 +18,7 @@ const receiptList = Array();                // 전체 영수증을 보관할 영
 function sum() {
     var arrayValue = [...arguments];
     return arrayValue.reduce((pre, cur) => pre + cur);
-}
+};
 
 // Strategy Pattern
 const Course = (function () {
@@ -49,6 +49,7 @@ const CourseB = (function () {
     };
     return CourseB;
 })();
+
 const CourseC = (function () {
     function CourseC() { }
     CourseC.prototype.execute = function () {

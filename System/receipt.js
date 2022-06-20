@@ -9,18 +9,18 @@ let Receipt = (function () {
 })();
 
 Receipt.prototype.makeReceipt = function (type) {
-    let totalPrice;
-    let totalPoint;
+    let totalPrice = 0;
+    let totalPoint = 0;
     return {
-        getPrice: function (number) {
+        getPrice: function (number) {   // 가격 얻기
             totalPrice = number;
             return this;
         },
-        getPoint: function (number) {
+        getPoint: function (number) {   // 포인트 얻기
             totalPoint = number / 100;
             return this;
         },
-        build: function () {
+        build: function () {    // 영수증 생성
             return new Receipt(type, totalPrice, totalPoint);
         }
     };

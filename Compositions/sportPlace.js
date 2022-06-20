@@ -21,7 +21,7 @@ function Place() {
             case "Away": return new Away();
             default: return new Away();
         }
-    }
+    };
 };
 
 module.exports = { Place };

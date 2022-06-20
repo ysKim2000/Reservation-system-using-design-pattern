@@ -4,9 +4,9 @@ const { Seats } = require('../Compositions/seats.js');
 const { Times } = require('../Compositions/times.js');
 
 function Movie(movieTimePrice, movieTypePrice, movieSeatPrice) {
-    this.movieTimePrice = movieTimePrice;
-    this.movieTypePrice = movieTypePrice;
-    this.movieSeatPrice = movieSeatPrice;
+    this.movieTimePrice = movieTimePrice;   // 영화 시간에 따른 가격
+    this.movieTypePrice = movieTypePrice;   // 영화 유형에 따른 가격
+    this.movieSeatPrice = movieSeatPrice;   // 영화 좌석에 따른 가격
 };
 
 // clone
@@ -26,7 +26,7 @@ Movie.prototype.selectMovie = function () {
 Movie.prototype.selectTime = function () {
     const movieTimes = Array("morning", "branch", "basic");
     console.log("1. morning ", " 2. branch ", " 3. basic");
-    this.movieTimePrice = new Times().selectTime(movieTimes[2]).getPrice();
+    this.movieTimePrice = new Times().selectTime(movieTimes[2]).getPrice();     // 영화 시간에 따른 가격 가져오기
     console.log("Selected \"" + movieTimes[2] + "\".\n");
 };
 
@@ -34,7 +34,7 @@ Movie.prototype.selectTime = function () {
 Movie.prototype.selectType = function () {
     const movieTypes = Array("2D Movie", "3D Movie", "IMAX Movie", "4DX Movie");
     console.log("1. 2D Movie ", " 2. 3D Movie ", " 3. IMAX Movie ", " 4. 4DX Movie");
-    this.movieTypePrice = new MovieType().selectMovieType(movieTypes[2]).getPrice();
+    this.movieTypePrice = new MovieType().selectMovieType(movieTypes[2]).getPrice();    // 영화 유형에 따른 가격 가져오기
     console.log("Selected \"" + movieTypes[2] + "\".\n");
 };
 
@@ -42,7 +42,7 @@ Movie.prototype.selectType = function () {
 Movie.prototype.selectMovieSeat = function () {
     const movieSeats = Array("Economy Zone", "Standard Zone", "Prime Zone");
     console.log("1. Economy Zone ", " 2. Standard Zone ", " 3. Prime Zone ");
-    this.movieSeatPrice = new Seats().createMovieSeats(movieSeats[1]).getPrice();
+    this.movieSeatPrice = new Seats().createMovieSeats(movieSeats[1]).getPrice();   // 영화 좌석에 따른 가격 가져오기
     console.log("Selected \"" + movieSeats[1] + "\".\n");
 };
 
