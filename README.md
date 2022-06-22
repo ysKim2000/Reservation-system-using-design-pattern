@@ -1,4 +1,4 @@
-# Web-System-Proje
+# Web-System-Project
 Reservation System
 
 Used design patterns
