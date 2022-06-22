@@ -1,5 +1,7 @@
-# Web-System-Project
-사용된 디자인 패턴
-- 전략 패턴
-- 퍼사드 패턴
-- 빌더 패턴
+# Web-System-Proje
+Reservation System
+
+Used design patterns
+- Strategy pattern
+- Facade pattern
+- Builder pattern
